@@ -121,59 +121,6 @@ export default function ComingSoonPage() {
         </div>
       </section>
 
-      {/* ── EMAIL CAPTURE ────────────────────────────────────────── */}
-      <section
-        ref={emailSection.ref as React.RefObject<HTMLElement>}
-        className={`py-28 px-6 bg-[#2D3E2D] text-[#E8E3D3] transition-all duration-700 ${
-          emailSection.inView ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'
-        }`}
-      >
-        <div className="max-w-2xl mx-auto text-center">
-          <h2 className="font-serif text-4xl md:text-5xl font-bold mb-5 leading-tight">
-            Sei der Erste,<br />der es erfährt
-          </h2>
-          <p className="font-sans text-[#E8E3D3]/60 mb-12 text-base md:text-lg leading-relaxed">
-            Trag deine E-Mail ein und wir benachrichtigen dich,<br className="hidden md:block" />
-            sobald BeActive startet.
-          </p>
-
-          {submitted ? (
-            <div className="flex flex-col items-center gap-5">
-              <div className="w-16 h-16 rounded-full border-2 border-[#E8E3D3]/60 flex items-center justify-center">
-                <svg className="w-7 h-7" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
-                </svg>
-              </div>
-              <p className="font-serif text-2xl font-bold">Danke! Wir melden uns.</p>
-              <p className="font-sans text-sm text-[#E8E3D3]/50">
-                Du wirst einer der Ersten sein, die BeActive erleben.
-              </p>
-            </div>
-          ) : (
-            <form
-              onSubmit={handleSubmit}
-              className="flex flex-col sm:flex-row gap-3 max-w-md mx-auto"
-            >
-              <input
-                type="email"
-                value={email}
-                onChange={e => setEmail(e.target.value)}
-                placeholder="deine@email.de"
-                required
-                className="flex-1 bg-transparent border border-[#E8E3D3]/25 px-5 py-3.5 font-sans text-sm text-[#E8E3D3] placeholder-[#E8E3D3]/25 focus:outline-none focus:border-[#E8E3D3]/60 transition-colors rounded-none"
-              />
-              <button
-                type="submit"
-                disabled={loading}
-                className="bg-[#E8E3D3] text-[#2D3E2D] px-8 py-3.5 font-sans font-bold text-xs tracking-[0.25em] uppercase hover:bg-white transition-colors disabled:opacity-40 whitespace-nowrap"
-              >
-                {loading ? '···' : 'Notify Me'}
-              </button>
-            </form>
-          )}
-        </div>
-      </section>
-
       {/* ── FEATURES ─────────────────────────────────────────────── */}
       <section
         ref={featuresSection.ref as React.RefObject<HTMLElement>}
@@ -231,6 +178,59 @@ export default function ComingSoonPage() {
               </div>
             ))}
           </div>
+        </div>
+      </section>
+
+      {/* ── EMAIL CAPTURE ────────────────────────────────────────── */}
+      <section
+        ref={emailSection.ref as React.RefObject<HTMLElement>}
+        className={`py-28 px-6 bg-[#2D3E2D] text-[#E8E3D3] transition-all duration-700 ${
+          emailSection.inView ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'
+        }`}
+      >
+        <div className="max-w-2xl mx-auto text-center">
+          <h2 className="font-serif text-4xl md:text-5xl font-bold mb-5 leading-tight">
+            Sei der Erste,<br />der es erfährt
+          </h2>
+          <p className="font-sans text-[#E8E3D3]/60 mb-12 text-base md:text-lg leading-relaxed">
+            Trag deine E-Mail ein und wir benachrichtigen dich,<br className="hidden md:block" />
+            sobald BeActive startet.
+          </p>
+
+          {submitted ? (
+            <div className="flex flex-col items-center gap-5">
+              <div className="w-16 h-16 rounded-full border-2 border-[#E8E3D3]/60 flex items-center justify-center">
+                <svg className="w-7 h-7" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
+                </svg>
+              </div>
+              <p className="font-serif text-2xl font-bold">Danke! Wir melden uns.</p>
+              <p className="font-sans text-sm text-[#E8E3D3]/50">
+                Du wirst einer der Ersten sein, die BeActive erleben.
+              </p>
+            </div>
+          ) : (
+            <form
+              onSubmit={handleSubmit}
+              className="flex flex-col sm:flex-row gap-3 max-w-md mx-auto"
+            >
+              <input
+                type="email"
+                value={email}
+                onChange={e => setEmail(e.target.value)}
+                placeholder="deine@email.de"
+                required
+                className="flex-1 bg-transparent border border-[#E8E3D3]/25 px-5 py-3.5 font-sans text-sm text-[#E8E3D3] placeholder-[#E8E3D3]/25 focus:outline-none focus:border-[#E8E3D3]/60 transition-colors rounded-none"
+              />
+              <button
+                type="submit"
+                disabled={loading}
+                className="bg-[#E8E3D3] text-[#2D3E2D] px-8 py-3.5 font-sans font-bold text-xs tracking-[0.25em] uppercase hover:bg-white transition-colors disabled:opacity-40 whitespace-nowrap"
+              >
+                {loading ? '···' : 'Notify Me'}
+              </button>
+            </form>
+          )}
         </div>
       </section>
 
