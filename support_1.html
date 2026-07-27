@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>beActive – Support</title>
+<style>
+  :root{
+    --ink:#161A1E;
+    --paper:#F6F4EF;
+    --signal:#FF5A36;
+    --teal:#0B7285;
+    --line:#E4E0D6;
+    --muted:#6B7078;
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    margin:0;
+    background:var(--paper);
+    color:var(--ink);
+    font-family:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
+    line-height:1.55;
+    -webkit-font-smoothing:antialiased;
+  }
+  .wrap{
+    max-width:720px;
+    margin:0 auto;
+    padding:0 24px 96px;
+  }
+  header.hero{
+    padding:72px 0 40px;
+    position:relative;
+  }
+  .pulse{
+    width:100%;
+    height:48px;
+    margin-bottom:32px;
+  }
+  .pulse path{
+    fill:none;
+    stroke:#B8F04A;
+    stroke-width:2.5;
+    stroke-linecap:round;
+    stroke-linejoin:round;
+    stroke-dasharray:400;
+    stroke-dashoffset:400;
+    animation:draw 1.8s ease-out forwards;
+  }
+  @keyframes draw{
+    to{stroke-dashoffset:0;}
+  }
+  @media (prefers-reduced-motion: reduce){
+    .pulse path{animation:none;stroke-dashoffset:0;}
+  }
+  h1{
+    font-family:'Space Grotesk','Inter',sans-serif;
+    font-size:clamp(2rem,5vw,2.75rem);
+    font-weight:600;
+    letter-spacing:-0.02em;
+    margin:0 0 12px;
+  }
+  .eyebrow{
+    font-family:'Space Grotesk','Inter',sans-serif;
+    font-size:0.8rem;
+    font-weight:600;
+    letter-spacing:0.14em;
+    text-transform:uppercase;
+    color:var(--teal);
+    margin:0 0 16px;
+  }
+  .lede{
+    font-size:1.05rem;
+    color:var(--muted);
+    max-width:52ch;
+    margin:0;
+  }
+  section.contact{
+    margin-top:8px;
+    padding:28px;
+    background:#fff;
+    border:1px solid var(--line);
+    border-radius:14px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:20px;
+    flex-wrap:wrap;
+  }
+  .contact-label{
+    font-size:0.85rem;
+    color:var(--muted);
+    margin:0 0 4px;
+  }
+  .contact-email{
+    font-family:'Space Grotesk','Inter',sans-serif;
+    font-size:1.15rem;
+    font-weight:600;
+    color:var(--ink);
+    text-decoration:none;
+    border-bottom:2px solid #B8F04A;
+    padding-bottom:2px;
+  }
+  .contact-email:hover{color:var(--signal);}
+  .btn{
+    background:var(--ink);
+    color:var(--paper);
+    text-decoration:none;
+    padding:12px 22px;
+    border-radius:999px;
+    font-size:0.9rem;
+    font-weight:600;
+    white-space:nowrap;
+    transition:background .15s ease;
+  }
+  .btn:hover{background:var(--signal);}
+  h2.section-title{
+    font-family:'Space Grotesk','Inter',sans-serif;
+    font-size:1.5rem;
+    font-weight:600;
+    margin:64px 0 24px;
+    letter-spacing:-0.01em;
+  }
+  .faq-item{
+    border-bottom:1px solid var(--line);
+  }
+  .faq-item:first-child{
+    border-top:1px solid var(--line);
+  }
+  .faq-q{
+    width:100%;
+    background:none;
+    border:none;
+    text-align:left;
+    padding:20px 0;
+    font-family:'Inter',sans-serif;
+    font-size:1rem;
+    font-weight:600;
+    color:var(--ink);
+    cursor:pointer;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:16px;
+  }
+  .faq-q .icon{
+    flex-shrink:0;
+    width:20px;
+    height:20px;
+    position:relative;
+  }
+  .faq-q .icon::before,
+  .faq-q .icon::after{
+    content:'';
+    position:absolute;
+    background:var(--teal);
+    border-radius:2px;
+    transition:transform .2s ease;
+  }
+  .faq-q .icon::before{
+    width:20px;height:2px;top:9px;left:0;
+  }
+  .faq-q .icon::after{
+    width:2px;height:20px;top:0;left:9px;
+  }
+  .faq-item.open .icon::after{
+    transform:rotate(90deg);
+  }
+  .faq-a{
+    max-height:0;
+    overflow:hidden;
+    transition:max-height .25s ease;
+    color:var(--muted);
+    font-size:0.96rem;
+  }
+  .faq-a p{
+    margin:0 0 20px;
+    padding-right:36px;
+  }
+  footer{
+    margin-top:72px;
+    padding-top:24px;
+    border-top:1px solid var(--line);
+    font-size:0.85rem;
+    color:var(--muted);
+    display:flex;
+    justify-content:space-between;
+    flex-wrap:wrap;
+    gap:8px;
+  }
+  footer a{color:var(--muted);}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header class="hero">
+    <svg class="pulse" viewBox="0 0 600 48" preserveAspectRatio="none">
+      <path d="M0,24 L140,24 L165,4 L190,44 L215,24 L600,24"/>
+    </svg>
+    <p class="eyebrow">beActive Support</p>
+    <h1>Wie können wir helfen?</h1>
+    <p class="lede">Antworten auf häufige Fragen zu beActive – und ein direkter Draht zu uns, wenn dein Anliegen nicht dabei ist.</p>
+  </header>
+
+  <section class="contact">
+    <div>
+      <p class="contact-label">Schreib uns direkt</p>
+      <a class="contact-email" href="mailto:support@beactiveapp.de">support@beactiveapp.de</a>
+    </div>
+    <a class="btn" href="mailto:support@beactiveapp.de?subject=beActive%20Support-Anfrage">Nachricht senden</a>
+  </section>
+
+  <h2 class="section-title">Häufige Fragen</h2>
+
+  <div class="faq-list">
+
+    <div class="faq-item">
+      <button class="faq-q">
+        Ich kann mich nicht mit "Mit Apple anmelden" einloggen
+        <span class="icon"></span>
+      </button>
+      <div class="faq-a">
+        <p>Prüfe, ob du bei den Einstellungen deines Apple-Accounts unter "Anmelden mit Apple verwenden" beActive noch als verbundene App findest. Wurde die Verknüpfung entfernt, melde dich einfach erneut über den Login-Bildschirm der App an – ein neues Konto wird nicht angelegt, solange die E-Mail-Adresse übereinstimmt.</p>
+      </div>
+    </div>
+
+    <div class="faq-item">
+      <button class="faq-q">
+        Meine Trainingsdaten werden nicht zwischen Geräten synchronisiert
+        <span class="icon"></span>
+      </button>
+      <div class="faq-a">
+        <p>Stelle sicher, dass du auf allen Geräten mit demselben Konto angemeldet bist und eine aktive Internetverbindung besteht. Ein manueller Sync lässt sich in den App-Einstellungen unter "Synchronisieren" anstoßen. Bleibt das Problem bestehen, schreib uns – am besten mit Angabe des Gerätetyps und der App-Version.</p>
+      </div>
+    </div>
+
+    <div class="faq-item">
+      <button class="faq-q">
+        Wie kann ich mein Konto und meine Daten löschen?
+        <span class="icon"></span>
+      </button>
+      <div class="faq-a">
+        <p>Unter Profil → Konto → "Konto löschen" wird dein Konto inklusive aller gespeicherten Trainingsdaten unwiderruflich entfernt. Alternativ genügt eine formlose E-Mail an uns, wir bearbeiten Löschanfragen innerhalb von 30 Tagen.</p>
+      </div>
+    </div>
+
+    <div class="faq-item">
+      <button class="faq-q">
+        Ich wurde belastet, obwohl ich gekündigt habe
+        <span class="icon"></span>
+      </button>
+      <div class="faq-a">
+        <p>Abonnements werden über dein Apple-Konto verwaltet, nicht direkt über uns. Prüfe unter Einstellungen → [dein Name] → Abonnements, ob beActive dort noch aktiv gelistet ist. Ist die Kündigung dort bestätigt, aber die Belastung trotzdem erfolgt, wende dich zusätzlich an den Apple-Support – wir helfen dir gern parallel weiter.</p>
+      </div>
+    </div>
+
+    <div class="faq-item">
+      <button class="faq-q">
+        Die App stürzt ab oder reagiert nicht
+        <span class="icon"></span>
+      </button>
+      <div class="faq-a">
+        <p>Ein Neustart der App sowie ein Update auf die neueste Version aus dem App Store lösen die meisten dieser Probleme. Tritt der Absturz weiterhin auf, schick uns bitte eine kurze Beschreibung, wann genau es passiert, sowie dein iOS-Gerät und die iOS-Version.</p>
+      </div>
+    </div>
+
+  </div>
+
+  <footer>
+    <span>© 2026 beActive</span>
+    <a href="mailto:support@beactiveapp.de">support@beactiveapp.de</a>
+  </footer>
+
+</div>
+
+<script>
+document.querySelectorAll('.faq-item').forEach(item => {
+  const btn = item.querySelector('.faq-q');
+  const answer = item.querySelector('.faq-a');
+  btn.addEventListener('click', () => {
+    const isOpen = item.classList.contains('open');
+    document.querySelectorAll('.faq-item.open').forEach(other => {
+      if(other !== item){
+        other.classList.remove('open');
+        other.querySelector('.faq-a').style.maxHeight = null;
+      }
+    });
+    if(isOpen){
+      item.classList.remove('open');
+      answer.style.maxHeight = null;
+    } else {
+      item.classList.add('open');
+      answer.style.maxHeight = answer.scrollHeight + 'px';
+    }
+  });
+});
+</script>
+
+</body>
+</html>
