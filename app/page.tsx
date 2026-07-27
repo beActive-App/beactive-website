@@ -360,7 +360,7 @@ export default function HomePage() {
     return () => window.removeEventListener('scroll', onScroll)
   }, [])
 
-  // Ambient golden-hour dust particles
+  // Ambient nightrun dust particles
   useEffect(() => {
     const canvas = canvasRef.current
     if (!canvas) return
@@ -368,7 +368,7 @@ export default function HomePage() {
     if (!ctx) return
     const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches
     const dpr = Math.min(window.devicePixelRatio || 1, 2)
-    const colors = ['rgba(240,149,75,0.55)', 'rgba(224,136,114,0.5)', 'rgba(255,196,130,0.45)']
+    const colors = ['rgba(193,255,114,0.55)', 'rgba(159,224,92,0.5)', 'rgba(234,242,222,0.4)']
     let width = 0
     let height = 0
     let particles: { x: number; y: number; r: number; vy: number; drift: number; driftSpeed: number; color: string }[] = []
@@ -650,7 +650,7 @@ export default function HomePage() {
           </div>
           <div className={styles['foot-bottom']}>
             <span>© {new Date().getFullYear()} BeActive App</span>
-            <span>Goldene Stunde</span>
+            <span>Nightrun</span>
           </div>
         </div>
       </footer>

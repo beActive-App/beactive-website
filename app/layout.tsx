@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Playfair_Display, Inter, Fraunces, Karla } from "next/font/google";
+import { Playfair_Display, Inter, Karla, JetBrains_Mono } from "next/font/google";
 import "./globals.css";
 
 const playfair = Playfair_Display({
@@ -13,17 +13,16 @@ const inter = Inter({
   subsets: ["latin"],
 });
 
-const fraunces = Fraunces({
-  variable: "--font-fraunces",
-  subsets: ["latin"],
-  weight: ["500", "600", "700"],
-  style: ["normal", "italic"],
-});
-
 const karla = Karla({
   variable: "--font-karla",
   subsets: ["latin"],
   weight: ["400", "500", "700"],
+});
+
+const jetbrainsMono = JetBrains_Mono({
+  variable: "--font-jetbrains",
+  subsets: ["latin"],
+  weight: ["500", "700"],
 });
 
 export const metadata: Metadata = {
@@ -45,8 +44,8 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="de" className={`${playfair.variable} ${inter.variable} ${fraunces.variable} ${karla.variable}`}>
-      <body className="bg-[#E8E3D3] text-black">{children}</body>
+    <html lang="de" className={`${playfair.variable} ${inter.variable} ${karla.variable} ${jetbrainsMono.variable}`}>
+      <body className="bg-[#0b140f] text-[#eaf2e4]">{children}</body>
     </html>
   );
 }
