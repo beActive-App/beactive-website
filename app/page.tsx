@@ -647,6 +647,7 @@ export default function HomePage() {
                 <li><a href="https://www.instagram.com/beactive_app/">Instagram</a></li>
                 <li><a href="/impressum">Impressum</a></li>
                 <li><a href="/datenschutz">Datenschutz</a></li>
+                <li><a href="/agb">AGB</a></li>
               </ul>
             </div>
           </div>
