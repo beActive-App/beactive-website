@@ -54,6 +54,13 @@ const sections: { title: string; paragraphs: string[]; list?: string[] }[] = [
     ],
   },
   {
+    title: "Anfragen von Betrieben (Partnerformular)",
+    paragraphs: [
+      "Über das Formular auf unserer Seite für Betriebe verarbeiten wir die von dir angegebenen Daten (Name des Betriebs, Name der Ansprechpartnerin oder des Ansprechpartners, E-Mail-Adresse oder Telefonnummer sowie freiwillige Angaben zu auslastungsschwachen Zeiten und deiner Nachricht) ausschließlich, um deine Anfrage zu beantworten und eine mögliche Partnerschaft anzubahnen. Rechtsgrundlage ist Art. 6 Abs. 1 lit. b DSGVO (vorvertragliche Maßnahme) bzw. Art. 6 Abs. 1 lit. f DSGVO (berechtigtes Interesse an der Beantwortung von Anfragen).",
+      "Die Anfrage wird per E-Mail an unser Postfach übermittelt und dort verarbeitet. Eine Weitergabe an Dritte zu Werbezwecken findet nicht statt. Wir löschen die Daten, sobald die Anfrage abschließend bearbeitet ist und keine Partnerschaft zustande kommt, sofern keine gesetzlichen Aufbewahrungspflichten entgegenstehen.",
+    ],
+  },
+  {
     title: "Newsletter und Warteliste",
     paragraphs: [
       "Wenn du dich über die Website für Neuigkeiten zum App-Start anmeldest, verwenden wir deine E-Mail-Adresse, um dir Informationen zum Launch und zur Entwicklung von BeActive zuzusenden. Rechtsgrundlage ist deine Einwilligung (Art. 6 Abs. 1 lit. a DSGVO). Du kannst deine Einwilligung jederzeit mit Wirkung für die Zukunft widerrufen, z. B. über einen Abmeldelink in der E-Mail oder formlos an support@beactiveapp.de. Deine E-Mail-Adresse wird gelöscht, sobald du dich abmeldest oder der Zweck entfällt.",
