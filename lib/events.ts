@@ -63,13 +63,17 @@ function normalisiere(z: Zeile): WebsiteEvent {
 }
 
 export async function getWebsiteEvents(): Promise<EventsResult> {
-  const url = process.env.SUPABASE_URL;
-  const key = process.env.SUPABASE_ANON_KEY;
+  // Tolerant gegen die üblichen Tippfehler beim Eintragen bei Vercel:
+  // Leerzeichen oder Zeilenumbruch am Ende, URL ohne Schema.
+  const key = (process.env.SUPABASE_ANON_KEY ?? "").trim();
+  let url = (process.env.SUPABASE_URL ?? "").trim().replace(/\/+$/, "");
+  if (url && !/^https?:\/\//i.test(url)) url = `https://${url}`;
   if (!url || !key) {
+    console.warn("[Website-Events] SUPABASE_URL oder SUPABASE_ANON_KEY fehlt – zeige Beispiele.");
     return { status: "unavailable", events: [] };
   }
 
-  const endpunkt = new URL(`${url.replace(/\/$/, "")}/rest/v1/rpc/get_website_events`);
+  const endpunkt = new URL(`${url}/rest/v1/rpc/get_website_events`);
   endpunkt.searchParams.set("p_city", STADT);
   endpunkt.searchParams.set("p_limit", "80");
 
