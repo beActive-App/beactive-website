@@ -2,7 +2,7 @@ import ContactForm from "@/components/ContactForm";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Kontakt – BeActive",
+  title: "Kontakt",
   description: "Schreib dem BeActive Team – wir freuen uns über dein Feedback.",
 };
 

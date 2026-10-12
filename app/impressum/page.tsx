@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Impressum – BeActive",
+  title: "Impressum",
   description: "Impressum der BeActive App UG (haftungsbeschränkt) i.G.",
 };
 

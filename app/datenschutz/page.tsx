@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Datenschutzerklärung – BeActive",
+  title: "Datenschutzerklärung",
   description:
     "Datenschutzerklärung der BeActive App UG (haftungsbeschränkt) i.G. für Website und App.",
 };
@@ -58,6 +58,13 @@ const sections: {
       "Unsere Website wird von Vercel Inc. (USA) gehostet. Beim Aufruf der Website verarbeitet Vercel automatisch technische Daten in sogenannten Server-Logfiles, u. a. IP-Adresse, Datum und Uhrzeit des Zugriffs, aufgerufene Seite, Browsertyp und Betriebssystem. Diese Verarbeitung ist für den technischen Betrieb und die Absicherung der Website notwendig (Art. 6 Abs. 1 lit. f DSGVO, berechtigtes Interesse an einem funktionierenden und sicheren Betrieb).",
       "Die Seiten unter links.beactiveapp.de, über die geteilte Event-Links sowie Links zur E-Mail-Bestätigung und zum Zurücksetzen des Passworts laufen, werden von Cloudflare, Inc. (USA) ausgeliefert. Dabei fallen dieselben technischen Zugriffsdaten an.",
       "Die Website verwendet keine Cookies zu Analyse- oder Werbezwecken und bindet keine Inhalte von Drittanbietern ein. Schriftarten werden von unserem eigenen Server ausgeliefert; es wird dabei keine Verbindung zu Google aufgebaut. Links zu Instagram sind einfache Verweise – Daten werden erst übertragen, wenn du sie anklickst.",
+    ],
+  },
+  {
+    title: "Anzeige von Events auf der Website",
+    paragraphs: [
+      "Auf der Startseite zeigen wir bevorstehende Events und Angebote, die Betriebe und unsere Redaktionsaccounts in der BeActive App öffentlich eingestellt haben: Titel, Zeitpunkt, Ort, Name des Betriebs bzw. des Veranstalters, bei Angeboten die Preisangaben sowie gegebenenfalls einen Link zur Seite des Veranstalters. Events privater Nutzer erscheinen nicht auf der Website.",
+      "Diese Daten ruft unser Server bei unserem Auftragsverarbeiter Supabase (Serverstandort EU, Frankfurt) ab und liefert sie als Teil der Seite aus. Dein Browser baut dabei keine Verbindung zu Supabase auf; von dir als Besucher werden für diese Anzeige keine Daten verarbeitet.",
     ],
   },
   {

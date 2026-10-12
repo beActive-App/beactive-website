@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Playfair_Display, Inter, Karla, JetBrains_Mono } from "next/font/google";
 import "./globals.css";
+import { SITE_URL } from "@/lib/site";
 
 const playfair = Playfair_Display({
   variable: "--font-playfair",
@@ -26,15 +27,21 @@ const jetbrainsMono = JetBrains_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "BeActive App – Entdecke Events in deiner Nähe",
+  metadataBase: new URL(SITE_URL),
+  title: {
+    default: "BeActive – Was heute in Tübingen läuft",
+    template: "%s – BeActive",
+  },
   description:
-    "Entdecke neue Freizeitaktivitäten und Events in deiner Nähe. Von Sport über Kultur bis Produktivität – finde deine nächste Aktivität.",
-  keywords: ["BeActive", "Sport", "Events", "App", "Aktivitäten", "Community"],
+    "Events, Kurse und Last-Minute-Angebote von Läden aus Tübingen – in einer App. Entdecken, beitreten oder in einer Minute selbst was starten.",
+  alternates: { canonical: "/" },
   openGraph: {
-    title: "BeActive App – Entdecke Events in deiner Nähe",
+    title: "BeActive – Was heute in Tübingen läuft",
     description:
-      "Entdecke neue Freizeitaktivitäten und Events in deiner Nähe.",
+      "Events, Kurse und Last-Minute-Angebote von Läden aus Tübingen – in einer App.",
     type: "website",
+    locale: "de_DE",
+    siteName: "BeActive",
   },
 };
 

@@ -2,7 +2,7 @@ import NewsletterForm from "@/components/NewsletterForm";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Newsletter – BeActive",
+  title: "Newsletter",
   description:
     "Bleib auf dem Laufenden – abonniere den BeActive Newsletter und gestalte die App mit.",
 };

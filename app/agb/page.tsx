@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "AGB – BeActive",
+  title: "AGB",
   description:
     "Allgemeine Geschäftsbedingungen für die Nutzung der BeActive App und Website.",
 };

@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Team – BeActive",
+  title: "Team",
   description: "Das Team hinter BeActive",
 };
 

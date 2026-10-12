@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { SUPPORT_EMAIL } from "@/lib/site";
 
 type Fields = {
   vorname: string;
@@ -11,6 +12,7 @@ type Fields = {
 };
 
 type Errors = Partial<Fields>;
+type Status = "idle" | "sending" | "success" | "error";
 
 const empty: Fields = {
   vorname: "",
@@ -29,7 +31,9 @@ function inputClass(error?: string) {
 export default function ContactForm() {
   const [form, setForm] = useState<Fields>(empty);
   const [errors, setErrors] = useState<Errors>({});
-  const [submitted, setSubmitted] = useState(false);
+  const [status, setStatus] = useState<Status>("idle");
+  const [website, setWebsite] = useState(""); // Honeypot, bleibt bei Menschen leer
+  const [sendError, setSendError] = useState("");
 
   const validate = (): Errors => {
     const e: Errors = {};
@@ -49,18 +53,32 @@ export default function ContactForm() {
     setErrors((p) => ({ ...p, [name]: undefined }));
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     const v = validate();
     if (Object.keys(v).length > 0) {
       setErrors(v);
       return;
     }
-    console.log("Kontaktformular:", { ...form, to: "support@beactiveapp.de" });
-    setSubmitted(true);
+    setSendError("");
+    setStatus("sending");
+    try {
+      const res = await fetch("/api/kontakt", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ ...form, website }),
+      });
+      if (!res.ok) throw new Error(String(res.status));
+      setStatus("success");
+    } catch {
+      setStatus("error");
+      setSendError(
+        `Das hat gerade nicht geklappt – wir wollen dir nicht vorgaukeln, dass die Nachricht angekommen ist. Schreib uns bitte direkt an ${SUPPORT_EMAIL}.`,
+      );
+    }
   };
 
-  if (submitted) {
+  if (status === "success") {
     return (
       <div className="py-20 text-center">
         <p className="font-serif text-5xl font-bold text-[#2D3E2D] mb-4">
@@ -75,6 +93,18 @@ export default function ContactForm() {
 
   return (
     <form onSubmit={handleSubmit} noValidate className="space-y-6">
+      <div aria-hidden="true" className="absolute w-px h-px -left-[9999px] overflow-hidden">
+        <label htmlFor="kf-website">Website (bitte frei lassen)</label>
+        <input
+          id="kf-website"
+          name="website"
+          type="text"
+          tabIndex={-1}
+          autoComplete="off"
+          value={website}
+          onChange={(e) => setWebsite(e.target.value)}
+        />
+      </div>
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
         <div>
           <label className="block text-xs uppercase tracking-[0.2em] mb-2 opacity-50">
@@ -159,11 +189,14 @@ export default function ContactForm() {
         )}
       </div>
 
+      {sendError && <p className="text-sm text-[#8c2f2f]">{sendError}</p>}
+
       <button
         type="submit"
-        className="bg-[#2D3E2D] text-[#E8E3D3] px-12 py-4 text-xs uppercase tracking-[0.2em] font-bold hover:bg-[#3d5a3d] transition-colors"
+        disabled={status === "sending"}
+        className="bg-[#2D3E2D] text-[#E8E3D3] px-12 py-4 text-xs uppercase tracking-[0.2em] font-bold hover:bg-[#3d5a3d] transition-colors disabled:opacity-50"
       >
-        Senden
+        {status === "sending" ? "Wird gesendet…" : "Senden"}
       </button>
     </form>
   );

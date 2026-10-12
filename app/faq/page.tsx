@@ -2,7 +2,7 @@ import FaqAccordion from "@/components/FaqAccordion";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "FAQ – BeActive",
+  title: "FAQ",
   description: "Häufig gestellte Fragen zur BeActive App",
 };
 

@@ -3,11 +3,11 @@ import PartnerForm from "@/components/PartnerForm";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Für Betriebe – BeActive Tübingen",
+  title: "Für Betriebe in Tübingen",
   description:
     "Ihr habt Zeitfenster, in denen wenig los ist. Wir haben Leute, die genau dann spontan etwas suchen. Für die ersten 20 Betriebe in Tübingen kostenlos – kein Vertrag, keine Provision.",
   openGraph: {
-    title: "Für Betriebe – BeActive Tübingen",
+    title: "Für Betriebe in Tübingen",
     description:
       "Ein Angebot für euer schwächstes Zeitfenster. Kostenlos für die ersten 20 Betriebe in Tübingen.",
     type: "website",
