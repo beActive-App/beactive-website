@@ -75,7 +75,9 @@ export async function getWebsiteEvents(): Promise<EventsResult> {
 
   const endpunkt = new URL(`${url}/rest/v1/rpc/get_website_events`);
   endpunkt.searchParams.set("p_city", STADT);
-  endpunkt.searchParams.set("p_limit", "80");
+  // Höchstwert der Funktion. Bei 80 schnitten Öffnungszeiten-Einträge die
+  // Liste ab, und die Seite zeigte 68 statt 155 Termine.
+  endpunkt.searchParams.set("p_limit", "200");
 
   try {
     const res = await fetch(endpunkt, {
