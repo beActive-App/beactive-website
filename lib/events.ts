@@ -24,6 +24,9 @@ type Zeile = {
   is_discounted: boolean;
   original_price: number | string | null;
   discounted_price: number | string | null;
+  discount_kind?: "price" | "percent" | "deal" | null;
+  discount_percent?: number | string | null;
+  discount_label?: string | null;
   is_auto_posted?: boolean;
   source_url: string;
   organizer_name: string;
@@ -52,6 +55,9 @@ function normalisiere(z: Zeile): WebsiteEvent {
     isDiscounted: Boolean(z.is_discounted),
     originalPrice: zahl(z.original_price),
     discountedPrice: zahl(z.discounted_price),
+    discountKind: z.discount_kind ?? null,
+    discountPercent: zahl(z.discount_percent ?? null),
+    discountLabel: z.discount_label ?? "",
     isAutoPosted: Boolean(z.is_auto_posted),
     sourceUrl: z.source_url ?? "",
     organizerName: z.organizer_name ?? "",

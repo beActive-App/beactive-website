@@ -7,19 +7,8 @@ import Link from 'next/link'
 import styles from '@/app/page.module.css'
 import { faqListe } from '@/lib/faq'
 import { INSTAGRAM_URL, STADT, SUPPORT_EMAIL } from '@/lib/site'
-import {
-  gruppiereNachTag,
-  innerhalb,
-  istHeute,
-  istOeffnungszeit,
-  kategorieVon,
-  plaetzeText,
-  preis,
-  rabattProzent,
-  uhrzeit,
-  type EventsResult,
-  type WebsiteEvent,
-} from '@/lib/event-format'
+import { innerhalb, istOeffnungszeit, type EventsResult, type WebsiteEvent } from '@/lib/event-format'
+import EventsSection from '@/components/home/EventsSection'
 
 function cx(...classes: Array<string | false | undefined>) {
   return classes.filter(Boolean).join(' ')
@@ -155,133 +144,6 @@ function Reveal({
     >
       {children}
     </div>
-  )
-}
-
-/* ---------- Events ---------- */
-
-function EventRow({ e, beispiel }: { e: WebsiteEvent; beispiel?: boolean }) {
-  const kat = kategorieVon(e)
-  const pct = rabattProzent(e)
-  const plaetze = plaetzeText(e)
-  const ort = e.locationTitle || e.city
-  const istKuratiert = e.hostKind === 'curated'
-  const linkZiel = istKuratiert ? e.sourceUrl || e.hostWebsite : ''
-
-  return (
-    <li className={cx(styles['event-row'], e.isDiscounted && styles['is-deal'])}>
-      <div className={styles['ev-time']}>
-        <b>{uhrzeit(e.startsAt)}</b>
-        {e.endsAt && <span>bis {uhrzeit(e.endsAt)}</span>}
-      </div>
-      <div className={styles['ev-body']}>
-        <h3 className={styles['ev-title']}>{e.title}</h3>
-        <p className={styles['ev-meta']}>
-          {ort}
-          {e.hostName && <> · {istKuratiert ? `Termin von ${e.hostName}` : e.hostName}</>}
-          {plaetze && <> · {plaetze}</>}
-        </p>
-        <div className={styles['ev-tags']}>
-          <span className={cx(styles.cat, styles[`cat-${kat.ton}`])}>{kat.label}</span>
-          {e.isDiscounted && <span className={cx(styles.cat, styles['cat-deal'])}>Last Minute</span>}
-          {istKuratiert && <span className={styles['cat-note']}>zusammengetragen von BeActive</span>}
-          {beispiel && <span className={styles['cat-note']}>Beispiel</span>}
-        </div>
-      </div>
-      <div className={styles['ev-side']}>
-        {e.isDiscounted && e.discountedPrice !== null ? (
-          <div className={styles['deal-box']}>
-            {e.originalPrice !== null && <span className={styles['deal-was']}>{preis(e.originalPrice)}</span>}
-            <span className={styles['deal-now']}>{preis(e.discountedPrice)}</span>
-            {pct && <span className={styles['deal-pct']}>−{pct} %</span>}
-          </div>
-        ) : linkZiel ? (
-          <a className={styles['ext-link']} href={linkZiel} target="_blank" rel="noopener noreferrer">
-            Zum Veranstalter ↗
-          </a>
-        ) : null}
-      </div>
-    </li>
-  )
-}
-
-function EventsSection({ events, beispiele, jetztIso, istGestartet }: { events: EventsResult; beispiele: WebsiteEvent[]; jetztIso: string; istGestartet: boolean }) {
-  const jetzt = new Date(jetztIso)
-  const termine = events.status === 'ok' ? events.events.filter((e) => !istOeffnungszeit(e)) : []
-  const live = termine.length > 0
-  const liste = (live ? termine : beispiele) ?? []
-  const MAX = 24
-  const gezeigt = liste.slice(0, MAX)
-  const gruppen = gruppiereNachTag(gezeigt, jetzt)
-  const rest = liste.length - gezeigt.length
-  // Öffnungszeiten-Posts der Betriebe: heute, als eine Zeile statt als Termine
-  const heuteOffen = events.status === 'ok'
-    ? events.events.filter((e) => istOeffnungszeit(e) && istHeute(e.startsAt, jetzt))
-    : []
-
-  return (
-    <section className={cx(styles.section, styles['events-section'])} id="events">
-      <div className={styles.wrap}>
-        <Reveal className={styles['deals-head']}>
-          <div>
-            <span className={styles.eyebrow}>{live ? 'Live aus der App' : 'So sieht es aus'}</span>
-            <h2 style={{ marginTop: 14 }}>Was diese Woche in {STADT} läuft</h2>
-          </div>
-          <div>
-            <p>
-              {live
-                ? 'Angebote von Betrieben und Termine aus der Stadt – genau so, wie du sie in der App siehst. Was Leute selbst starten, siehst du erst in der App.'
-                : 'Beispiele, wie die Liste aussieht: Angebote von Betrieben, Termine aus der Stadt, Events von Leuten. Die echte Liste gibt es mit dem Start in der App.'}
-            </p>
-            {live && (
-              <p className={styles['deals-note']}>
-                {termine.length} {termine.length === 1 ? 'Termin' : 'Termine'} in den nächsten 14 Tagen · aktualisiert alle 5 Minuten
-              </p>
-            )}
-          </div>
-        </Reveal>
-
-        <div className={styles['events-wrap']}>
-          {gruppen.map((g, gi) => (
-            <Reveal key={g.key} delayMs={gi * 60} className={styles.day}>
-              <h3 className={styles['day-head']}>{g.label}</h3>
-              <ul className={styles['event-list']}>
-                {g.events.map((e) => (
-                  <EventRow key={e.id} e={e} beispiel={!live} />
-                ))}
-              </ul>
-            </Reveal>
-          ))}
-        </div>
-
-        {heuteOffen.length > 0 && (
-          <p className={styles['offen-heute']}>
-            <b>Heute geöffnet:</b>{' '}
-            {heuteOffen.map((e, i) => (
-              <span key={e.id}>
-                {i > 0 && ' · '}
-                {e.hostName || e.title}
-                {e.endsAt && <> bis {uhrzeit(e.endsAt)}</>}
-              </span>
-            ))}
-          </p>
-        )}
-
-        <div className={styles['events-foot']}>
-          {rest > 0 && <p className={styles['more-note']}>+ {rest} weitere in der App</p>}
-          <p className={styles.transparenz}>
-            Termine von Sudhaus, Kinos, Theatern und Co. trägt unsere Redaktion aus den öffentlichen Programmen
-            zusammen. Das sind keine Accounts der Veranstalter und kein Ticketverkauf – jeder Termin verlinkt auf die
-            Originalseite. Will ein Veranstalter nicht gelistet werden, nehmen wir ihn sofort raus.
-          </p>
-          {!istGestartet && (
-            <a href="#kontakt" className={styles['btn-ghost']}>
-              Bescheid bekommen, wenn die App da ist
-            </a>
-          )}
-        </div>
-      </div>
-    </section>
   )
 }
 
