@@ -41,12 +41,14 @@ function TerminDetail({
   e,
   jetzt,
   istGestartet,
-  onClose,
+  live,
+  onWarteliste,
 }: {
   e: WebsiteEvent
   jetzt: Date
   istGestartet: boolean
-  onClose: () => void
+  live: boolean
+  onWarteliste: () => void
 }) {
   const rabatt = rabattText(e)
   const plaetze = plaetzeText(e)
@@ -117,13 +119,15 @@ function TerminDetail({
       </dl>
 
       <div className={styles['sheet-actions']}>
-        {istGestartet ? (
+        {istGestartet && (
           <a href={`${APP_LINK}${e.id}`} className={styles.btn}>
             In der App öffnen
           </a>
-        ) : (
-          <a href="#kontakt" className={styles.btn} onClick={onClose}>
-            In der App merken – Bescheid bekommen
+        )}
+        {/* Kalender-Eintrag kommt vom Server (/api/kalender/<id>) – Beispiele haben keinen */}
+        {live && (
+          <a href={`/api/kalender/${e.id}`} className={istGestartet ? styles['btn-ghost'] : styles.btn}>
+            In meinen Kalender
           </a>
         )}
         {kuratiert && veranstalterLink && (
@@ -131,9 +135,24 @@ function TerminDetail({
             Tickets & Infos beim Veranstalter ↗
           </a>
         )}
+      </div>
+
+      <div className={styles['sheet-links']}>
         <button type="button" className={styles['sheet-share']} onClick={teilen}>
           {geteilt ? 'Link kopiert' : 'Teilen'}
         </button>
+        {!istGestartet && (
+          <a
+            href="#kontakt"
+            className={styles['sheet-share']}
+            onClick={(ev) => {
+              ev.preventDefault()
+              onWarteliste()
+            }}
+          >
+            Bescheid bekommen, wenn die App da ist
+          </a>
+        )}
       </div>
 
       <p className={styles['sheet-note']}>
@@ -265,7 +284,11 @@ export default function EventsSection({
     }
   }, [])
 
-  const schliessen = useCallback(() => {
+  // Wohin nach dem Schließen gesprungen wird (z. B. zur Warteliste)
+  const zielNachSchliessen = useRef<string | null>(null)
+
+  const schliessen = useCallback((ziel?: string) => {
+    zielNachSchliessen.current = ziel ?? null
     if (gepusht.current) {
       gepusht.current = false
       window.history.back()
@@ -320,7 +343,19 @@ export default function EventsSection({
     }
     if (!offen) {
       document.documentElement.style.overflow = ''
-      ausloeser.current?.focus()
+      const ziel = zielNachSchliessen.current
+      zielNachSchliessen.current = null
+      if (ziel) {
+        // Erst nach dem Zurückspringen im Verlauf scrollen, sonst stellt der
+        // Browser die alte Position wieder her
+        window.requestAnimationFrame(() => {
+          window.history.replaceState(null, '', `#${ziel}`)
+          document.getElementById(ziel)?.scrollIntoView({ behavior: 'smooth', block: 'start' })
+          document.querySelector<HTMLInputElement>(`#${ziel} input[type="email"]`)?.focus({ preventScroll: true })
+        })
+      } else {
+        ausloeser.current?.focus()
+      }
     }
   }, [offen])
 
@@ -481,10 +516,16 @@ export default function EventsSection({
       >
         {offen && (
           <>
-            <button type="button" className={styles['sheet-close']} onClick={schliessen} aria-label="Schließen">
+            <button type="button" className={styles['sheet-close']} onClick={() => schliessen()} aria-label="Schließen">
               ×
             </button>
-            <TerminDetail e={offen} jetzt={jetzt} istGestartet={istGestartet} onClose={schliessen} />
+            <TerminDetail
+              e={offen}
+              jetzt={jetzt}
+              istGestartet={istGestartet}
+              live={live}
+              onWarteliste={() => schliessen('kontakt')}
+            />
           </>
         )}
       </dialog>

@@ -539,13 +539,15 @@
 .sheet-link:hover { text-decoration: underline; }
 .sheet-deal { font-family: var(--font-jetbrains), monospace; font-weight: 700; font-size: 19px; color: #ff8aa3; }
 .sheet-deal-neben { font-size: 13.5px; color: var(--ink-soft); }
-.sheet-actions { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; margin-bottom: 22px; }
+.sheet-actions { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; margin-bottom: 14px; }
+.sheet-links { display: flex; flex-wrap: wrap; gap: 4px 20px; align-items: center; margin-bottom: 20px; }
 .sheet-share {
   background: none; border: none; padding: 8px 4px; cursor: pointer;
   font-family: var(--font-karla), sans-serif; font-size: 14px; font-weight: 700; color: var(--ink-soft);
   text-decoration: underline; text-underline-offset: 3px;
 }
 .sheet-share:hover { color: var(--ink); }
+.sheet-share:focus-visible { outline: 2px solid var(--amber); outline-offset: 2px; }
 .sheet-note { margin: 0; font-size: 12.5px; line-height: 1.6; color: var(--ink-soft); }
 
 @media (max-width: 640px) {
