@@ -90,7 +90,7 @@ const faq = [
   {
     frage: "Wir sind doch schon auf Instagram.",
     antwort:
-      "Eine Story ist nach 24 Stunden weg und erreicht die Leute, die euch schon folgen. In BeActive sucht jemand aktiv danach, was heute in der Stadt läuft – und findet euch, ohne euch vorher zu kennen.",
+      "Eine Story ist nach 24 Stunden weg und erreicht die Leute, die euch schon folgen. In beActive sucht jemand aktiv danach, was heute in der Stadt läuft – und findet euch, ohne euch vorher zu kennen.",
   },
   {
     frage: "Müssen wir Rabatt geben?",
@@ -224,7 +224,7 @@ export default function PartnerPage() {
                   <td className="py-2 text-right whitespace-nowrap">0 €</td>
                 </tr>
                 <tr className="opacity-60">
-                  <td className="py-2 pr-6">Ein Angebot in BeActive</td>
+                  <td className="py-2 pr-6">Ein Angebot in beActive</td>
                   <td className="py-2 text-right whitespace-nowrap">0 € Kosten</td>
                 </tr>
                 <tr>
@@ -405,9 +405,9 @@ export default function PartnerPage() {
       <footer className="bg-[#0b140f] text-[#eaf2e4] py-14">
         <div className="max-w-5xl mx-auto px-6 flex flex-col sm:flex-row justify-between gap-8">
           <div>
-            <p className="font-serif text-2xl font-black mb-2">BeActive</p>
+            <p className="font-serif text-2xl font-black mb-2">beActive</p>
             <p className="text-xs opacity-40 leading-relaxed">
-              BeActive UG (haftungsbeschränkt) i.G.
+              BeActive App UG (haftungsbeschränkt) i.G.
               <br />
               Tübingen
             </p>

@@ -48,15 +48,15 @@ function ics(e: WebsiteEvent) {
   const veranstalter = e.sourceUrl || e.hostWebsite;
   const beschreibung =
     e.hostKind === "curated"
-      ? `Aus dem öffentlichen Programm von ${e.hostName}, zusammengetragen von BeActive. Bitte vorher beim Veranstalter prüfen, ob sich etwas geändert hat.` +
+      ? `Aus dem öffentlichen Programm von ${e.hostName}, zusammengetragen von beActive. Bitte vorher beim Veranstalter prüfen, ob sich etwas geändert hat.` +
         (veranstalter ? `\nInfos & Tickets: ${veranstalter}` : "") +
         `\n\n${link}`
-      : `Ein Angebot von ${e.hostName} in BeActive.\n\n${link}`;
+      : `Ein Angebot von ${e.hostName} in beActive.\n\n${link}`;
 
   const zeilen = [
     "BEGIN:VCALENDAR",
     "VERSION:2.0",
-    "PRODID:-//BeActive//Website//DE",
+    "PRODID:-//beActive//Website//DE",
     "CALSCALE:GREGORIAN",
     "METHOD:PUBLISH",
     "BEGIN:VEVENT",

@@ -29,19 +29,19 @@ const jetbrainsMono = JetBrains_Mono({
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
   title: {
-    default: "BeActive – Was heute in Tübingen läuft",
-    template: "%s – BeActive",
+    default: "beActive – Was heute in Tübingen läuft",
+    template: "%s – beActive",
   },
   description:
     "Events, Kurse und Last-Minute-Angebote von Läden aus Tübingen – in einer App. Entdecken, beitreten oder in einer Minute selbst was starten.",
   alternates: { canonical: "/" },
   openGraph: {
-    title: "BeActive – Was heute in Tübingen läuft",
+    title: "beActive – Was heute in Tübingen läuft",
     description:
       "Events, Kurse und Last-Minute-Angebote von Läden aus Tübingen – in einer App.",
     type: "website",
     locale: "de_DE",
-    siteName: "BeActive",
+    siteName: "beActive",
   },
 };
 

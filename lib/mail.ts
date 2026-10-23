@@ -55,7 +55,7 @@ type Mail = {
 
 export async function sendeMail({ an, betreff, text, antwortAn }: Mail) {
   await transporter().sendMail({
-    from: `"BeActive Website" <${process.env.SMTP_FROM ?? process.env.SMTP_USER}>`,
+    from: `"beActive Website" <${process.env.SMTP_FROM ?? process.env.SMTP_USER}>`,
     to: an,
     subject: betreff,
     replyTo: antwortAn && istEmail(antwortAn) ? antwortAn : undefined,

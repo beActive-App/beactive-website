@@ -10,13 +10,13 @@ export type FaqItem = {
 export function faqListe(istGestartet: boolean): FaqItem[] {
   return [
     {
-      q: "Ist BeActive schon verfügbar?",
+      q: "Ist beActive schon verfügbar?",
       a: istGestartet
         ? "Ja, kostenlos im App Store für iPhone. Eine Android-Version ist in Arbeit."
         : "Die iPhone-App startet zum Wintersemester in Tübingen. Trag dich unten ein, dann sagen wir dir Bescheid, sobald sie im App Store ist. Eine Android-Version ist in Arbeit.",
     },
     {
-      q: "Was kostet BeActive?",
+      q: "Was kostet beActive?",
       a: "Nichts. Die App ist kostenlos, ohne Abo und ohne Werbung. Bei Angeboten von Betrieben zahlst du den vergünstigten Preis direkt vor Ort, nicht in der App.",
     },
     {
@@ -41,7 +41,7 @@ export function faqListe(istGestartet: boolean): FaqItem[] {
       a: "Die trägt unsere Redaktion aus den öffentlichen Programmen der Veranstalter zusammen, damit du alles an einem Ort siehst. Diese Einträge sind keine Accounts der Veranstalter und kein Ticketverkauf – jeder Termin verlinkt auf die Originalseite, wo es Tickets und Details gibt. Will ein Veranstalter nicht gelistet werden, nehmen wir ihn sofort raus.",
     },
     {
-      q: "In welchen Städten gibt es BeActive?",
+      q: "In welchen Städten gibt es beActive?",
       a: "Wir starten in Tübingen und machen es hier richtig, bevor wir weiterziehen. Eine Stadt-App lebt davon, dass genug los ist – das bauen wir zuerst.",
     },
     {

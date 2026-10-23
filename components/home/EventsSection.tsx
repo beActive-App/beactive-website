@@ -158,12 +158,12 @@ function TerminDetail({
       <p className={styles['sheet-note']}>
         {kuratiert ? (
           <>
-            Aus dem öffentlichen Programm von {e.hostName}, zusammengetragen von BeActive. Kein Account des
+            Aus dem öffentlichen Programm von {e.hostName}, zusammengetragen von beActive. Kein Account des
             Veranstalters und kein Ticketverkauf.
             {e.infoAsOf && <> Stand {new Date(e.infoAsOf).toLocaleDateString('de-DE')}.</>}
           </>
         ) : (
-          <>Ein Angebot von {e.hostName} in BeActive.</>
+          <>Ein Angebot von {e.hostName} in beActive.</>
         )}
       </p>
     </div>

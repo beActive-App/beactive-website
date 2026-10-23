@@ -15,7 +15,7 @@ const sections: {
   {
     title: "Überblick",
     paragraphs: [
-      "Der Schutz deiner personenbezogenen Daten ist uns wichtig. Diese Datenschutzerklärung informiert dich darüber, welche Daten wir bei der Nutzung unserer Website (beactiveapp.de, links.beactiveapp.de) und der BeActive App für iOS und Android verarbeiten, zu welchem Zweck das geschieht und welche Rechte dir zustehen.",
+      "Der Schutz deiner personenbezogenen Daten ist uns wichtig. Diese Datenschutzerklärung informiert dich darüber, welche Daten wir bei der Nutzung unserer Website (beactiveapp.de, links.beactiveapp.de) und der beActive App für iOS und Android verarbeiten, zu welchem Zweck das geschieht und welche Rechte dir zustehen.",
       "Kurz gesagt: Wir verarbeiten nur, was für den Betrieb von Website und App nötig ist. Wir setzen keine Analyse- oder Werbe-Tracker ein, verkaufen keine Daten und fragen den Standort deines Geräts nicht ab.",
     ],
   },
@@ -63,7 +63,7 @@ const sections: {
   {
     title: "Anzeige von Events auf der Website",
     paragraphs: [
-      "Auf der Startseite zeigen wir bevorstehende Events und Angebote, die Betriebe und unsere Redaktionsaccounts in der BeActive App öffentlich eingestellt haben: Titel, Zeitpunkt, Ort, Name des Betriebs bzw. des Veranstalters, bei Angeboten die Preisangaben sowie gegebenenfalls einen Link zur Seite des Veranstalters. Events privater Nutzer erscheinen nicht auf der Website.",
+      "Auf der Startseite zeigen wir bevorstehende Events und Angebote, die Betriebe und unsere Redaktionsaccounts in der beActive App öffentlich eingestellt haben: Titel, Zeitpunkt, Ort, Name des Betriebs bzw. des Veranstalters, bei Angeboten die Preisangaben sowie gegebenenfalls einen Link zur Seite des Veranstalters. Events privater Nutzer erscheinen nicht auf der Website.",
       "Diese Daten ruft unser Server bei unserem Auftragsverarbeiter Supabase (Serverstandort EU, Frankfurt) ab und liefert sie als Teil der Seite aus. Dein Browser baut dabei keine Verbindung zu Supabase auf; von dir als Besucher werden für diese Anzeige keine Daten verarbeitet.",
     ],
   },
@@ -83,13 +83,13 @@ const sections: {
   {
     title: "Newsletter und Warteliste",
     paragraphs: [
-      "Wenn du dich über die Website für Neuigkeiten zum App-Start anmeldest, verwenden wir deine E-Mail-Adresse, um dir Informationen zum Launch und zur Entwicklung von BeActive zuzusenden. Rechtsgrundlage ist deine Einwilligung (Art. 6 Abs. 1 lit. a DSGVO). Du kannst deine Einwilligung jederzeit mit Wirkung für die Zukunft widerrufen, z. B. über einen Abmeldelink in der E-Mail oder formlos an support@beactiveapp.de. Deine E-Mail-Adresse wird gelöscht, sobald du dich abmeldest oder der Zweck entfällt.",
+      "Wenn du dich über die Website für Neuigkeiten zum App-Start anmeldest, verwenden wir deine E-Mail-Adresse, um dir Informationen zum Launch und zur Entwicklung von beActive zuzusenden. Rechtsgrundlage ist deine Einwilligung (Art. 6 Abs. 1 lit. a DSGVO). Du kannst deine Einwilligung jederzeit mit Wirkung für die Zukunft widerrufen, z. B. über einen Abmeldelink in der E-Mail oder formlos an support@beactiveapp.de. Deine E-Mail-Adresse wird gelöscht, sobald du dich abmeldest oder der Zweck entfällt.",
     ],
   },
   {
-    title: "Nutzerkonto und Profil in der BeActive App",
+    title: "Nutzerkonto und Profil in der beActive App",
     paragraphs: [
-      "Für die Nutzung der BeActive App ist ein Nutzerkonto erforderlich. Du kannst dich mit E-Mail-Adresse und Passwort registrieren oder – auf iOS – mit „Mit Apple anmelden“. Bei der Anmeldung über Apple erhalten wir von Apple eine Kennung deines Apple-Kontos, deinen Namen und deine E-Mail-Adresse bzw. die von Apple erzeugte Weiterleitungsadresse, wenn du deine E-Mail-Adresse verbirgst. Dein Passwort speichern wir nicht im Klartext, sondern nur als Hashwert.",
+      "Für die Nutzung der beActive App ist ein Nutzerkonto erforderlich. Du kannst dich mit E-Mail-Adresse und Passwort registrieren oder – auf iOS – mit „Mit Apple anmelden“. Bei der Anmeldung über Apple erhalten wir von Apple eine Kennung deines Apple-Kontos, deinen Namen und deine E-Mail-Adresse bzw. die von Apple erzeugte Weiterleitungsadresse, wenn du deine E-Mail-Adresse verbirgst. Dein Passwort speichern wir nicht im Klartext, sondern nur als Hashwert.",
       "In deinem Profil verarbeiten wir die Angaben, die du dort machst:",
     ],
     after: [
@@ -179,7 +179,7 @@ const sections: {
   {
     title: "Minderjährige",
     paragraphs: [
-      "BeActive darf ab 13 Jahren und bei Minderjährigen nur mit Zustimmung der Erziehungsberechtigten genutzt werden. Soweit wir Daten auf Grundlage einer Einwilligung verarbeiten und du noch nicht 16 Jahre alt bist, muss die Einwilligung durch deine Erziehungsberechtigten oder mit deren Zustimmung erteilt werden (Art. 8 DSGVO). Erfahren wir, dass ein Kind unter 13 Jahren ein Konto angelegt hat, löschen wir es.",
+      "beActive darf ab 13 Jahren und bei Minderjährigen nur mit Zustimmung der Erziehungsberechtigten genutzt werden. Soweit wir Daten auf Grundlage einer Einwilligung verarbeiten und du noch nicht 16 Jahre alt bist, muss die Einwilligung durch deine Erziehungsberechtigten oder mit deren Zustimmung erteilt werden (Art. 8 DSGVO). Erfahren wir, dass ein Kind unter 13 Jahren ein Konto angelegt hat, löschen wir es.",
     ],
   },
   {

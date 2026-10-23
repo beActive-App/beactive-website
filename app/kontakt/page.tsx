@@ -3,7 +3,7 @@ import type { Metadata } from "next";
 
 export const metadata: Metadata = {
   title: "Kontakt",
-  description: "Schreib dem BeActive Team – wir freuen uns über dein Feedback.",
+  description: "Schreib dem beActive Team – wir freuen uns über dein Feedback.",
 };
 
 export default function KontaktPage() {

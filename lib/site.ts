@@ -2,7 +2,7 @@
 // steht hier einmal.
 
 export const SITE_URL = "https://www.beactiveapp.de";
-export const SITE_NAME = "BeActive";
+export const SITE_NAME = "beActive";
 export const STADT = "Tübingen";
 
 export const SUPPORT_EMAIL = "support@beactiveapp.de";

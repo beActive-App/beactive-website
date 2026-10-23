@@ -3,7 +3,7 @@ import type { Metadata } from "next";
 
 export const metadata: Metadata = {
   title: "FAQ",
-  description: "Häufig gestellte Fragen zur BeActive App",
+  description: "Häufig gestellte Fragen zur beActive App",
 };
 
 export default function FaqPage() {

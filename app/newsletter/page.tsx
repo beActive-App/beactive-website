@@ -4,7 +4,7 @@ import type { Metadata } from "next";
 export const metadata: Metadata = {
   title: "Newsletter",
   description:
-    "Bleib auf dem Laufenden – abonniere den BeActive Newsletter und gestalte die App mit.",
+    "Bleib auf dem Laufenden – abonniere den beActive Newsletter und gestalte die App mit.",
 };
 
 const benefits = [
@@ -36,7 +36,7 @@ export default function NewsletterPage() {
             die App gestalten
           </h1>
           <p className="opacity-60 text-lg mb-14 max-w-xl mx-auto leading-relaxed">
-            Sei unter den Ersten, die BeActive kennenlernen. Wir halten dich
+            Sei unter den Ersten, die beActive kennenlernen. Wir halten dich
             über den Launch, neue Features und Events auf dem Laufenden.
           </p>
           <NewsletterForm />

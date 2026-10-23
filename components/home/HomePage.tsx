@@ -174,7 +174,7 @@ function Warteliste() {
   if (status === 'success') {
     return (
       <p className={styles['form-success']}>
-        <strong>Danke!</strong> Wir melden uns, sobald BeActive im App Store ist.
+        <strong>Danke!</strong> Wir melden uns, sobald beActive im App Store ist.
       </p>
     )
   }
@@ -431,7 +431,7 @@ export default function HomePage({
     <div className={styles.page}>
       <header className={cx(styles.nav, scrolled && styles.scrolled)}>
         <div className={cx(styles.wrap, styles['nav-row'])}>
-          <a href="#top" className={styles.brand}>BeActive</a>
+          <a href="#top" className={styles.brand}>beActive</a>
           <ul className={styles.links}>
             {navLinks.map((l) => (
               <li key={l.key}>
@@ -480,7 +480,7 @@ export default function HomePage({
             <span className={styles.eyebrow}>{istGestartet ? `Jetzt im App Store · ${STADT}` : `${STADT} · Start zum Wintersemester`}</span>
             <h1 style={{ marginTop: 22 }}>Weniger scrollen, mehr erleben.</h1>
             <p className={cx(styles.lede)}>
-              BeActive zeigt dir, was heute in {STADT} läuft: Sport, Kultur, Spontanes und Last-Minute-Angebote von Läden aus der Stadt. Und wenn nichts dabei ist, startest du in einer Minute selbst was.
+              beActive zeigt dir, was heute in {STADT} läuft: Sport, Kultur, Spontanes und Last-Minute-Angebote von Läden aus der Stadt. Und wenn nichts dabei ist, startest du in einer Minute selbst was.
             </p>
             <div className={styles['hero-actions']}>
               <a href={primaryHref} className={styles.btn}>{primaryLabel}</a>
@@ -607,7 +607,7 @@ export default function HomePage({
           <div className={styles.wrap}>
             <Reveal>
               <span className={styles.eyebrow}>{istGestartet ? 'Bereit?' : 'Fast geschafft'}</span>
-              <h2 style={{ marginTop: 18 }}>{istGestartet ? 'Hol dir BeActive' : 'Sei dabei, wenn es losgeht'}</h2>
+              <h2 style={{ marginTop: 18 }}>{istGestartet ? 'Hol dir beActive' : 'Sei dabei, wenn es losgeht'}</h2>
               {istGestartet ? (
                 <>
                   <p>Kostenlos im App Store, für iPhone. Android folgt.</p>
@@ -627,7 +627,7 @@ export default function HomePage({
         <div className={styles.wrap}>
           <div className={styles['foot-grid']}>
             <div>
-              <a href="#top" className={styles.brand}>BeActive</a>
+              <a href="#top" className={styles.brand}>beActive</a>
               <p className={styles.desc}>Was heute in {STADT} läuft – Events, Kurse und Angebote von Läden aus der Stadt, in einer App.</p>
             </div>
             <div className={styles['foot-col']}>
