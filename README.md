@@ -1,36 +1,33 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# beActive – Website
 
-## Getting Started
+Next.js 16 (App Router, Tailwind v4), gehostet bei Vercel unter www.beactiveapp.de.
 
-First, run the development server:
+## Entwickeln
 
 ```bash
+npm install
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Dann http://localhost:3000 öffnen. Env-Variablen stehen in `.env.example` beschrieben; echte Werte gehören in `.env.local` (nicht eingecheckt).
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Launch-Schalter
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+Die Website hat zwei Zustände, gesteuert über Vercel-Env-Variablen (Project Variables, Production-Haken, danach Redeploy):
 
-## Learn More
+| Variable | leer | gesetzt |
+| --- | --- | --- |
+| `NEXT_PUBLIC_APP_STORE_URL` | Warteliste, „Beim Start Bescheid bekommen“ | App-Store-Badges in Hero, Navigation, Footer und Abschluss, QR-Code auf dem Desktop, feste Store-Leiste am Handy, „In der App öffnen“ in jedem Termin, FAQ-Texte für „ist verfügbar“ |
+| `NEXT_PUBLIC_PLAY_STORE_URL` | „Bald bei Google Play“ (ausgegraut) | Google-Play-Badge klickbar |
 
-To learn more about Next.js, take a look at the following resources:
+Vorschau ohne Deploy: `?vorschau=app` an die Adresse hängen zeigt die Version nach dem Start, `?vorschau=warteliste` die davor. Das wird nur im Browser ausgewertet, Suchmaschinen und der Cache sehen immer die echte Version.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Aufbau
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- `app/layout.tsx` – Schriften, Metadaten, gemeinsamer Header und Footer
+- `app/globals.css` – Design-Tokens (Farben, Schriften) und gemeinsame Klassen (`btn`, `eyebrow`, `card`, `field`, …)
+- `components/site/` – Header, Footer, Store-Badges, Seitenkopf, Launch-Kontext
+- `components/home/` – Startseite mit Live-Terminen (`EventsSection`)
+- `lib/events.ts` – Termine aus Supabase (`get_website_events`), `lib/event-format.ts` – Darstellung und Rubriken
+- `lib/site.ts` – zentrale Fakten (Adressen, Launch-Schalter)
+- `app/api/` – Formular-Mailversand und Kalender-Download

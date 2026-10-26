@@ -1,5 +1,7 @@
-import FaqAccordion from "@/components/FaqAccordion";
+import Link from "next/link";
 import type { Metadata } from "next";
+import FaqAccordion from "@/components/FaqAccordion";
+import PageHeader from "@/components/site/PageHeader";
 
 export const metadata: Metadata = {
   title: "FAQ",
@@ -9,20 +11,20 @@ export const metadata: Metadata = {
 export default function FaqPage() {
   return (
     <>
-      <section className="bg-[#2D3E2D] text-[#E8E3D3] py-24">
-        <div className="max-w-4xl mx-auto px-6">
-          <p className="text-xs uppercase tracking-[0.35em] mb-5 opacity-50">
-            Fragen &amp; Antworten
-          </p>
-          <h1 className="font-serif text-6xl md:text-8xl font-black leading-none">
-            FAQ
-          </h1>
-        </div>
-      </section>
-
-      <section className="py-16 md:py-24 bg-[#E8E3D3]">
-        <div className="max-w-4xl mx-auto px-6">
+      <PageHeader
+        eyebrow="Fragen & Antworten"
+        title="Häufige Fragen"
+        lede="Was beActive kostet, wo es läuft, woher die Termine kommen – und was du tun kannst, wenn deine Frage nicht dabei ist."
+      />
+      <section className="py-16 md:py-24">
+        <div className="wrap max-w-[760px]">
           <FaqAccordion />
+          <p className="mt-10 text-center text-ink-soft">
+            Noch was offen?{" "}
+            <Link href="/kontakt" className="text-accent underline underline-offset-4">
+              Schreib uns.
+            </Link>
+          </p>
         </div>
       </section>
     </>

@@ -3,52 +3,57 @@
 import Link from "next/link";
 import { useState } from "react";
 import { faqListe } from "@/lib/faq";
-import { IST_GESTARTET } from "@/lib/site";
+import { useLaunch } from "@/components/site/LaunchContext";
 
 export default function FaqAccordion() {
   const [openIndex, setOpenIndex] = useState<number | null>(null);
-  const faqs = faqListe(IST_GESTARTET);
+  const { istGestartet } = useLaunch();
+  const faqs = faqListe(istGestartet);
 
   return (
-    <div className="divide-y divide-[#2D3E2D]/15">
-      {faqs.map((faq, i) => (
-        <div key={faq.q}>
-          <button
-            className="w-full py-7 flex items-start justify-between gap-6 text-left group"
-            aria-expanded={openIndex === i}
-            onClick={() => setOpenIndex(openIndex === i ? null : i)}
-          >
-            <span className="font-serif text-xl md:text-2xl font-bold text-[#2D3E2D] group-hover:opacity-60 transition-opacity leading-snug">
-              {faq.q}
-            </span>
-            <span
-              className={`text-[#2D3E2D] text-3xl font-thin flex-shrink-0 mt-0.5 transition-transform duration-300 ${
-                openIndex === i ? "rotate-45" : ""
-              }`}
-              aria-hidden="true"
+    <div className="border-t border-line">
+      {faqs.map((faq, i) => {
+        const open = openIndex === i;
+        return (
+          <div key={faq.q} className="border-b border-line">
+            <button
+              type="button"
+              className="group flex w-full items-center justify-between gap-6 py-6 text-left"
+              aria-expanded={open}
+              onClick={() => setOpenIndex(open ? null : i)}
             >
-              +
-            </span>
-          </button>
-          <div
-            className={`overflow-hidden transition-all duration-300 ${
-              openIndex === i ? "max-h-96 pb-7" : "max-h-0"
-            }`}
-          >
-            <p className="text-[#2D3E2D] opacity-60 leading-relaxed text-[15px]">
-              {faq.a}
-              {faq.link && (
-                <>
-                  {" "}
-                  <Link href={faq.link.href} className="underline hover:no-underline">
-                    {faq.link.text}
-                  </Link>
-                </>
-              )}
-            </p>
+              <span className="font-display text-lg font-bold tracking-[-0.01em] text-ink transition-colors group-hover:text-accent">
+                {faq.q}
+              </span>
+              <span className="relative h-5 w-5 flex-shrink-0" aria-hidden="true">
+                <span className="absolute left-0 top-1/2 h-0.5 w-full -translate-y-1/2 bg-lime" />
+                <span
+                  className={`absolute left-1/2 top-0 h-full w-0.5 -translate-x-1/2 bg-lime transition-transform duration-300 ${
+                    open ? "rotate-90" : ""
+                  }`}
+                />
+              </span>
+            </button>
+            <div
+              className={`overflow-hidden transition-[max-height] duration-300 ${
+                open ? "max-h-[480px]" : "max-h-0"
+              }`}
+            >
+              <p className="pb-6 pr-10 text-[15px] leading-relaxed text-ink-soft">
+                {faq.a}
+                {faq.link && (
+                  <>
+                    {" "}
+                    <Link href={faq.link.href} className="text-accent underline underline-offset-4">
+                      {faq.link.text}
+                    </Link>
+                  </>
+                )}
+              </p>
+            </div>
           </div>
-        </div>
-      ))}
+        );
+      })}
     </div>
   );
 }

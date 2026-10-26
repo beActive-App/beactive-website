@@ -5,12 +5,6 @@ import { useState } from "react";
 
 type Status = "idle" | "sending" | "success" | "error";
 
-const inputClass =
-  "w-full px-5 py-4 bg-transparent border border-[#2D3E2D]/25 text-[#2D3E2D] placeholder:text-[#2D3E2D]/35 focus:outline-none focus:border-[#2D3E2D] transition-colors text-sm";
-
-const labelClass =
-  "block text-xs uppercase tracking-[0.2em] text-[#2D3E2D]/50 mb-2";
-
 export default function PartnerForm() {
   const [betrieb, setBetrieb] = useState("");
   const [name, setName] = useState("");
@@ -58,22 +52,20 @@ export default function PartnerForm() {
 
   if (status === "success") {
     return (
-      <div className="border border-[#2D3E2D]/25 p-10">
-        <p className="font-serif text-3xl font-bold text-[#2D3E2D] mb-3">
-          Angekommen.
-        </p>
-        <p className="text-[#2D3E2D]/60 text-[15px] leading-relaxed">
+      <div className="card p-8">
+        <p className="mb-3 font-display text-3xl font-extrabold text-ink">Angekommen.</p>
+        <p className="text-[15px] leading-relaxed text-ink-soft">
           Wir melden uns innerhalb von zwei Tagen und schlagen zwei Termine vor.
-          Wenn es schneller gehen soll: <strong>partner@beactiveapp.de</strong>
+          Wenn es schneller gehen soll: <strong className="text-ink">partner@beactiveapp.de</strong>
         </p>
       </div>
     );
   }
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-6">
+    <form onSubmit={handleSubmit} className="flex flex-col gap-6">
       {/* Honeypot: für Menschen unsichtbar, Bots füllen ihn aus. */}
-      <div aria-hidden="true" className="absolute w-px h-px -left-[9999px] overflow-hidden">
+      <div aria-hidden="true" className="absolute -left-[9999px] h-px w-px overflow-hidden">
         <label htmlFor="website">Website (bitte frei lassen)</label>
         <input
           id="website"
@@ -86,90 +78,80 @@ export default function PartnerForm() {
         />
       </div>
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+      <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
         <div>
-          <label htmlFor="betrieb" className={labelClass}>
-            Betrieb *
-          </label>
+          <label htmlFor="betrieb" className="label">Betrieb *</label>
           <input
             id="betrieb"
             value={betrieb}
             onChange={(e) => setBetrieb(e.target.value)}
             placeholder="Café Beispiel"
-            className={inputClass}
+            autoComplete="organization"
+            className="field"
           />
         </div>
         <div>
-          <label htmlFor="name" className={labelClass}>
-            Ansprechpartner:in *
-          </label>
+          <label htmlFor="name" className="label">Ansprechpartner:in *</label>
           <input
             id="name"
             value={name}
             onChange={(e) => setName(e.target.value)}
             placeholder="Vor- und Nachname"
-            className={inputClass}
+            autoComplete="name"
+            className="field"
           />
         </div>
       </div>
 
       <div>
-        <label htmlFor="kontakt" className={labelClass}>
-          E-Mail oder Telefon *
-        </label>
+        <label htmlFor="kontakt" className="label">E-Mail oder Telefon *</label>
         <input
           id="kontakt"
           value={kontakt}
           onChange={(e) => setKontakt(e.target.value)}
           placeholder="Wie erreichen wir euch?"
-          className={inputClass}
+          className="field"
         />
       </div>
 
       <div>
-        <label htmlFor="randzeit" className={labelClass}>
-          Wann ist bei euch am wenigsten los?
-        </label>
+        <label htmlFor="randzeit" className="label">Wann ist bei euch am wenigsten los?</label>
         <input
           id="randzeit"
           value={randzeit}
           onChange={(e) => setRandzeit(e.target.value)}
           placeholder="z. B. Dienstag und Mittwoch nachmittags"
-          className={inputClass}
+          className="field"
         />
-        <p className="text-xs text-[#2D3E2D]/40 mt-2">
+        <p className="mt-2 text-xs text-ink-soft">
           Die wichtigste Frage. Genau dieses Zeitfenster füllen wir.
         </p>
       </div>
 
       <div>
-        <label htmlFor="nachricht" className={labelClass}>
-          Noch etwas?
-        </label>
+        <label htmlFor="nachricht" className="label">Noch etwas?</label>
         <textarea
           id="nachricht"
           value={nachricht}
           onChange={(e) => setNachricht(e.target.value)}
           rows={4}
           placeholder="Fragen, Bedenken, Terminwünsche"
-          className={`${inputClass} resize-none`}
+          className="field resize-none"
         />
       </div>
 
-      {error && <p className="text-sm text-[#8c2f2f]">{error}</p>}
+      {error && <p className="text-sm text-rose">{error}</p>}
 
-      <button
-        type="submit"
-        disabled={status === "sending"}
-        className="w-full sm:w-auto bg-[#2D3E2D] text-[#E8E3D3] px-10 py-4 text-xs uppercase tracking-[0.2em] font-bold hover:bg-[#1e2e1e] transition-colors disabled:opacity-50"
-      >
-        {status === "sending" ? "Wird gesendet…" : "Termin vorschlagen"}
-      </button>
+      <div>
+        <button type="submit" disabled={status === "sending"} className="btn w-full sm:w-auto">
+          {status === "sending" ? "Wird gesendet…" : "Termin vorschlagen"}
+        </button>
+      </div>
 
-      <p className="text-xs text-[#2D3E2D]/40 leading-relaxed">
+      <p className="text-xs leading-relaxed text-ink-soft">
         Wir nutzen eure Angaben ausschließlich, um uns bei euch zu melden.
         Keine Weitergabe, kein Newsletter. Details in der{" "}
-        <Link href="/datenschutz" className="underline hover:no-underline">
+        <Link href="/datenschutz" className="text-accent underline underline-offset-4">
           Datenschutzerklärung
         </Link>
         .

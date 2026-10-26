@@ -3,6 +3,7 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import styles from '@/app/page.module.css'
 import { STADT } from '@/lib/site'
+import { useLaunch } from '@/components/site/LaunchContext'
 import {
   RUBRIKEN,
   TAG_FILTER,
@@ -120,18 +121,18 @@ function TerminDetail({
 
       <div className={styles['sheet-actions']}>
         {istGestartet && (
-          <a href={`${APP_LINK}${e.id}`} className={styles.btn}>
+          <a href={`${APP_LINK}${e.id}`} className="btn">
             In der App öffnen
           </a>
         )}
         {/* Kalender-Eintrag kommt vom Server (/api/kalender/<id>) – Beispiele haben keinen */}
         {live && (
-          <a href={`/api/kalender/${e.id}`} className={istGestartet ? styles['btn-ghost'] : styles.btn}>
+          <a href={`/api/kalender/${e.id}`} className={istGestartet ? 'btn-ghost' : 'btn'}>
             In meinen Kalender
           </a>
         )}
         {kuratiert && veranstalterLink && (
-          <a href={veranstalterLink} target="_blank" rel="noopener noreferrer" className={styles['btn-ghost']}>
+          <a href={veranstalterLink} target="_blank" rel="noopener noreferrer" className="btn-ghost">
             Tickets & Infos beim Veranstalter ↗
           </a>
         )}
@@ -224,13 +225,12 @@ export default function EventsSection({
   events,
   beispiele,
   jetztIso,
-  istGestartet,
 }: {
   events: EventsResult
   beispiele: WebsiteEvent[]
   jetztIso: string
-  istGestartet: boolean
 }) {
+  const { istGestartet } = useLaunch()
   const jetzt = useMemo(() => new Date(jetztIso), [jetztIso])
   const termine = useMemo(
     () => (events.status === 'ok' ? events.events.filter((e) => !istOeffnungszeit(e)) : []),
@@ -370,11 +370,11 @@ export default function EventsSection({
 
   return (
     <section className={cx(styles.section, styles['events-section'])} id="events">
-      <div className={styles.wrap}>
+      <div className="wrap">
         <div className={styles['deals-head']}>
           <div>
-            <span className={styles.eyebrow}>{live ? 'Live aus der App' : 'So sieht es aus'}</span>
-            <h2 style={{ marginTop: 14 }}>Was in {STADT} läuft</h2>
+            <span className="eyebrow">{live ? 'Live aus der App' : 'So sieht es aus'}</span>
+            <h2>Was in {STADT} läuft</h2>
           </div>
           <div>
             <p>
@@ -443,7 +443,7 @@ export default function EventsSection({
             <p>Für diese Auswahl steht gerade nichts drin.</p>
             <button
               type="button"
-              className={styles['btn-ghost']}
+              className="btn-ghost"
               onClick={() => {
                 tagWaehlen('alle')
                 rubrikWaehlen('alle')
@@ -469,7 +469,7 @@ export default function EventsSection({
 
         {rest > 0 && (
           <div className={styles['mehr-zeigen']}>
-            <button type="button" className={styles['btn-ghost']} onClick={() => setAnzahl((a) => a + 2 * SEITE)}>
+            <button type="button" className="btn-ghost" onClick={() => setAnzahl((a) => a + 2 * SEITE)}>
               Mehr zeigen · noch {rest}
             </button>
           </div>
@@ -495,7 +495,7 @@ export default function EventsSection({
             Link zur Originalseite. Will ein Veranstalter nicht gelistet werden, nehmen wir ihn sofort raus.
           </p>
           {!istGestartet && (
-            <a href="#kontakt" className={styles['btn-ghost']}>
+            <a href="#kontakt" className="btn-ghost">
               Bescheid bekommen, wenn die App da ist
             </a>
           )}

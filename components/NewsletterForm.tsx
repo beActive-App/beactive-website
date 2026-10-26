@@ -2,10 +2,13 @@
 
 import { useState } from "react";
 import { SUPPORT_EMAIL } from "@/lib/site";
+import { useLaunch } from "@/components/site/LaunchContext";
+import { StoreBadges } from "@/components/site/StoreBadges";
 
 type Status = "idle" | "sending" | "success" | "error";
 
 export default function NewsletterForm({ quelle = "warteliste" }: { quelle?: string }) {
+  const { istGestartet, appStoreUrl, playStoreUrl } = useLaunch();
   const [email, setEmail] = useState("");
   const [website, setWebsite] = useState(""); // Honeypot, bleibt bei Menschen leer
   const [status, setStatus] = useState<Status>("idle");
@@ -37,19 +40,31 @@ export default function NewsletterForm({ quelle = "warteliste" }: { quelle?: str
     }
   };
 
+  // Nach dem Start braucht niemand mehr eine Warteliste – direkt in den Store.
+  if (istGestartet) {
+    return (
+      <div className="mx-auto flex w-full max-w-lg flex-col items-center gap-4">
+        <p className="text-ink">
+          <strong className="font-display">beActive ist da.</strong> Kostenlos im App Store.
+        </p>
+        <StoreBadges appStoreUrl={appStoreUrl} playStoreUrl={playStoreUrl} />
+      </div>
+    );
+  }
+
   if (status === "success") {
     return (
-      <div className="text-center py-4">
-        <p className="font-serif text-4xl font-bold text-[#E8E3D3] mb-3">Danke!</p>
-        <p className="text-[#E8E3D3] opacity-60">Wir melden uns, sobald es losgeht.</p>
+      <div className="py-4 text-center">
+        <p className="mb-3 font-display text-3xl font-extrabold text-ink">Danke!</p>
+        <p className="text-ink-soft">Wir melden uns, sobald es losgeht.</p>
       </div>
     );
   }
 
   return (
-    <div className="w-full max-w-lg mx-auto">
-      <form onSubmit={handleSubmit} className="flex flex-col sm:flex-row" noValidate>
-        <div aria-hidden="true" className="absolute w-px h-px -left-[9999px] overflow-hidden">
+    <div className="mx-auto w-full max-w-lg">
+      <form onSubmit={handleSubmit} className="flex flex-col gap-3 sm:flex-row" noValidate>
+        <div aria-hidden="true" className="absolute -left-[9999px] h-px w-px overflow-hidden">
           <label htmlFor="nl-website">Website (bitte frei lassen)</label>
           <input
             id="nl-website"
@@ -70,18 +85,14 @@ export default function NewsletterForm({ quelle = "warteliste" }: { quelle?: str
           }}
           placeholder="deine@email.de"
           aria-label="E-Mail-Adresse"
-          className="flex-1 px-6 py-4 bg-transparent border border-[#E8E3D3]/40 text-[#E8E3D3] placeholder:text-[#E8E3D3]/30 focus:outline-none focus:border-[#E8E3D3] transition-colors text-sm"
+          className="field !rounded-[var(--r-btn)] flex-1"
         />
-        <button
-          type="submit"
-          disabled={status === "sending"}
-          className="bg-[#E8E3D3] text-[#2D3E2D] px-8 py-4 text-xs uppercase tracking-[0.2em] font-bold hover:bg-white transition-colors whitespace-nowrap disabled:opacity-60"
-        >
+        <button type="submit" disabled={status === "sending"} className="btn whitespace-nowrap">
           {status === "sending" ? "Moment…" : "Eintragen"}
         </button>
       </form>
-      {error && <p className="text-red-300 text-xs mt-3">{error}</p>}
-      <p className="text-[#E8E3D3]/40 text-xs mt-4">
+      {error && <p className="mt-3 text-sm text-rose">{error}</p>}
+      <p className="mt-4 text-xs text-ink-soft">
         Nur Neuigkeiten zum Start, kein Newsletter-Spam. Austragen jederzeit per Mail.
       </p>
     </div>

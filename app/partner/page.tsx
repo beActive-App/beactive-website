@@ -1,6 +1,6 @@
-import Link from "next/link";
-import PartnerForm from "@/components/PartnerForm";
 import type { Metadata } from "next";
+import PartnerForm from "@/components/PartnerForm";
+import PageHeader from "@/components/site/PageHeader";
 
 export const metadata: Metadata = {
   title: "Für Betriebe in Tübingen",
@@ -111,71 +111,46 @@ const faq = [
 export default function PartnerPage() {
   return (
     <>
-      {/* Hero */}
-      <section className="bg-[#2D3E2D] text-[#E8E3D3]">
-        <div className="max-w-5xl mx-auto px-6 py-24 md:py-32">
-          <p className="text-xs uppercase tracking-[0.35em] mb-6 opacity-50">
-            Für Betriebe in Tübingen
-          </p>
-          <h1 className="font-serif text-5xl sm:text-6xl md:text-8xl font-black leading-[0.95] mb-8">
-            Dienstag,
-            <br />
-            15 Uhr.
-          </h1>
-          <p className="text-lg md:text-xl opacity-70 max-w-2xl leading-relaxed mb-4">
-            So sieht es in den meisten Läden aus. Nicht, weil das Angebot
-            schlecht ist – sondern weil niemand weiß, dass gerade jetzt Platz
-            ist.
-          </p>
-          <p className="text-lg md:text-xl max-w-2xl leading-relaxed mb-12 text-[#C1FF72]">
-            Genau dieses Zeitfenster füllen wir.
-          </p>
-
-          <div className="flex flex-col sm:flex-row gap-4 mb-14">
-            <a
-              href="#kontakt"
-              className="inline-block bg-[#C1FF72] text-[#0b140f] px-10 py-4 text-xs uppercase tracking-[0.2em] font-bold hover:bg-white transition-colors text-center"
-            >
-              Wir kommen vorbei
-            </a>
-            <a
-              href="#so-gehts"
-              className="inline-block border border-[#E8E3D3]/40 px-10 py-4 text-xs uppercase tracking-[0.2em] font-bold hover:border-[#E8E3D3] transition-colors text-center"
-            >
-              Wie es funktioniert
-            </a>
-          </div>
-
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-px bg-[#E8E3D3]/15 border border-[#E8E3D3]/15">
+      <PageHeader
+        eyebrow="Für Betriebe in Tübingen"
+        title={<>Dienstag,<br />15 Uhr.</>}
+        lede={
+          <>
+            So sieht es in den meisten Läden aus. Nicht, weil das Angebot schlecht ist – sondern weil niemand weiß, dass gerade jetzt Platz ist.{" "}
+            <span className="text-accent">Genau dieses Zeitfenster füllen wir.</span>
+          </>
+        }
+        extra={
+          <div className="mt-12 grid grid-cols-1 gap-3 sm:grid-cols-3">
             {[
               "Kostenlos für die ersten 20 Betriebe",
               "Kein Vertrag, keine Mindestlaufzeit",
               "Keine Provision auf euren Umsatz",
             ].map((t) => (
-              <p
-                key={t}
-                className="bg-[#2D3E2D] px-6 py-5 text-sm opacity-75 leading-snug"
-              >
+              <p key={t} className="card m-0 px-5 py-4 text-sm leading-snug text-ink">
                 {t}
               </p>
             ))}
           </div>
-        </div>
-      </section>
+        }
+      >
+        <a href="#kontakt" className="btn">Wir kommen vorbei</a>
+        <a href="#so-gehts" className="btn-ghost">Wie es funktioniert</a>
+      </PageHeader>
 
       {/* Das Angebot */}
-      <section className="bg-[#E8E3D3] text-[#2D3E2D] py-24">
-        <div className="max-w-3xl mx-auto px-6">
-          <h2 className="font-serif text-3xl md:text-5xl font-black leading-tight mb-8">
+      <section className="py-20 md:py-24">
+        <div className="wrap max-w-[820px]">
+          <h2 className="text-3xl md:text-[44px]">
             Wir verkaufen euch keine Werbung.
             <br />
             Wir füllen ein leeres Zeitfenster.
           </h2>
-          <p className="text-lg opacity-70 leading-relaxed mb-6">
+          <p className="mt-8 text-lg leading-relaxed text-ink-soft">
             Ein Café verliert an einem regnerischen Dienstagnachmittag Geld. Die
             Miete läuft, das Personal steht da, die Tische sind leer.
           </p>
-          <p className="text-lg opacity-70 leading-relaxed">
+          <p className="mt-5 text-lg leading-relaxed text-ink-soft">
             Ein Angebot, das um 13 Uhr sichtbar wird und um 15 Uhr acht Leute
             bringt, ist kein Marketing. Das ist Umsatz, der sonst nicht
             stattgefunden hätte.
@@ -184,21 +159,15 @@ export default function PartnerPage() {
       </section>
 
       {/* So geht's */}
-      <section id="so-gehts" className="bg-[#0b140f] text-[#eaf2e4] py-24">
-        <div className="max-w-5xl mx-auto px-6">
-          <p className="text-xs uppercase tracking-[0.35em] mb-14 opacity-40">
-            In drei Schritten
-          </p>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-12">
+      <section id="so-gehts" className="border-y border-line bg-dusk py-20 md:py-24">
+        <div className="wrap">
+          <span className="eyebrow">In drei Schritten</span>
+          <div className="mt-10 grid grid-cols-1 gap-5 md:grid-cols-3">
             {schritte.map((s) => (
-              <div key={s.nr}>
-                <p className="font-serif text-5xl font-black text-[#C1FF72] mb-5">
-                  {s.nr}
-                </p>
-                <h3 className="font-serif text-2xl font-bold mb-4">{s.titel}</h3>
-                <p className="opacity-55 leading-relaxed text-[15px]">
-                  {s.text}
-                </p>
+              <div key={s.nr} className="card p-8">
+                <p className="font-mono text-sm font-bold tracking-[0.14em] text-accent">{s.nr}</p>
+                <h3 className="mt-4 text-2xl">{s.titel}</h3>
+                <p className="mt-3 text-[15px] leading-relaxed text-ink-soft">{s.text}</p>
               </div>
             ))}
           </div>
@@ -206,48 +175,42 @@ export default function PartnerPage() {
       </section>
 
       {/* Die Rechnung */}
-      <section className="bg-[#2D3E2D] text-[#E8E3D3] py-24">
-        <div className="max-w-3xl mx-auto px-6">
-          <p className="text-xs uppercase tracking-[0.35em] mb-8 opacity-50">
-            Die Rechnung
-          </p>
-          <h2 className="font-serif text-3xl md:text-4xl font-black leading-tight mb-12">
+      <section className="py-20 md:py-24">
+        <div className="wrap max-w-[820px]">
+          <span className="eyebrow">Die Rechnung</span>
+          <h2 className="mt-4 text-3xl md:text-4xl">
             Ein Rabatt auf einen Gast, der sonst nicht gekommen wäre, kostet
             nichts. Er bringt.
           </h2>
 
-          <div className="border border-[#E8E3D3]/20 p-6 sm:p-10 font-mono text-sm sm:text-base overflow-x-auto">
+          <div className="card mt-10 overflow-x-auto p-6 font-mono text-sm sm:p-10 sm:text-base">
             <table className="w-full">
               <tbody>
-                <tr className="opacity-60">
+                <tr className="text-ink-soft">
                   <td className="py-2 pr-6">Ein leerer Dienstagnachmittag</td>
-                  <td className="py-2 text-right whitespace-nowrap">0 €</td>
+                  <td className="whitespace-nowrap py-2 text-right">0 €</td>
                 </tr>
-                <tr className="opacity-60">
+                <tr className="text-ink-soft">
                   <td className="py-2 pr-6">Ein Angebot in beActive</td>
-                  <td className="py-2 text-right whitespace-nowrap">0 € Kosten</td>
+                  <td className="whitespace-nowrap py-2 text-right">0 € Kosten</td>
                 </tr>
                 <tr>
                   <td className="py-2 pr-6">8 Gäste × 6 € Durchschnittsbon</td>
-                  <td className="py-2 text-right whitespace-nowrap">48 €</td>
+                  <td className="whitespace-nowrap py-2 text-right">48 €</td>
                 </tr>
                 <tr>
                   <td className="py-2 pr-6">davon Rabatt (−25 %)</td>
-                  <td className="py-2 text-right whitespace-nowrap">−12 €</td>
+                  <td className="whitespace-nowrap py-2 text-right">−12 €</td>
                 </tr>
-                <tr className="border-t border-[#E8E3D3]/30">
-                  <td className="pt-4 pr-6 font-bold">
-                    Differenz zu einem leeren Nachmittag
-                  </td>
-                  <td className="pt-4 text-right font-bold text-[#C1FF72] whitespace-nowrap">
-                    +36 €
-                  </td>
+                <tr className="border-t border-line">
+                  <td className="pr-6 pt-4 font-bold">Differenz zu einem leeren Nachmittag</td>
+                  <td className="whitespace-nowrap pt-4 text-right font-bold text-accent">+36 €</td>
                 </tr>
               </tbody>
             </table>
           </div>
 
-          <p className="text-xs opacity-40 mt-6 leading-relaxed">
+          <p className="mt-6 text-xs leading-relaxed text-ink-soft">
             Beispielrechnung zur Veranschaulichung der Logik – keine
             garantierten Zahlen und kein Umsatzversprechen. Bei
             Prozentangaben gilt § 11 PAngV: Referenz ist der niedrigste
@@ -257,21 +220,17 @@ export default function PartnerPage() {
       </section>
 
       {/* Kontrolle */}
-      <section className="bg-[#E8E3D3] text-[#2D3E2D] py-24">
-        <div className="max-w-5xl mx-auto px-6">
-          <h2 className="font-serif text-3xl md:text-5xl font-black leading-tight mb-4">
-            Ihr behaltet alles in der Hand
-          </h2>
-          <p className="opacity-55 mb-14 max-w-2xl leading-relaxed">
+      <section className="border-y border-line bg-dusk py-20 md:py-24">
+        <div className="wrap">
+          <h2 className="text-3xl md:text-[44px]">Ihr behaltet alles in der Hand</h2>
+          <p className="mt-4 max-w-2xl leading-relaxed text-ink-soft">
             Wir entscheiden nichts über euren Laden. Vier Regler, alle bei euch:
           </p>
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-px bg-[#2D3E2D]/15 border border-[#2D3E2D]/15">
+          <div className="mt-12 grid grid-cols-1 gap-5 sm:grid-cols-2">
             {kontrolle.map((k) => (
-              <div key={k.titel} className="bg-[#E8E3D3] p-8 sm:p-10">
-                <h3 className="font-serif text-xl font-bold mb-3">{k.titel}</h3>
-                <p className="opacity-55 text-[15px] leading-relaxed">
-                  {k.text}
-                </p>
+              <div key={k.titel} className="card p-8">
+                <h3 className="text-xl">{k.titel}</h3>
+                <p className="mt-3 text-[15px] leading-relaxed text-ink-soft">{k.text}</p>
               </div>
             ))}
           </div>
@@ -279,24 +238,15 @@ export default function PartnerPage() {
       </section>
 
       {/* Für wen */}
-      <section className="bg-[#0b140f] text-[#eaf2e4] py-24">
-        <div className="max-w-5xl mx-auto px-6">
-          <p className="text-xs uppercase tracking-[0.35em] mb-14 opacity-40">
-            Für wen das passt
-          </p>
-          <div className="space-y-px bg-[#eaf2e4]/10 border border-[#eaf2e4]/10">
+      <section className="py-20 md:py-24">
+        <div className="wrap">
+          <span className="eyebrow">Für wen das passt</span>
+          <div className="mt-10 flex flex-col gap-3">
             {fuerWen.map((f) => (
-              <div
-                key={f.typ}
-                className="bg-[#0b140f] p-8 sm:p-10 grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-10"
-              >
-                <h3 className="font-serif text-xl font-bold">{f.typ}</h3>
-                <p className="text-sm opacity-45 leading-relaxed">
-                  {f.beispiele}
-                </p>
-                <p className="text-[15px] opacity-70 leading-relaxed">
-                  {f.nutzen}
-                </p>
+              <div key={f.typ} className="card grid grid-cols-1 gap-3 p-7 md:grid-cols-3 md:gap-10 sm:p-9">
+                <h3 className="text-xl">{f.typ}</h3>
+                <p className="text-sm leading-relaxed text-ink-soft">{f.beispiele}</p>
+                <p className="text-[15px] leading-relaxed text-ink">{f.nutzen}</p>
               </div>
             ))}
           </div>
@@ -304,16 +254,14 @@ export default function PartnerPage() {
       </section>
 
       {/* Was das Profil kann */}
-      <section className="bg-[#E8E3D3] text-[#2D3E2D] py-24">
-        <div className="max-w-3xl mx-auto px-6">
-          <h2 className="font-serif text-3xl md:text-5xl font-black leading-tight mb-10">
-            Was euer Profil kann
-          </h2>
-          <ul className="space-y-5">
+      <section className="border-y border-line bg-dusk py-20 md:py-24">
+        <div className="wrap max-w-[820px]">
+          <h2 className="text-3xl md:text-[44px]">Was euer Profil kann</h2>
+          <ul className="mt-10 flex flex-col gap-4">
             {profilKann.map((p) => (
-              <li key={p} className="flex gap-4 items-start">
-                <span className="mt-2 w-2 h-2 bg-[#2D3E2D] shrink-0" />
-                <span className="text-lg opacity-70 leading-relaxed">{p}</span>
+              <li key={p} className="flex items-start gap-4">
+                <span className="mt-[11px] h-2 w-2 shrink-0 rounded-full bg-lime" />
+                <span className="text-lg leading-relaxed text-ink-soft">{p}</span>
               </li>
             ))}
           </ul>
@@ -321,60 +269,49 @@ export default function PartnerPage() {
       </section>
 
       {/* Kontakt */}
-      <section id="kontakt" className="bg-[#E8E3D3] text-[#2D3E2D] pb-24">
-        <div className="max-w-5xl mx-auto px-6">
-          <div className="border-t border-[#2D3E2D]/15 pt-24">
-            <div className="grid grid-cols-1 lg:grid-cols-3 gap-16">
-              <div>
-                <h2 className="font-serif text-3xl md:text-4xl font-black leading-tight mb-6">
-                  Zehn Minuten am Tresen
-                </h2>
-                <p className="opacity-60 leading-relaxed text-[15px] mb-10">
-                  Am einfachsten zeigen wir es euch direkt am Handy. Sagt uns,
-                  wann es passt – wir kommen vorbei. Wenn ihr lieber erst
-                  schreibt, geht das genauso.
-                </p>
+      <section id="kontakt" className="py-20 md:py-24">
+        <div className="wrap">
+          <div className="grid grid-cols-1 gap-12 lg:grid-cols-3 lg:gap-16">
+            <div>
+              <span className="eyebrow">Kennenlernen</span>
+              <h2 className="mt-4 text-3xl md:text-4xl">Zehn Minuten am Tresen</h2>
+              <p className="mt-5 text-[15px] leading-relaxed text-ink-soft">
+                Am einfachsten zeigen wir es euch direkt am Handy. Sagt uns,
+                wann es passt – wir kommen vorbei. Wenn ihr lieber erst
+                schreibt, geht das genauso.
+              </p>
 
-                <div className="space-y-6">
-                  <div>
-                    <p className="text-xs uppercase tracking-[0.2em] opacity-40 mb-1">
-                      E-Mail
-                    </p>
-                    <a
-                      href={`mailto:${EMAIL}`}
-                      className="text-sm underline hover:no-underline"
-                    >
-                      {EMAIL}
+              <ul className="mt-8 flex flex-col gap-5">
+                <li>
+                  <p className="label !mb-1">E-Mail</p>
+                  <a href={`mailto:${EMAIL}`} className="text-ink underline underline-offset-4 hover:text-accent">
+                    {EMAIL}
+                  </a>
+                </li>
+                {TELEFON && (
+                  <li>
+                    <p className="label !mb-1">Telefon</p>
+                    <a href={`tel:${TELEFON.replace(/\s/g, "")}`} className="text-ink underline underline-offset-4 hover:text-accent">
+                      {TELEFON}
                     </a>
-                  </div>
-                  {TELEFON && (
-                    <div>
-                      <p className="text-xs uppercase tracking-[0.2em] opacity-40 mb-1">
-                        Telefon
-                      </p>
-                      <a
-                        href={`tel:${TELEFON.replace(/\s/g, "")}`}
-                        className="text-sm underline hover:no-underline"
-                      >
-                        {TELEFON}
-                      </a>
-                    </div>
-                  )}
-                  <div>
-                    <p className="text-xs uppercase tracking-[0.2em] opacity-40 mb-1">
-                      Instagram
-                    </p>
-                    <a
-                      href={`https://instagram.com/${INSTAGRAM}`}
-                      className="text-sm underline hover:no-underline"
-                    >
-                      @{INSTAGRAM}
-                    </a>
-                  </div>
-                </div>
-              </div>
+                  </li>
+                )}
+                <li>
+                  <p className="label !mb-1">Instagram</p>
+                  <a
+                    href={`https://instagram.com/${INSTAGRAM}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-ink underline underline-offset-4 hover:text-accent"
+                  >
+                    @{INSTAGRAM}
+                  </a>
+                </li>
+              </ul>
+            </div>
 
-              <div className="lg:col-span-2">
+            <div className="lg:col-span-2">
+              <div className="card p-6 sm:p-8">
                 <PartnerForm />
               </div>
             </div>
@@ -383,51 +320,19 @@ export default function PartnerPage() {
       </section>
 
       {/* FAQ */}
-      <section className="bg-[#2D3E2D] text-[#E8E3D3] py-24">
-        <div className="max-w-3xl mx-auto px-6">
-          <p className="text-xs uppercase tracking-[0.35em] mb-14 opacity-50">
-            Was uns oft gefragt wird
-          </p>
-          <div className="space-y-12">
+      <section className="border-t border-line bg-dusk py-20 md:py-24">
+        <div className="wrap max-w-[820px]">
+          <span className="eyebrow">Was uns oft gefragt wird</span>
+          <div className="mt-10 flex flex-col gap-10">
             {faq.map((f) => (
               <div key={f.frage}>
-                <h3 className="font-serif text-xl md:text-2xl font-bold mb-4">
-                  {f.frage}
-                </h3>
-                <p className="opacity-60 leading-relaxed">{f.antwort}</p>
+                <h3 className="text-xl md:text-2xl">{f.frage}</h3>
+                <p className="mt-3 leading-relaxed text-ink-soft">{f.antwort}</p>
               </div>
             ))}
           </div>
         </div>
       </section>
-
-      {/* Footer */}
-      <footer className="bg-[#0b140f] text-[#eaf2e4] py-14">
-        <div className="max-w-5xl mx-auto px-6 flex flex-col sm:flex-row justify-between gap-8">
-          <div>
-            <p className="font-serif text-2xl font-black mb-2">beActive</p>
-            <p className="text-xs opacity-40 leading-relaxed">
-              BeActive App UG (haftungsbeschränkt) i.G.
-              <br />
-              Tübingen
-            </p>
-          </div>
-          <nav className="flex flex-wrap gap-x-8 gap-y-3 text-xs uppercase tracking-[0.15em]">
-            <Link href="/" className="opacity-60 hover:opacity-100 transition-opacity">
-              Startseite
-            </Link>
-            <Link href="/impressum" className="opacity-60 hover:opacity-100 transition-opacity">
-              Impressum
-            </Link>
-            <Link href="/datenschutz" className="opacity-60 hover:opacity-100 transition-opacity">
-              Datenschutz
-            </Link>
-            <Link href="/agb" className="opacity-60 hover:opacity-100 transition-opacity">
-              AGB
-            </Link>
-          </nav>
-        </div>
-      </footer>
     </>
   );
 }

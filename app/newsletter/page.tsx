@@ -1,59 +1,50 @@
-import NewsletterForm from "@/components/NewsletterForm";
 import type { Metadata } from "next";
+import NewsletterForm from "@/components/NewsletterForm";
+import PageHeader from "@/components/site/PageHeader";
 
 export const metadata: Metadata = {
-  title: "Newsletter",
+  title: "Bescheid bekommen",
   description:
-    "Bleib auf dem Laufenden – abonniere den beActive Newsletter und gestalte die App mit.",
+    "Trag dich ein und erfahre als Erste:r, wenn beActive im App Store ist – und was sich in der App tut.",
 };
 
 const benefits = [
   {
-    title: "Exklusiver Early Access",
-    desc: "Als einer der Ersten die App testen, bevor sie öffentlich ist.",
+    title: "Zuerst Bescheid",
+    desc: "Du erfährst es, sobald die App im Store ist – bevor wir es irgendwo sonst posten.",
   },
   {
     title: "Mitgestalten",
-    desc: "Dein Feedback fließt direkt in die Entwicklung der App ein.",
+    desc: "Dein Feedback fließt direkt in die Entwicklung ein. Wir bauen die App mit euch, nicht für euch.",
   },
   {
-    title: "Community",
-    desc: "Teil einer aktiven Bewegung werden und andere motivieren.",
+    title: "Kein Spam",
+    desc: "Nur Neuigkeiten zum Start und zur App. Austragen jederzeit per Mail.",
   },
 ];
 
 export default function NewsletterPage() {
   return (
     <>
-      <section className="min-h-[70vh] bg-[#2D3E2D] text-[#E8E3D3] flex items-center">
-        <div className="max-w-4xl mx-auto px-6 py-24 w-full text-center">
-          <p className="text-xs uppercase tracking-[0.35em] mb-6 opacity-50">
-            Bleib dabei
-          </p>
-          <h1 className="font-serif text-4xl sm:text-5xl md:text-7xl font-black leading-tight mb-8">
-            Lass uns gemeinsam
-            <br />
-            die App gestalten
-          </h1>
-          <p className="opacity-60 text-lg mb-14 max-w-xl mx-auto leading-relaxed">
-            Sei unter den Ersten, die beActive kennenlernen. Wir halten dich
-            über den Launch, neue Features und Events auf dem Laufenden.
-          </p>
-          <NewsletterForm />
-        </div>
-      </section>
+      <PageHeader
+        eyebrow="Bleib dabei"
+        title="Nichts verpassen"
+        lede="Sei unter den Ersten, die beActive kennenlernen. Wir halten dich über den Start, neue Funktionen und Termine auf dem Laufenden."
+        center
+        extra={
+          <div className="mt-10">
+            <NewsletterForm quelle="newsletter-seite" />
+          </div>
+        }
+      />
 
-      <section className="py-20 bg-[#E8E3D3]">
-        <div className="max-w-4xl mx-auto px-6">
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-px bg-[#2D3E2D]/10">
+      <section className="py-16 md:py-24">
+        <div className="wrap">
+          <div className="grid grid-cols-1 gap-5 md:grid-cols-3">
             {benefits.map((b) => (
-              <div key={b.title} className="bg-[#E8E3D3] p-10">
-                <h3 className="font-serif text-xl font-bold mb-3 text-[#2D3E2D]">
-                  {b.title}
-                </h3>
-                <p className="text-sm text-[#2D3E2D] opacity-55 leading-relaxed">
-                  {b.desc}
-                </p>
+              <div key={b.title} className="card p-8">
+                <h3 className="text-lg">{b.title}</h3>
+                <p className="mt-3 text-[14.5px] leading-relaxed text-ink-soft">{b.desc}</p>
               </div>
             ))}
           </div>

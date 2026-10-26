@@ -23,9 +23,7 @@ const empty: Fields = {
 };
 
 function inputClass(error?: string) {
-  return `w-full px-4 py-3 bg-transparent border ${
-    error ? "border-red-500" : "border-[#2D3E2D]/25"
-  } text-[#2D3E2D] placeholder:text-[#2D3E2D]/30 focus:outline-none focus:border-[#2D3E2D] transition-colors text-sm`;
+  return `field ${error ? "field-error" : ""}`;
 }
 
 export default function ContactForm() {
@@ -80,20 +78,16 @@ export default function ContactForm() {
 
   if (status === "success") {
     return (
-      <div className="py-20 text-center">
-        <p className="font-serif text-5xl font-bold text-[#2D3E2D] mb-4">
-          Vielen Dank!
-        </p>
-        <p className="text-[#2D3E2D] opacity-50 text-lg">
-          Wir melden uns schnellstmöglich bei dir.
-        </p>
+      <div className="py-16 text-center">
+        <p className="mb-3 font-display text-4xl font-extrabold text-ink">Vielen Dank!</p>
+        <p className="text-lg text-ink-soft">Wir melden uns schnellstmöglich bei dir.</p>
       </div>
     );
   }
 
   return (
-    <form onSubmit={handleSubmit} noValidate className="space-y-6">
-      <div aria-hidden="true" className="absolute w-px h-px -left-[9999px] overflow-hidden">
+    <form onSubmit={handleSubmit} noValidate className="flex flex-col gap-6">
+      <div aria-hidden="true" className="absolute -left-[9999px] h-px w-px overflow-hidden">
         <label htmlFor="kf-website">Website (bitte frei lassen)</label>
         <input
           id="kf-website"
@@ -105,99 +99,89 @@ export default function ContactForm() {
           onChange={(e) => setWebsite(e.target.value)}
         />
       </div>
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+      <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
         <div>
-          <label className="block text-xs uppercase tracking-[0.2em] mb-2 opacity-50">
-            Vorname
-          </label>
+          <label htmlFor="kf-vorname" className="label">Vorname</label>
           <input
+            id="kf-vorname"
             type="text"
             name="vorname"
             value={form.vorname}
             onChange={handleChange}
             placeholder="Max"
+            autoComplete="given-name"
             className={inputClass(errors.vorname)}
           />
-          {errors.vorname && (
-            <p className="text-red-500 text-xs mt-1">{errors.vorname}</p>
-          )}
+          {errors.vorname && <p className="mt-1 text-xs text-rose">{errors.vorname}</p>}
         </div>
         <div>
-          <label className="block text-xs uppercase tracking-[0.2em] mb-2 opacity-50">
-            Nachname
-          </label>
+          <label htmlFor="kf-nachname" className="label">Nachname</label>
           <input
+            id="kf-nachname"
             type="text"
             name="nachname"
             value={form.nachname}
             onChange={handleChange}
             placeholder="Mustermann"
+            autoComplete="family-name"
             className={inputClass(errors.nachname)}
           />
-          {errors.nachname && (
-            <p className="text-red-500 text-xs mt-1">{errors.nachname}</p>
-          )}
+          {errors.nachname && <p className="mt-1 text-xs text-rose">{errors.nachname}</p>}
         </div>
       </div>
 
       <div>
-        <label className="block text-xs uppercase tracking-[0.2em] mb-2 opacity-50">
-          E-Mail
-        </label>
+        <label htmlFor="kf-email" className="label">E-Mail</label>
         <input
+          id="kf-email"
           type="email"
           name="email"
           value={form.email}
           onChange={handleChange}
           placeholder="max@email.de"
+          autoComplete="email"
           className={inputClass(errors.email)}
         />
-        {errors.email && (
-          <p className="text-red-500 text-xs mt-1">{errors.email}</p>
-        )}
+        {errors.email && <p className="mt-1 text-xs text-rose">{errors.email}</p>}
       </div>
 
       <div>
-        <label className="block text-xs uppercase tracking-[0.2em] mb-2 opacity-50">
-          Telefon{" "}
-          <span className="normal-case tracking-normal opacity-60">(optional)</span>
+        <label htmlFor="kf-telefon" className="label">
+          Telefon <span className="normal-case tracking-normal opacity-60">(optional)</span>
         </label>
         <input
+          id="kf-telefon"
           type="tel"
           name="telefon"
           value={form.telefon}
           onChange={handleChange}
           placeholder="+49 123 456789"
+          autoComplete="tel"
           className={inputClass()}
         />
       </div>
 
       <div>
-        <label className="block text-xs uppercase tracking-[0.2em] mb-2 opacity-50">
-          App-Verbesserung / Nachricht
-        </label>
+        <label htmlFor="kf-nachricht" className="label">Nachricht</label>
         <textarea
+          id="kf-nachricht"
           name="nachricht"
           value={form.nachricht}
           onChange={handleChange}
           rows={6}
-          placeholder="Deine Ideen, Feedback oder Fragen..."
+          placeholder="Deine Ideen, Feedback oder Fragen …"
           className={`${inputClass(errors.nachricht)} resize-none`}
         />
-        {errors.nachricht && (
-          <p className="text-red-500 text-xs mt-1">{errors.nachricht}</p>
-        )}
+        {errors.nachricht && <p className="mt-1 text-xs text-rose">{errors.nachricht}</p>}
       </div>
 
-      {sendError && <p className="text-sm text-[#8c2f2f]">{sendError}</p>}
+      {sendError && <p className="text-sm text-rose">{sendError}</p>}
 
-      <button
-        type="submit"
-        disabled={status === "sending"}
-        className="bg-[#2D3E2D] text-[#E8E3D3] px-12 py-4 text-xs uppercase tracking-[0.2em] font-bold hover:bg-[#3d5a3d] transition-colors disabled:opacity-50"
-      >
-        {status === "sending" ? "Wird gesendet…" : "Senden"}
-      </button>
+      <div>
+        <button type="submit" disabled={status === "sending"} className="btn">
+          {status === "sending" ? "Wird gesendet…" : "Nachricht senden"}
+        </button>
+      </div>
     </form>
   );
 }

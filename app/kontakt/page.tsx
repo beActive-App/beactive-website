@@ -1,49 +1,55 @@
-import ContactForm from "@/components/ContactForm";
 import type { Metadata } from "next";
+import ContactForm from "@/components/ContactForm";
+import PageHeader from "@/components/site/PageHeader";
+import { INSTAGRAM_URL, PARTNER_EMAIL, SUPPORT_EMAIL } from "@/lib/site";
 
 export const metadata: Metadata = {
   title: "Kontakt",
   description: "Schreib dem beActive Team – wir freuen uns über dein Feedback.",
 };
 
+const wege = [
+  { label: "Support & Feedback", wert: SUPPORT_EMAIL, href: `mailto:${SUPPORT_EMAIL}` },
+  { label: "Für Betriebe", wert: PARTNER_EMAIL, href: `mailto:${PARTNER_EMAIL}` },
+  { label: "Instagram", wert: "@beactive_app", href: INSTAGRAM_URL },
+];
+
 export default function KontaktPage() {
   return (
     <>
-      <section className="bg-[#2D3E2D] text-[#E8E3D3] py-24">
-        <div className="max-w-6xl mx-auto px-6">
-          <p className="text-xs uppercase tracking-[0.35em] mb-5 opacity-50">
-            Schreib uns
-          </p>
-          <h1 className="font-serif text-6xl md:text-8xl font-black leading-none">
-            Kontakt
-          </h1>
-        </div>
-      </section>
+      <PageHeader
+        eyebrow="Schreib uns"
+        title="Kontakt"
+        lede="Ideen, Feedback, Fragen? Antwort kommt von einem von uns – nicht von einem Roboter."
+      />
 
-      <section className="py-24 bg-[#E8E3D3]">
-        <div className="max-w-6xl mx-auto px-6">
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-16">
-            <div className="lg:col-span-1">
-              <h2 className="font-serif text-2xl font-bold mb-4 text-[#2D3E2D]">
-                Lass uns reden
-              </h2>
-              <p className="text-[#2D3E2D] opacity-55 leading-relaxed text-[15px] mb-8">
-                Hast du Ideen, Feedback oder Fragen? Wir freuen uns von dir zu
-                hören und arbeiten gemeinsam an einer besseren App.
+      <section className="py-16 md:py-24">
+        <div className="wrap">
+          <div className="grid grid-cols-1 gap-12 lg:grid-cols-3 lg:gap-16">
+            <div>
+              <h2 className="text-2xl">Lass uns reden</h2>
+              <p className="mt-4 text-[15px] leading-relaxed text-ink-soft">
+                Hast du Ideen, Feedback oder Fragen? Wir freuen uns, von dir zu hören – und bauen die App mit dem weiter, was ihr uns sagt.
               </p>
-              <div className="space-y-4">
-                <div>
-                  <p className="text-xs uppercase tracking-[0.2em] opacity-40 mb-1">
-                    E-Mail
-                  </p>
-                  <p className="text-sm text-[#2D3E2D]">
-                    support@beactiveapp.de
-                  </p>
-                </div>
-              </div>
+              <ul className="mt-8 flex flex-col gap-5">
+                {wege.map((w) => (
+                  <li key={w.label}>
+                    <p className="label !mb-1">{w.label}</p>
+                    <a
+                      href={w.href}
+                      className="text-ink underline underline-offset-4 hover:text-accent"
+                      {...(w.href.startsWith("http") ? { target: "_blank", rel: "noopener noreferrer" } : {})}
+                    >
+                      {w.wert}
+                    </a>
+                  </li>
+                ))}
+              </ul>
             </div>
             <div className="lg:col-span-2">
-              <ContactForm />
+              <div className="card p-6 sm:p-8">
+                <ContactForm />
+              </div>
             </div>
           </div>
         </div>

@@ -1,4 +1,6 @@
 import type { Metadata } from "next";
+import PageHeader from "@/components/site/PageHeader";
+import LegalSections from "@/components/site/LegalSections";
 
 export const metadata: Metadata = {
   title: "AGB",
@@ -103,40 +105,10 @@ const sections: { title: string; paragraphs: string[]; list?: string[] }[] = [
 export default function AgbPage() {
   return (
     <>
-      <section className="bg-[#2D3E2D] text-[#E8E3D3] py-24">
-        <div className="max-w-6xl mx-auto px-6">
-          <p className="text-xs uppercase tracking-[0.35em] mb-5 opacity-50">
-            Rechtliches
-          </p>
-          <h1 className="font-serif text-6xl md:text-8xl font-black leading-none">
-            AGB
-          </h1>
-        </div>
-      </section>
-
-      <section className="py-24 bg-[#E8E3D3]">
-        <div className="max-w-3xl mx-auto px-6 space-y-12">
-          {sections.map((section) => (
-            <div key={section.title}>
-              <h2 className="font-serif text-xl font-bold mb-3 text-[#2D3E2D]">
-                {section.title}
-              </h2>
-              <div className="text-[#2D3E2D] opacity-70 text-[15px] leading-relaxed space-y-3">
-                {section.paragraphs.map((p) => (
-                  <p key={p} className="whitespace-pre-line">
-                    {p}
-                  </p>
-                ))}
-                {section.list && (
-                  <ul className="list-disc pl-5 space-y-1">
-                    {section.list.map((item) => (
-                      <li key={item}>{item}</li>
-                    ))}
-                  </ul>
-                )}
-              </div>
-            </div>
-          ))}
+      <PageHeader eyebrow="Rechtliches" title="Nutzungsbedingungen" lede="Allgemeine Geschäftsbedingungen für die Nutzung der beActive App und Website." />
+      <section className="py-16 md:py-24">
+        <div className="wrap max-w-[780px]">
+          <LegalSections sections={sections} />
         </div>
       </section>
     </>

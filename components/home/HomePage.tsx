@@ -6,21 +6,16 @@ import Image from 'next/image'
 import Link from 'next/link'
 import styles from '@/app/page.module.css'
 import { faqListe } from '@/lib/faq'
-import { INSTAGRAM_URL, STADT, SUPPORT_EMAIL } from '@/lib/site'
+import { STADT, SUPPORT_EMAIL } from '@/lib/site'
 import { innerhalb, istOeffnungszeit, type EventsResult, type WebsiteEvent } from '@/lib/event-format'
 import EventsSection from '@/components/home/EventsSection'
+import { HeroMosaik } from '@/components/home/Hero'
+import { useLaunch } from '@/components/site/LaunchContext'
+import { AppStoreBadge, StoreBadges } from '@/components/site/StoreBadges'
 
 function cx(...classes: Array<string | false | undefined>) {
   return classes.filter(Boolean).join(' ')
 }
-
-const navLinks = [
-  { key: 'top', href: '#top', label: 'Start' },
-  { key: 'events', href: '#events', label: 'Diese Woche' },
-  { key: 'sogehts', href: '#sogehts', label: "So geht's" },
-  { key: 'betriebe', href: '#betriebe', label: 'Für Betriebe' },
-  { key: 'faq', href: '#faq', label: 'FAQ' },
-]
 
 const schritte = [
   {
@@ -60,7 +55,7 @@ const features = [
     icon: (
       <svg className={styles.mark} viewBox="0 0 40 40" fill="none" stroke="currentColor" strokeWidth={2}>
         <circle cx="15" cy="18" r="9" />
-        <circle cx="25" cy="18" r="9" style={{ mixBlendMode: 'multiply' }} />
+        <circle cx="25" cy="18" r="9" />
       </svg>
     ),
   },
@@ -109,7 +104,7 @@ function useInView(threshold = 0.15) {
           observer.disconnect()
         }
       },
-      { threshold }
+      { threshold },
     )
     observer.observe(el)
     // Sicherheitsnetz: Wer per Link direkt auf #events landet, soll nie vor
@@ -147,7 +142,7 @@ function Reveal({
   )
 }
 
-/* ---------- Warteliste ---------- */
+/* ---------- Warteliste (vor dem Start) ---------- */
 
 function Warteliste() {
   const [email, setEmail] = useState('')
@@ -195,30 +190,17 @@ function Warteliste() {
           required
           aria-label="E-Mail-Adresse"
         />
-        <button type="submit" className={styles.btn} disabled={status === 'sending'}>
+        <button type="submit" className="btn" disabled={status === 'sending'}>
           {status === 'sending' ? '···' : 'Eintragen'}
         </button>
       </form>
+      <p className={styles['form-hint']}>Austragen jederzeit per Mail. Keine Weitergabe.</p>
       {status === 'error' && (
         <p className={styles['form-error']}>
           Das hat gerade nicht geklappt. Schreib uns an <a href={`mailto:${SUPPORT_EMAIL}`}>{SUPPORT_EMAIL}</a>, dann tragen wir dich von Hand ein.
         </p>
       )}
     </>
-  )
-}
-
-function DownloadBadge({ href }: { href: string }) {
-  return (
-    <a href={href} className={styles['download-badge']} aria-label="Im App Store laden">
-      <svg className={styles['apple-mark']} viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
-        <path d="M16.365 1.43c0 1.14-.468 2.096-1.235 2.85-.767.754-1.79 1.29-2.914 1.207-.14-1.1.4-2.24 1.16-2.98.78-.77 2.02-1.33 2.99-1.077zM20.85 17.19c-.51 1.15-.99 2.24-1.75 3.28-.98 1.34-2 2.68-3.56 2.71-1.53.03-2.02-.9-3.77-.9-1.75 0-2.29.87-3.75.93-1.5.06-2.66-1.45-3.65-2.78-1.98-2.7-3.5-7.62-1.47-10.94.93-1.63 2.6-2.66 4.4-2.69 1.48-.03 2.86.99 3.76.99.89 0 2.58-1.22 4.35-1.04.74.03 2.82.3 4.16 2.27-3.79 2.31-3.19 6.81.24 8.16z" />
-      </svg>
-      <span className={styles['label-lines']}>
-        <span className={styles['eyebrow-line']}>Laden im</span>
-        <span className={styles['store-line']}>App Store</span>
-      </span>
-    </a>
   )
 }
 
@@ -255,201 +237,63 @@ export default function HomePage({
   events,
   beispiele,
   jetztIso,
-  istGestartet,
-  appStoreUrl,
+  qrSvg,
 }: {
   events: EventsResult
   beispiele: WebsiteEvent[]
   jetztIso: string
-  istGestartet: boolean
-  appStoreUrl: string
+  /** QR-Code zum App Store als SVG – leer, solange die App nicht draußen ist. */
+  qrSvg: string
 }) {
-  const [mobileOpen, setMobileOpen] = useState(false)
-  const [scrolled, setScrolled] = useState(false)
-  const [progress, setProgress] = useState(0)
-  const [activeNav, setActiveNav] = useState('top')
+  const { istGestartet, appStoreUrl, playStoreUrl } = useLaunch()
+  const [storeBar, setStoreBar] = useState(false)
 
+  const heroRef = useRef<HTMLElement>(null)
+
+  const jetzt = new Date(jetztIso)
   const termineLive = events.status === 'ok' ? events.events.filter((e) => !istOeffnungszeit(e)) : []
-  const anzahlLive = innerhalb(termineLive, 7, new Date(jetztIso)).length
+  const anzahlLive = innerhalb(termineLive, 7, jetzt).length
   const anzahlDeals = termineLive.filter((e) => e.isDiscounted).length
   const faqs = faqListe(istGestartet)
-  const primaryHref = istGestartet ? appStoreUrl : '#kontakt'
-  const primaryLabel = istGestartet ? 'Jetzt kostenlos laden' : 'Beim Start Bescheid bekommen'
+  const heroDaten = { istGestartet, appStoreUrl, playStoreUrl, anzahlLive, anzahlDeals }
+  const heroTermine = termineLive.length > 0 ? termineLive : beispiele
 
-  // Scroll chrome: nav elevation + progress bar
+  // Leiste am Handy einblenden, sobald der Hero größtenteils aus dem Bild ist
   useEffect(() => {
-    let ticking = false
-    const update = () => {
-      setScrolled(window.scrollY > 12)
-      const doc = document.documentElement
-      const scrollable = doc.scrollHeight - doc.clientHeight
-      setProgress(scrollable > 0 ? (window.scrollY / scrollable) * 100 : 0)
-      ticking = false
-    }
-    const onScroll = () => {
-      if (!ticking) {
-        window.requestAnimationFrame(update)
-        ticking = true
-      }
-    }
-    update()
-    window.addEventListener('scroll', onScroll, { passive: true })
-    return () => window.removeEventListener('scroll', onScroll)
-  }, [])
-
-  // Scroll-spy active nav link
-  useEffect(() => {
-    const sections = navLinks
-      .map((l) => document.getElementById(l.key))
-      .filter((el): el is HTMLElement => el !== null)
-    if (!sections.length) return
+    const hero = heroRef.current
+    if (!istGestartet || !hero) return
     const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) setActiveNav(entry.target.id)
-        })
-      },
-      { rootMargin: '-45% 0px -50% 0px', threshold: 0 }
+      ([entry]) => setStoreBar(entry.intersectionRatio < 0.3),
+      { threshold: [0.3] },
     )
-    sections.forEach((s) => observer.observe(s))
+    observer.observe(hero)
     return () => observer.disconnect()
-  }, [])
+  }, [istGestartet])
 
   return (
     <div className={styles.page}>
-      <header className={cx(styles.nav, scrolled && styles.scrolled)}>
-        <div className={cx(styles.wrap, styles['nav-row'])}>
-          <a href="#top" className={styles.brand}>beActive</a>
-          <ul className={styles.links}>
-            {navLinks.map((l) => (
-              <li key={l.key}>
-                <a href={l.href} className={activeNav === l.key ? styles.active : undefined}>
-                  {l.label}
-                </a>
-              </li>
-            ))}
-          </ul>
-          <div className={styles['nav-right']}>
-            <a href={primaryHref} className={styles.btn}>{istGestartet ? 'App laden' : 'Auf die Liste'}</a>
-            <button
-              type="button"
-              className={styles['nav-toggle']}
-              aria-label="Menü öffnen"
-              aria-expanded={mobileOpen}
-              onClick={() => setMobileOpen((o) => !o)}
-            >
-              <span /><span /><span />
-            </button>
-          </div>
-        </div>
-        <nav className={cx(styles['mobile-menu'], mobileOpen && styles.open)}>
-          <ul>
-            {navLinks.map((l) => (
-              <li key={l.key}>
-                <a href={l.href} className={activeNav === l.key ? styles.active : undefined} onClick={() => setMobileOpen(false)}>
-                  {l.label}
-                </a>
-              </li>
-            ))}
-            <li><Link href="/partner" onClick={() => setMobileOpen(false)}>Partner werden</Link></li>
-          </ul>
-        </nav>
-        <div className={styles['nav-progress']} aria-hidden="true">
-          <span className={styles['nav-progress-fill']} style={{ width: `${progress}%` }} />
-        </div>
-      </header>
-
       <main>
-        <section className={styles.hero} id="top" aria-labelledby="hero-title">
-          <div className={cx(styles.wrap, styles['hero-grid'])}>
-            <h1 id="hero-title" className={styles['sr-only']}>beActive – was heute in {STADT} läuft</h1>
-
-            <div className={styles['hero-phone']}>
-              <div className={styles['phone-frame']}>
-                <Image
-                  src="/screenshots/0-entdecken.png"
-                  alt={`Entdecken-Screen der App: Events in ${STADT}, nach Tag sortiert`}
-                  width={1125}
-                  height={2436}
-                  priority
-                  sizes="(max-width: 780px) 220px, 320px"
-                />
-              </div>
-              <p className={styles['phone-caption']}>
-                <span className={styles['live-dot']} />
-                Live-Ansicht aus der App
-              </p>
-            </div>
-
-            <div className={styles['hero-facts']}>
-              <dl className={styles.facts}>
-                <div className={styles.fact}>
-                  <dt>Stadt</dt>
-                  <dd>{STADT}</dd>
-                </div>
-                <div className={styles.fact}>
-                  <dt>Diese Woche</dt>
-                  <dd>
-                    {anzahlLive > 0 ? (
-                      <>
-                        <a href="#events">{anzahlLive} Termine</a>, live aus der App
-                        {anzahlDeals > 0 && <>, davon {anzahlDeals} Last-Minute-{anzahlDeals === 1 ? 'Deal' : 'Deals'}</>}
-                      </>
-                    ) : (
-                      'Events, Kurse und Angebote aus der Stadt'
-                    )}
-                  </dd>
-                </div>
-                <div className={styles.fact}>
-                  <dt>Was drin ist</dt>
-                  <dd>
-                    <ul className={styles['fact-chips']} aria-label="Rubriken">
-                      {['Konzerte', 'Kino', 'Theater', 'Partys', 'Sport', 'Leute treffen', 'Angebote von Läden'].map((k) => (
-                        <li key={k}>{k}</li>
-                      ))}
-                    </ul>
-                  </dd>
-                </div>
-                <div className={styles.fact}>
-                  <dt>Was du damit machst</dt>
-                  <dd>Termine merken, Route starten, beitreten oder dem Veranstalter direkt schreiben. Nichts dabei? In einer Minute ist dein eigenes Event drin.</dd>
-                </div>
-                <div className={styles.fact}>
-                  <dt>Preis</dt>
-                  <dd>Kostenlos, ohne Werbung</dd>
-                </div>
-                <div className={styles.fact}>
-                  <dt>Geräte</dt>
-                  <dd>iPhone{istGestartet ? '' : ' (ab Start)'} · Android folgt</dd>
-                </div>
-              </dl>
-
-              <div className={styles['hero-cta']}>
-                {istGestartet ? (
-                  <DownloadBadge href={appStoreUrl} />
-                ) : (
-                  <a href={primaryHref} className={styles.btn}>{primaryLabel}</a>
-                )}
-                <Link href="/partner" className={styles['btn-ghost']}>Ich habe einen Betrieb →</Link>
-              </div>
-            </div>
-          </div>
+        {/* ---------- Hero ---------- */}
+        <section className={styles.hero} id="top" ref={heroRef}>
+          <HeroMosaik daten={heroDaten} termine={heroTermine} jetzt={jetzt} anzahlWoche={anzahlLive} />
         </section>
 
-        <EventsSection events={events} beispiele={beispiele} jetztIso={jetztIso} istGestartet={istGestartet} />
+        {/* ---------- Termine ---------- */}
+        <EventsSection events={events} beispiele={beispiele} jetztIso={jetztIso} />
 
+        {/* ---------- So geht's ---------- */}
         <section className={cx(styles.section, styles['steps-section'])} id="sogehts">
-          <div className={styles.wrap}>
+          <div className="wrap">
             <Reveal className={styles['section-head']}>
-              <span className={styles.eyebrow}>So geht&apos;s</span>
-              <h2 style={{ marginTop: 14 }}>Drei Schritte, eine Minute</h2>
+              <span className="eyebrow">So geht&apos;s</span>
+              <h2>Drei Schritte, eine Minute</h2>
               <p>Keine Anmeldung bei zwölf Veranstaltern, kein Gruppenchat, in dem nie was zustande kommt.</p>
             </Reveal>
             <div className={styles.steps}>
               {schritte.map((s, i) => (
                 <Reveal key={s.nr} delayMs={i * 100} className={styles.step}>
                   <div className={styles['step-phone']}>
-                    <Image src={s.bild.src} alt={s.bild.alt} width={s.bild.w} height={s.bild.h} sizes="(max-width: 780px) 70vw, 300px" />
+                    <Image src={s.bild.src} alt={s.bild.alt} width={s.bild.w} height={s.bild.h} sizes="(max-width: 900px) 66vw, 270px" />
                   </div>
                   <span className={styles['step-num']}>{s.nr}</span>
                   <h3>{s.titel}</h3>
@@ -460,11 +304,12 @@ export default function HomePage({
           </div>
         </section>
 
+        {/* ---------- Was drin ist ---------- */}
         <section className={styles.section} id="features">
-          <div className={styles.wrap}>
+          <div className="wrap">
             <Reveal className={styles['section-head']}>
-              <span className={styles.eyebrow}>Was drin ist</span>
-              <h2 style={{ marginTop: 14 }}>Keine Sport-App. Eine Stadt-App.</h2>
+              <span className="eyebrow">Was drin ist</span>
+              <h2>Keine Sport-App. Eine Stadt-App.</h2>
               <p>Der Name täuscht. Das meistbesuchte Event bei uns war bisher Kaffee und Kennenlernen.</p>
             </Reveal>
             <div className={styles.features}>
@@ -484,18 +329,17 @@ export default function HomePage({
           </div>
         </section>
 
+        {/* ---------- Für Betriebe ---------- */}
         <section className={cx(styles.section, styles['betriebe-section'])} id="betriebe">
-          <div className={styles.wrap}>
+          <div className="wrap">
             <Reveal className={styles['betriebe-card']}>
               <div>
-                <span className={styles.eyebrow}>Für Betriebe in {STADT}</span>
-                <h2 style={{ marginTop: 14 }}>Dienstag, 15 Uhr.</h2>
+                <span className="eyebrow">Für Betriebe in {STADT}</span>
+                <h2>Dienstag, 15 Uhr.</h2>
                 <p className={styles['betriebe-lede']}>
                   So sieht es in den meisten Läden aus. Nicht, weil das Angebot schlecht ist – sondern weil niemand weiß, dass gerade jetzt Platz ist. Genau dieses Zeitfenster füllen wir.
                 </p>
-                <div className={styles['hero-actions']} style={{ justifyContent: 'flex-start', marginTop: 28 }}>
-                  <Link href="/partner" className={styles.btn}>Wie es funktioniert</Link>
-                </div>
+                <Link href="/partner" className="btn">Wie es funktioniert</Link>
               </div>
               <ul className={styles['betriebe-points']}>
                 <li><b>Ihr stellt ein Angebot für ein Zeitfenster ein.</b> Dreißig Sekunden. Rabatt, Zeitraum, Plätze legt ihr fest.</li>
@@ -506,25 +350,30 @@ export default function HomePage({
           </div>
         </section>
 
+        {/* ---------- FAQ ---------- */}
         <section className={styles.section} id="faq">
-          <div className={styles.wrap}>
+          <div className="wrap">
             <Reveal className={styles['section-head']}>
-              <span className={styles.eyebrow}>Bevor du fragst</span>
-              <h2 style={{ marginTop: 14 }}>Häufige Fragen</h2>
+              <span className="eyebrow">Bevor du fragst</span>
+              <h2>Häufige Fragen</h2>
             </Reveal>
             <div className={styles['faq-list']}>
               {faqs.map((item) => (
                 <FaqItem key={item.q} {...item} />
               ))}
             </div>
+            <p className={styles['faq-more']}>
+              Noch was offen? <Link href="/kontakt">Schreib uns.</Link>
+            </p>
           </div>
         </section>
 
+        {/* ---------- Team ---------- */}
         <section className={cx(styles.section, styles['team-section'])} id="team">
-          <div className={styles.wrap}>
+          <div className="wrap">
             <Reveal className={styles['section-head']}>
-              <span className={styles.eyebrow}>Wer dahintersteckt</span>
-              <h2 style={{ marginTop: 14 }}>Von Leuten aus {STADT}, für {STADT}</h2>
+              <span className="eyebrow">Wer dahintersteckt</span>
+              <h2>Von Leuten aus {STADT}, für {STADT}</h2>
               <p>Wir sind selbst hierhergezogen und haben gemerkt: Es gibt ständig was. Man erfährt es nur nicht. Also haben wir es an einen Ort gepackt.</p>
             </Reveal>
             <div className={styles['team-grid']}>
@@ -539,60 +388,45 @@ export default function HomePage({
           </div>
         </section>
 
+        {/* ---------- Abschluss ---------- */}
         <section className={styles.cta} id="kontakt">
-          <div className={styles.wrap}>
+          <div className="wrap">
             <Reveal>
-              <span className={styles.eyebrow}>{istGestartet ? 'Bereit?' : 'Fast geschafft'}</span>
-              <h2 style={{ marginTop: 18 }}>{istGestartet ? 'Hol dir beActive' : 'Sei dabei, wenn es losgeht'}</h2>
               {istGestartet ? (
                 <>
-                  <p>Kostenlos im App Store, für iPhone. Android folgt.</p>
-                  <div className={styles['hero-actions']} style={{ marginTop: 32 }}>
-                    <DownloadBadge href={appStoreUrl} />
+                  <span className="eyebrow">Bereit?</span>
+                  <h2>Hol dir beActive</h2>
+                  <p>Kostenlos im App Store, für iPhone. {playStoreUrl ? 'Und bei Google Play für Android.' : 'Android folgt.'}</p>
+                  <div className={styles['cta-store']}>
+                    <div className={styles['cta-badges']}>
+                      <StoreBadges appStoreUrl={appStoreUrl} playStoreUrl={playStoreUrl} />
+                    </div>
+                    {qrSvg && (
+                      <div className={styles.qr}>
+                        <div className={styles['qr-tile']} dangerouslySetInnerHTML={{ __html: qrSvg }} aria-hidden="true" />
+                        <span>Mit dem Handy scannen</span>
+                      </div>
+                    )}
                   </div>
                 </>
               ) : (
-                <Warteliste />
+                <>
+                  <span className="eyebrow">Fast geschafft</span>
+                  <h2>Sei dabei, wenn es losgeht</h2>
+                  <Warteliste />
+                </>
               )}
             </Reveal>
           </div>
         </section>
       </main>
 
-      <footer className={styles['site-footer']}>
-        <div className={styles.wrap}>
-          <div className={styles['foot-grid']}>
-            <div>
-              <a href="#top" className={styles.brand}>beActive</a>
-              <p className={styles.desc}>Was heute in {STADT} läuft – Events, Kurse und Angebote von Läden aus der Stadt, in einer App.</p>
-            </div>
-            <div className={styles['foot-col']}>
-              <p className={styles.head}>Navigation</p>
-              <ul>
-                <li><a href="#events">Diese Woche</a></li>
-                <li><a href="#sogehts">So geht&apos;s</a></li>
-                <li><a href="#faq">FAQ</a></li>
-                <li><Link href="/partner">Für Betriebe</Link></li>
-                <li><Link href="/team">Team</Link></li>
-              </ul>
-            </div>
-            <div className={styles['foot-col']}>
-              <p className={styles.head}>Kontakt & Rechtliches</p>
-              <ul>
-                <li><a href={`mailto:${SUPPORT_EMAIL}`}>{SUPPORT_EMAIL}</a></li>
-                <li><a href={INSTAGRAM_URL} target="_blank" rel="noopener noreferrer">Instagram</a></li>
-                <li><Link href="/impressum">Impressum</Link></li>
-                <li><Link href="/datenschutz">Datenschutz</Link></li>
-                <li><Link href="/agb">AGB</Link></li>
-              </ul>
-            </div>
-          </div>
-          <div className={styles['foot-bottom']}>
-            <span>© {new Date().getFullYear()} BeActive App UG (haftungsbeschränkt) i.G.</span>
-            <span>{STADT}</span>
-          </div>
+      {istGestartet && (
+        <div className={cx(styles['store-bar'], storeBar && styles.visible)} aria-hidden={!storeBar}>
+          <p><b>beActive fürs iPhone</b>Kostenlos im App Store</p>
+          <AppStoreBadge href={appStoreUrl} />
         </div>
-      </footer>
+      )}
     </div>
   )
 }

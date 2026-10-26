@@ -1,8 +1,63 @@
 @import "tailwindcss";
 
+/* ------------------------------------------------------------------
+   beActive – ein Design für alle Seiten („Nacht“: Dunkelgrün und Lime,
+   wie in der App). Alles hängt an den Tokens unten: Farben, Schrift,
+   Rundungen. Wer das Aussehen ändern will, ändert hier.
+   ------------------------------------------------------------------ */
+
+:root {
+  --dusk: #060c08;
+  --paper: #0b140f;
+  --paper-raised: #131f18;
+  --paper-high: #1a2a20;
+  --ink: #eaf2e4;
+  --ink-soft: #93a79a;
+  --ink-dim: rgba(234, 242, 222, 0.62);
+  --line: rgba(193, 255, 114, 0.14);
+  --line-strong: rgba(193, 255, 114, 0.32);
+  --lime: #c1ff72;          /* Akzent als Fläche (Knöpfe, Punkte) */
+  --lime-ink: #0b140f;      /* Text auf dem Akzent */
+  --accent-ink: #c1ff72;    /* Akzent als Text (Beschriftungen, Links) */
+  --accent2: #c1ff72;       /* Zweitfarbe für Verläufe */
+  --rose: #ff8aa3;          /* Last-Minute-Angebote */
+  --phone: #050705;
+  --shadow: #000;
+
+  --display: var(--font-inter), -apple-system, "Segoe UI", sans-serif;
+  --display-weight: 800;
+  --display-tracking: -0.03em;
+  --display-leading: 1.05;
+  --display-scale: 1;
+
+  --r-btn: 999px;
+  --r-field: 14px;
+  --r-badge: 13px;
+  --r-float: 16px;
+  --r-sm: 4px 16px 4px 16px;
+  --r-row: 4px 18px 4px 18px;
+  --r-card: 4px 22px 4px 22px;
+  --r-card-lg: 4px 30px 4px 30px;
+  --r-sheet: 6px 26px 6px 26px;
+
+  color-scheme: dark;
+}
+
 @theme inline {
-  --font-sans: var(--font-inter);
-  --font-serif: var(--font-playfair);
+  --font-sans: var(--font-karla), ui-sans-serif, system-ui, sans-serif;
+  --font-display: var(--display);
+  --font-mono: var(--font-jetbrains), ui-monospace, monospace;
+
+  --color-dusk: var(--dusk);
+  --color-paper: var(--paper);
+  --color-raised: var(--paper-raised);
+  --color-high: var(--paper-high);
+  --color-ink: var(--ink);
+  --color-ink-soft: var(--ink-soft);
+  --color-lime: var(--lime);
+  --color-accent: var(--accent-ink);
+  --color-rose: var(--rose);
+  --color-line: var(--line);
 }
 
 html {
@@ -10,6 +65,160 @@ html {
 }
 
 body {
-  background-color: #0b140f;
-  color: #eaf2e4;
+  background-color: var(--paper);
+  color: var(--ink);
+  font-family: var(--font-sans);
+  font-size: 16.5px;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+
+h1, h2, h3, h4 {
+  font-family: var(--display);
+  font-weight: var(--display-weight);
+  line-height: var(--display-leading);
+  letter-spacing: var(--display-tracking);
+  text-wrap: balance;
+  margin: 0;
+}
+
+::selection {
+  background: var(--lime);
+  color: var(--lime-ink);
+}
+
+@layer components {
+  .wrap {
+    max-width: 1120px;
+    margin: 0 auto;
+    padding: 0 24px;
+  }
+  @media (min-width: 640px) {
+    .wrap { padding: 0 30px; }
+  }
+
+  .eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-family: var(--font-mono);
+    font-weight: 700;
+    font-size: 12px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--accent-ink);
+  }
+  .eyebrow::before {
+    content: '';
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--accent-ink);
+    box-shadow: 0 0 8px color-mix(in srgb, var(--accent-ink) 70%, transparent);
+  }
+
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    background: var(--lime);
+    color: var(--lime-ink);
+    border: 1px solid var(--lime);
+    border-radius: var(--r-btn);
+    padding: 13px 24px;
+    font-family: var(--font-sans);
+    font-weight: 700;
+    font-size: 14.5px;
+    line-height: 1.2;
+    cursor: pointer;
+    text-decoration: none;
+    transition: filter .2s ease, transform .15s ease, box-shadow .2s ease;
+  }
+  .btn:hover { filter: brightness(1.07); box-shadow: 0 10px 30px -14px color-mix(in srgb, var(--lime) 60%, transparent); }
+  .btn:active { transform: scale(0.97); }
+  .btn:focus-visible { outline: 2px solid var(--ink); outline-offset: 3px; }
+  .btn:disabled { opacity: 0.6; cursor: default; }
+
+  .btn-ghost {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 12px 20px;
+    border-radius: var(--r-btn);
+    border: 1px solid color-mix(in srgb, var(--ink) 26%, transparent);
+    color: var(--ink);
+    font-family: var(--font-sans);
+    font-weight: 700;
+    font-size: 14.5px;
+    line-height: 1.2;
+    text-decoration: none;
+    background: transparent;
+    cursor: pointer;
+    transition: border-color .2s ease, background .2s ease;
+  }
+  .btn-ghost:hover { border-color: var(--lime); background: color-mix(in srgb, var(--lime) 8%, transparent); }
+  .btn-ghost:focus-visible { outline: 2px solid var(--lime); outline-offset: 3px; }
+
+  /* Formulare auf den Unterseiten */
+  .field {
+    width: 100%;
+    padding: 13px 18px;
+    background: var(--paper);
+    border: 1px solid color-mix(in srgb, var(--ink) 16%, transparent);
+    border-radius: var(--r-field);
+    color: var(--ink);
+    font-family: var(--font-sans);
+    font-size: 15px;
+    transition: border-color .2s ease, box-shadow .2s ease;
+  }
+  .field::placeholder { color: color-mix(in srgb, var(--ink) 32%, transparent); }
+  .field:focus { outline: none; border-color: var(--lime); box-shadow: 0 0 0 3px color-mix(in srgb, var(--lime) 14%, transparent); }
+  .field-error { border-color: var(--rose); }
+  .label {
+    display: block;
+    margin-bottom: 8px;
+    font-family: var(--font-mono);
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+  }
+
+  /* Karten und Flächen */
+  .card {
+    background: var(--paper-raised);
+    border: 1px solid var(--line);
+    border-radius: var(--r-card);
+  }
+  .card-lime {
+    background: var(--lime);
+    color: var(--lime-ink);
+    border-radius: var(--r-card-lg);
+  }
+
+  /* Fließtext auf Rechtsseiten */
+  .prose-legal h2 {
+    font-size: 20px;
+    margin: 0 0 12px;
+    letter-spacing: -0.02em;
+  }
+  .prose-legal p, .prose-legal li {
+    color: var(--ink-dim);
+    font-size: 15.5px;
+    line-height: 1.7;
+  }
+  .prose-legal a { color: var(--accent-ink); text-decoration: underline; text-underline-offset: 3px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+  }
 }

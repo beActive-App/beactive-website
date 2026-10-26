@@ -1,4 +1,7 @@
+import Link from "next/link";
 import type { Metadata } from "next";
+import PageHeader from "@/components/site/PageHeader";
+import { STADT } from "@/lib/site";
 
 export const metadata: Metadata = {
   title: "Team",
@@ -15,31 +18,22 @@ const team = [
 export default function TeamPage() {
   return (
     <>
-      <section className="bg-[#2D3E2D] text-[#E8E3D3] py-24">
-        <div className="max-w-6xl mx-auto px-6">
-          <p className="text-xs uppercase tracking-[0.35em] mb-5 opacity-50">
-            Die Menschen dahinter
-          </p>
-          <h1 className="font-serif text-6xl md:text-8xl font-black leading-none">
-            Unser Team
-          </h1>
-        </div>
-      </section>
+      <PageHeader
+        eyebrow="Die Menschen dahinter"
+        title="Unser Team"
+        lede={`Wir sind selbst nach ${STADT} gezogen und haben gemerkt: Es gibt ständig was – man erfährt es nur nicht. Also haben wir es an einen Ort gepackt.`}
+      />
 
-      <section className="py-24 bg-[#E8E3D3]">
-        <div className="max-w-6xl mx-auto px-6">
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+      <section className="py-16 md:py-24">
+        <div className="wrap">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
             {team.map((member) => (
-              <div key={member.name} className="group">
-                <div className="aspect-square bg-[#2D3E2D] text-[#E8E3D3] flex items-center justify-center mb-6 group-hover:bg-[#3d5a3d] transition-colors duration-300">
-                  <span className="font-serif text-6xl font-black opacity-30 select-none">
-                    {member.initials}
-                  </span>
+              <div key={member.name} className="card p-8 text-center transition-transform duration-300 hover:-translate-y-1">
+                <div className="mx-auto mb-5 flex h-24 w-24 items-center justify-center rounded-full border border-accent bg-paper font-display text-3xl font-extrabold text-accent">
+                  {member.initials}
                 </div>
-                <h3 className="font-serif text-xl font-bold text-[#2D3E2D] mb-1 leading-snug">
-                  {member.name}
-                </h3>
-                <p className="text-xs uppercase tracking-[0.2em] text-[#2D3E2D] opacity-45">
+                <h3 className="text-lg">{member.name}</h3>
+                <p className="mt-2 font-mono text-[12px] uppercase tracking-[0.12em] text-ink-soft">
                   {member.role}
                 </p>
               </div>
@@ -48,15 +42,17 @@ export default function TeamPage() {
         </div>
       </section>
 
-      <section className="py-20 bg-[#2D3E2D] text-[#E8E3D3] text-center">
-        <div className="max-w-2xl mx-auto px-6">
-          <h2 className="font-serif text-3xl md:text-4xl font-bold mb-5">
-            Werde Teil unserer Story
-          </h2>
-          <p className="opacity-60 leading-relaxed">
-            Wir sind ein junges Team mit großer Leidenschaft für Sport und
-            Community. Schreib uns – wir freuen uns über jede Verbindung.
+      <section className="border-t border-line bg-dusk py-16 md:py-20 text-center">
+        <div className="wrap max-w-[640px]">
+          <span className="eyebrow">Mitmachen</span>
+          <h2 className="mt-4 text-3xl md:text-4xl">Werde Teil unserer Story</h2>
+          <p className="mt-5 text-ink-soft">
+            Wir sind ein kleines Team aus {STADT} und freuen uns über jede Verbindung – ob Idee, Feedback oder Lust mitzubauen.
           </p>
+          <div className="mt-8 flex justify-center gap-3 flex-wrap">
+            <Link href="/kontakt" className="btn">Schreib uns</Link>
+            <Link href="/partner" className="btn-ghost">Ich habe einen Betrieb →</Link>
+          </div>
         </div>
       </section>
     </>
