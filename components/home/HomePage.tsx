@@ -269,10 +269,6 @@ export default function HomePage({
   const [progress, setProgress] = useState(0)
   const [activeNav, setActiveNav] = useState('top')
 
-  const canvasRef = useRef<HTMLCanvasElement>(null)
-  const sunRef = useRef<HTMLDivElement>(null)
-  const heroRef = useRef<HTMLElement>(null)
-
   const termineLive = events.status === 'ok' ? events.events.filter((e) => !istOeffnungszeit(e)) : []
   const anzahlLive = innerhalb(termineLive, 7, new Date(jetztIso)).length
   const anzahlDeals = termineLive.filter((e) => e.isDiscounted).length
@@ -317,114 +313,6 @@ export default function HomePage({
     )
     sections.forEach((s) => observer.observe(s))
     return () => observer.disconnect()
-  }, [])
-
-  // Sun / horizon parallax
-  useEffect(() => {
-    const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches
-    if (reduceMotion) return
-    let ticking = false
-    const update = () => {
-      const hero = heroRef.current
-      const sun = sunRef.current
-      if (!hero || !sun) return
-      const progressRatio = Math.min(1, Math.max(0, window.scrollY / hero.offsetHeight))
-      sun.style.transform = `translate(-50%, ${(progressRatio * 90).toFixed(1)}px) scale(${(1 - progressRatio * 0.18).toFixed(3)})`
-      sun.style.opacity = String((1 - progressRatio * 0.55).toFixed(3))
-      ticking = false
-    }
-    const onScroll = () => {
-      if (!ticking) {
-        window.requestAnimationFrame(update)
-        ticking = true
-      }
-    }
-    update()
-    window.addEventListener('scroll', onScroll, { passive: true })
-    return () => window.removeEventListener('scroll', onScroll)
-  }, [])
-
-  // Ambient nightrun dust particles
-  useEffect(() => {
-    const canvas = canvasRef.current
-    if (!canvas) return
-    const ctx = canvas.getContext('2d')
-    if (!ctx) return
-    const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches
-    const dpr = Math.min(window.devicePixelRatio || 1, 2)
-    const colors = ['rgba(193,255,114,0.55)', 'rgba(159,224,92,0.5)', 'rgba(234,242,222,0.4)']
-    let width = 0
-    let height = 0
-    let particles: { x: number; y: number; r: number; vy: number; drift: number; driftSpeed: number; color: string }[] = []
-    let frameId = 0
-
-    function resize() {
-      if (!canvas) return
-      width = canvas.offsetWidth
-      height = canvas.offsetHeight
-      canvas.width = Math.max(1, width * dpr)
-      canvas.height = Math.max(1, height * dpr)
-      ctx?.setTransform(dpr, 0, 0, dpr, 0, 0)
-    }
-
-    function makeParticles(n: number) {
-      particles = Array.from({ length: n }, (_, i) => ({
-        x: Math.random() * width,
-        y: Math.random() * height,
-        r: 1 + Math.random() * 2.6,
-        vy: 0.12 + Math.random() * 0.28,
-        drift: Math.random() * Math.PI * 2,
-        driftSpeed: 0.002 + Math.random() * 0.004,
-        color: colors[i % colors.length],
-      }))
-    }
-
-    resize()
-    makeParticles(Math.max(12, Math.round((width * height) / 26000)))
-
-    let resizeTimer: number
-    const onResize = () => {
-      window.clearTimeout(resizeTimer)
-      resizeTimer = window.setTimeout(() => {
-        resize()
-        makeParticles(Math.max(12, Math.round((width * height) / 26000)))
-      }, 150)
-    }
-    window.addEventListener('resize', onResize)
-
-    function draw() {
-      if (!ctx) return
-      ctx.clearRect(0, 0, width, height)
-      particles.forEach((p) => {
-        p.y -= p.vy
-        p.drift += p.driftSpeed
-        p.x += Math.sin(p.drift) * 0.15
-        if (p.y < -6) {
-          p.y = height + 6
-          p.x = Math.random() * width
-        }
-        ctx.beginPath()
-        ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2)
-        ctx.fillStyle = p.color
-        ctx.fill()
-      })
-    }
-
-    if (reduceMotion) {
-      draw()
-    } else {
-      const loop = () => {
-        draw()
-        frameId = window.requestAnimationFrame(loop)
-      }
-      loop()
-    }
-
-    return () => {
-      window.removeEventListener('resize', onResize)
-      window.clearTimeout(resizeTimer)
-      if (frameId) window.cancelAnimationFrame(frameId)
-    }
   }, [])
 
   return (
@@ -472,32 +360,80 @@ export default function HomePage({
       </header>
 
       <main>
-        <section className={styles.hero} id="top" ref={heroRef}>
-          <div ref={sunRef} className={styles.sun} aria-hidden="true" />
-          <canvas ref={canvasRef} className={styles['dust-canvas']} aria-hidden="true" />
-          <div className={styles.horizon} aria-hidden="true" />
-          <div className={styles.wrap}>
-            <span className={styles.eyebrow}>{istGestartet ? `Jetzt im App Store · ${STADT}` : `${STADT} · Start zum Wintersemester`}</span>
-            <h1 style={{ marginTop: 22 }}>Weniger scrollen, mehr erleben.</h1>
-            <p className={cx(styles.lede)}>
-              beActive zeigt dir, was heute in {STADT} läuft: Sport, Kultur, Spontanes und Last-Minute-Angebote von Läden aus der Stadt. Und wenn nichts dabei ist, startest du in einer Minute selbst was.
-            </p>
-            <div className={styles['hero-actions']}>
-              <a href={primaryHref} className={styles.btn}>{primaryLabel}</a>
-              <Link href="/partner" className={styles['btn-ghost']}>Ich habe einen Betrieb →</Link>
+        <section className={styles.hero} id="top" aria-labelledby="hero-title">
+          <div className={cx(styles.wrap, styles['hero-grid'])}>
+            <h1 id="hero-title" className={styles['sr-only']}>beActive – was heute in {STADT} läuft</h1>
+
+            <div className={styles['hero-phone']}>
+              <div className={styles['phone-frame']}>
+                <Image
+                  src="/screenshots/0-entdecken.png"
+                  alt={`Entdecken-Screen der App: Events in ${STADT}, nach Tag sortiert`}
+                  width={1125}
+                  height={2436}
+                  priority
+                  sizes="(max-width: 780px) 220px, 320px"
+                />
+              </div>
+              <p className={styles['phone-caption']}>
+                <span className={styles['live-dot']} />
+                Live-Ansicht aus der App
+              </p>
             </div>
-            <ul className={styles['hero-chips']} aria-label="Auf einen Blick">
-              {anzahlLive > 0 ? (
-                <li><span className={styles['live-dot']} />{anzahlLive} Termine diese Woche</li>
-              ) : (
-                <li>Events, Kurse & Deals</li>
-              )}
-              {anzahlDeals > 0 && <li>{anzahlDeals} Last-Minute-{anzahlDeals === 1 ? 'Deal' : 'Deals'}</li>}
-              <li>Kostenlos, ohne Werbung</li>
-              <li>Für iPhone{istGestartet ? '' : ', Android folgt'}</li>
-            </ul>
+
+            <div className={styles['hero-facts']}>
+              <dl className={styles.facts}>
+                <div className={styles.fact}>
+                  <dt>Stadt</dt>
+                  <dd>{STADT}</dd>
+                </div>
+                <div className={styles.fact}>
+                  <dt>Diese Woche</dt>
+                  <dd>
+                    {anzahlLive > 0 ? (
+                      <>
+                        <a href="#events">{anzahlLive} Termine</a>, live aus der App
+                        {anzahlDeals > 0 && <>, davon {anzahlDeals} Last-Minute-{anzahlDeals === 1 ? 'Deal' : 'Deals'}</>}
+                      </>
+                    ) : (
+                      'Events, Kurse und Angebote aus der Stadt'
+                    )}
+                  </dd>
+                </div>
+                <div className={styles.fact}>
+                  <dt>Was drin ist</dt>
+                  <dd>
+                    <ul className={styles['fact-chips']} aria-label="Rubriken">
+                      {['Konzerte', 'Kino', 'Theater', 'Partys', 'Sport', 'Leute treffen', 'Angebote von Läden'].map((k) => (
+                        <li key={k}>{k}</li>
+                      ))}
+                    </ul>
+                  </dd>
+                </div>
+                <div className={styles.fact}>
+                  <dt>Was du damit machst</dt>
+                  <dd>Termine merken, Route starten, beitreten oder dem Veranstalter direkt schreiben. Nichts dabei? In einer Minute ist dein eigenes Event drin.</dd>
+                </div>
+                <div className={styles.fact}>
+                  <dt>Preis</dt>
+                  <dd>Kostenlos, ohne Werbung</dd>
+                </div>
+                <div className={styles.fact}>
+                  <dt>Geräte</dt>
+                  <dd>iPhone{istGestartet ? '' : ' (ab Start)'} · Android folgt</dd>
+                </div>
+              </dl>
+
+              <div className={styles['hero-cta']}>
+                {istGestartet ? (
+                  <DownloadBadge href={appStoreUrl} />
+                ) : (
+                  <a href={primaryHref} className={styles.btn}>{primaryLabel}</a>
+                )}
+                <Link href="/partner" className={styles['btn-ghost']}>Ich habe einen Betrieb →</Link>
+              </div>
+            </div>
           </div>
-          <div className={styles['arch-frame']} aria-hidden="true" />
         </section>
 
         <EventsSection events={events} beispiele={beispiele} jetztIso={jetztIso} istGestartet={istGestartet} />
