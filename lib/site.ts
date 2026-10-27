@@ -10,17 +10,16 @@ export const PARTNER_EMAIL = "partner@beactiveapp.de";
 export const INSTAGRAM_URL = "https://www.instagram.com/beactive_app/";
 
 /**
- * Launch-Schalter. Sobald die App im App Store ist, bei Vercel
- * NEXT_PUBLIC_APP_STORE_URL auf den Store-Link setzen und neu deployen –
- * die ganze Website wechselt dann von „Warteliste“ auf „Jetzt laden“:
- * Store-Badges im Hero, in der Navigation und im Footer, QR-Code auf dem
- * Desktop, „In der App öffnen“ in jedem Termin, angepasste FAQ-Texte.
- * Kein Code-Change nötig.
+ * Store-Links. Die App ist seit dem 27.10.2026 im App Store (ID 6766277302);
+ * der Link steht deshalb fest im Code. Mit NEXT_PUBLIC_APP_STORE_URL bei
+ * Vercel lässt er sich ohne Code-Änderung überschreiben.
  *
- * Später genauso für Android: NEXT_PUBLIC_PLAY_STORE_URL setzen, dann
- * erscheint zusätzlich das Google-Play-Badge.
+ * Für Android: NEXT_PUBLIC_PLAY_STORE_URL setzen (oder hier eintragen),
+ * dann erscheint zusätzlich das Google-Play-Badge.
  */
-export const APP_STORE_URL = process.env.NEXT_PUBLIC_APP_STORE_URL?.trim() ?? "";
+export const APP_STORE_ID = "6766277302";
+export const APP_STORE_URL =
+  process.env.NEXT_PUBLIC_APP_STORE_URL?.trim() || `https://apps.apple.com/de/app/beactive-app/id${APP_STORE_ID}`;
 export const PLAY_STORE_URL = process.env.NEXT_PUBLIC_PLAY_STORE_URL?.trim() ?? "";
 export const IST_GESTARTET = APP_STORE_URL.length > 0;
 

@@ -11,16 +11,16 @@ npm run dev
 
 Dann http://localhost:3000 öffnen. Env-Variablen stehen in `.env.example` beschrieben; echte Werte gehören in `.env.local` (nicht eingecheckt).
 
-## Launch-Schalter
+## Store-Links
 
-Die Website hat zwei Zustände, gesteuert über Vercel-Env-Variablen (Project Variables, Production-Haken, danach Redeploy):
+Die App ist seit dem 27.10.2026 im App Store; der Link steht in `lib/site.ts` (`APP_STORE_ID`). Damit zeigt die Website die Launch-Version: Store-Badges in Hero, Navigation, Footer und Abschluss, QR-Code auf dem Desktop, feste Store-Leiste am Handy, „In der App öffnen“ in jedem Termin, FAQ-Texte für „ist verfügbar“.
 
-| Variable | leer | gesetzt |
-| --- | --- | --- |
-| `NEXT_PUBLIC_APP_STORE_URL` | Warteliste, „Beim Start Bescheid bekommen“ | App-Store-Badges in Hero, Navigation, Footer und Abschluss, QR-Code auf dem Desktop, feste Store-Leiste am Handy, „In der App öffnen“ in jedem Termin, FAQ-Texte für „ist verfügbar“ |
-| `NEXT_PUBLIC_PLAY_STORE_URL` | „Bald bei Google Play“ (ausgegraut) | Google-Play-Badge klickbar |
+| Variable | Wirkung |
+| --- | --- |
+| `NEXT_PUBLIC_APP_STORE_URL` | überschreibt den Link aus dem Code (Vercel: Project Variable, Production-Haken, danach Redeploy) |
+| `NEXT_PUBLIC_PLAY_STORE_URL` | leer: „Bald bei Google Play“ (ausgegraut); gesetzt: Google-Play-Badge klickbar |
 
-Vorschau ohne Deploy: `?vorschau=app` an die Adresse hängen zeigt die Version nach dem Start, `?vorschau=warteliste` die davor. Das wird nur im Browser ausgewertet, Suchmaschinen und der Cache sehen immer die echte Version.
+Vorschau der alten Version vor dem Start: `?vorschau=warteliste` an die Adresse hängen. Das wird nur im Browser ausgewertet.
 
 ## Aufbau
 
