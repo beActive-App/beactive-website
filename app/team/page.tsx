@@ -21,7 +21,7 @@ export default function TeamPage() {
       <PageHeader
         eyebrow="Die Menschen dahinter"
         title="Unser Team"
-        lede={`Wir sind selbst nach ${STADT} gezogen und haben gemerkt: Es gibt ständig was – man erfährt es nur nicht. Also haben wir es an einen Ort gepackt.`}
+        lede={`Uns ist in ${STADT} immer wieder aufgefallen: Es gibt ständig was – man erfährt es nur nicht. Also haben wir es an einen Ort gepackt.`}
       />
 
       <section className="py-16 md:py-24">

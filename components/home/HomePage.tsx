@@ -374,7 +374,7 @@ export default function HomePage({
             <Reveal className={styles['section-head']}>
               <span className="eyebrow">Wer dahintersteckt</span>
               <h2>Von Leuten aus {STADT}, für {STADT}</h2>
-              <p>Wir sind selbst hierhergezogen und haben gemerkt: Es gibt ständig was. Man erfährt es nur nicht. Also haben wir es an einen Ort gepackt.</p>
+              <p>Uns ist in {STADT} immer wieder aufgefallen: Es gibt ständig was. Man erfährt es nur nicht. Also haben wir es an einen Ort gepackt.</p>
             </Reveal>
             <div className={styles['team-grid']}>
               {team.map((member, i) => (
