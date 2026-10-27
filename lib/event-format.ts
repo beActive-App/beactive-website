@@ -30,6 +30,13 @@ export type WebsiteEvent = {
   hostName: string;
   hostKind: EventHostKind;
   hostWebsite: string;
+  /** Vorverkauf, wenn der Veranstalter einen Link hinterlegt hat. */
+  ticketUrl: string;
+  /** Vom Veranstalter angegeben; „en“ heißt: Abend auf Englisch. */
+  language: "de" | "en" | null;
+  /** Haken: die Redaktion hat geprüft, dass der Account echt ist. */
+  hostVerified: boolean;
+  hostReservationUrl: string;
 };
 
 export type EventsResult = {
@@ -306,6 +313,7 @@ export function beispielEvents(jetztIso: string): WebsiteEvent[] {
     endsAt: null, city: "Tübingen", postalCode: "72070", participantCount: 0, maxParticipants: null,
     isDiscounted: false, originalPrice: null, discountedPrice: null, discountKind: null, discountPercent: null, discountLabel: "", isAutoPosted: false, sourceUrl: "", organizerName: "",
     infoAsOf: null, hostWebsite: "", topic: null,
+    ticketUrl: "", language: null, hostVerified: false, hostReservationUrl: "",
   };
   return [
     { ...leer, id: "b1", title: "Bouldern für Anfänger", category: "business", topic: "sport", startsAt: in_(0, 19), locationTitle: "Boulderhalle, Lustnau", hostName: "Boulderhalle", hostKind: "business", maxParticipants: 8, participantCount: 4 },

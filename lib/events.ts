@@ -34,6 +34,10 @@ type Zeile = {
   host_name: string;
   host_kind: "business" | "curated";
   host_website: string;
+  ticket_url?: string | null;
+  language?: "de" | "en" | null;
+  host_verified?: boolean;
+  host_reservation_url?: string | null;
 };
 
 const zahl = (v: number | string | null) =>
@@ -65,6 +69,10 @@ function normalisiere(z: Zeile): WebsiteEvent {
     hostName: z.host_name ?? "",
     hostKind: z.host_kind === "curated" ? "curated" : "business",
     hostWebsite: z.host_website ?? "",
+    ticketUrl: z.ticket_url ?? "",
+    language: z.language ?? null,
+    hostVerified: Boolean(z.host_verified),
+    hostReservationUrl: z.host_reservation_url ?? "",
   };
 }
 

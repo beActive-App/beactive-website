@@ -131,9 +131,19 @@ function TerminDetail({
             In meinen Kalender
           </a>
         )}
+        {e.ticketUrl && (
+          <a href={e.ticketUrl} target="_blank" rel="noopener noreferrer" className="btn-ghost">
+            Tickets ↗
+          </a>
+        )}
+        {e.hostReservationUrl && !e.ticketUrl && (
+          <a href={e.hostReservationUrl} target="_blank" rel="noopener noreferrer" className="btn-ghost">
+            Reservieren ↗
+          </a>
+        )}
         {kuratiert && veranstalterLink && (
           <a href={veranstalterLink} target="_blank" rel="noopener noreferrer" className="btn-ghost">
-            Tickets & Infos beim Veranstalter ↗
+            {e.ticketUrl ? 'Infos beim Veranstalter ↗' : 'Tickets & Infos beim Veranstalter ↗'}
           </a>
         )}
       </div>
@@ -164,7 +174,11 @@ function TerminDetail({
             {e.infoAsOf && <> Stand {new Date(e.infoAsOf).toLocaleDateString('de-DE')}.</>}
           </>
         ) : (
-          <>Ein Angebot von {e.hostName} in beActive.</>
+          <>
+            Ein Angebot von {e.hostName}
+            {e.hostVerified && ' (verifiziert)'} in beActive.
+            {e.language === 'en' && ' Auf Englisch.'}
+          </>
         )}
       </p>
     </div>
