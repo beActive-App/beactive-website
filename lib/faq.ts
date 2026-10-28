@@ -41,6 +41,27 @@ export function faqListe(istGestartet: boolean): FaqItem[] {
       a: "Die trägt unsere Redaktion aus den öffentlichen Programmen der Veranstalter zusammen, damit du alles an einem Ort siehst. Diese Einträge sind keine Accounts der Veranstalter und kein Ticketverkauf – jeder Termin verlinkt auf die Originalseite, wo es Tickets und Details gibt. Will ein Veranstalter nicht gelistet werden, nehmen wir ihn sofort raus.",
     },
     {
+      q: "Finde ich Events in meiner Nähe?",
+      a: "Ja. Im Filter wählst du „In meiner Nähe“ und einen Umkreis von 5 bis 100 km. Der Standort wird erst abgefragt, wenn du das antippst, nur für diese Suche verwendet und nicht gespeichert. Ohne Standort filterst du einfach nach Stadt, Tag oder Datum.",
+    },
+    {
+      q: "Was passiert, wenn ein Event voll ist?",
+      a: "Bei offenen Events kannst du dich auf die Warteliste setzen. Wird ein Platz frei, rückst du automatisch nach und bekommst eine Nachricht. Außerdem erinnert dich die App am Vortag und eine Stunde vorher an Events, bei denen du dabei bist.",
+    },
+    {
+      q: "Wie löse ich ein Angebot ein?",
+      a: "Im Event tippst du auf „Angebot einlösen“ und bekommst einen persönlichen Code mit QR. Den zeigst du vor Ort; der Betrieb scannt ihn oder tippt ihn ein. Jeder Code gilt einmal.",
+    },
+    {
+      q: "Gibt es feste Gruppen, nicht nur einzelne Events?",
+      a: "Ja. Unter „Meine Events“ findest du Gruppen: ein fester Kreis mit eigenem Chat, zum Beispiel ein Stammtisch oder eine Laufrunde. Hinzufügen kannst du Leute, mit denen du in der App verbunden bist.",
+    },
+    {
+      q: "Welche Daten habt ihr über mich?",
+      a: "Alles, was dein Konto enthält, kannst du dir in der App unter Profil → „Meine Daten exportieren“ als Datei ausgeben lassen. Löschen geht ebenfalls direkt in der App.",
+      link: { href: "/datenschutz", text: "Details in der Datenschutzerklärung." },
+    },
+    {
       q: "In welchen Städten gibt es beActive?",
       a: "Wir starten in Tübingen und machen es hier richtig, bevor wir weiterziehen. Eine Stadt-App lebt davon, dass genug los ist – das bauen wir zuerst.",
     },
