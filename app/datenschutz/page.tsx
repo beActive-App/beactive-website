@@ -18,7 +18,7 @@ const sections: {
     title: "Überblick",
     paragraphs: [
       "Der Schutz deiner personenbezogenen Daten ist uns wichtig. Diese Datenschutzerklärung informiert dich darüber, welche Daten wir bei der Nutzung unserer Website (beactiveapp.de, links.beactiveapp.de) und der beActive App für iOS und Android verarbeiten, zu welchem Zweck das geschieht und welche Rechte dir zustehen.",
-      "Kurz gesagt: Wir verarbeiten nur, was für den Betrieb von Website und App nötig ist. Wir setzen keine Analyse- oder Werbe-Tracker ein, verkaufen keine Daten und fragen den Standort deines Geräts nicht ab.",
+      "Kurz gesagt: Wir verarbeiten nur, was für den Betrieb von Website und App nötig ist. Wir setzen keine Analyse- oder Werbe-Tracker ein, verkaufen keine Daten und fragen den Standort deines Geräts nur ab, wenn du die Funktion „In meiner Nähe“ selbst einschaltest – und speichern ihn nicht.",
     ],
   },
   {
@@ -39,7 +39,7 @@ const sections: {
       "Dir stehen im Rahmen der gesetzlichen Vorgaben folgende Rechte zu. Um sie auszuüben, genügt eine formlose Nachricht an support@beactiveapp.de.",
     ],
     list: [
-      "Auskunft über die von uns verarbeiteten Daten (Art. 15 DSGVO)",
+      "Auskunft über die von uns verarbeiteten Daten (Art. 15 DSGVO) – eine Kopie deiner Daten kannst du dir jederzeit selbst in der App unter Profil → „Meine Daten exportieren“ als Datei ausgeben lassen",
       "Berichtigung unrichtiger Daten (Art. 16 DSGVO)",
       "Löschung deiner Daten (Art. 17 DSGVO)",
       "Einschränkung der Verarbeitung (Art. 18 DSGVO)",
@@ -109,7 +109,21 @@ const sections: {
     paragraphs: [
       "Wenn du ein Event erstellst, verarbeiten wir die dazugehörigen Angaben, z. B. Titel, Beschreibung, Kategorie, Ort und Adresse, Zeitpunkt, Bilder, Teilnehmerzahl, Zielgruppe sowie bei Angeboten von Betrieben Preisangaben. Events sind je nach deiner Einstellung für alle Nutzer oder nur für von dir ausgewählte Personen sichtbar. Wenn du einen Event-Link teilst, kann jede angemeldete Person mit diesem Link das Event in der App öffnen.",
       "Wenn du einem Event beitrittst oder eine Beitrittsanfrage stellst, speichern wir das und zeigen dein Profil den übrigen Teilnehmern und der Person, die das Event erstellt hat. Nachrichten und Fotos, die du im Event-Chat teilst, werden zusammen mit deinem Namen und Profilbild gespeichert und sind für alle sichtbar, die Zugang zum Chat des jeweiligen Events haben. Eigene Nachrichten kannst du wieder löschen.",
+      "Wenn ein Event voll ist, kannst du dich auf die Warteliste setzen; wird ein Platz frei, rückst du automatisch nach und wirst benachrichtigt. Umfragen im Event-Chat speichern deine Stimme zusammen mit deinem Nutzerkonto; die Ergebnisse sehen alle, die Zugang zum Chat haben. Wenn du eine Gruppe erstellst oder zu einer Gruppe hinzugefügt wirst, speichern wir die Mitgliedschaft und die Nachrichten des Gruppenchats mit deinem Namen und Profilbild; sie sind nur für die Mitglieder der Gruppe sichtbar. Hinzufügen kann dich nur, wer mit dir verbunden ist (gegenseitiges Folgen).",
+      "Aktivitäten wie neue Follower, Anfragen, Einladungen und Änderungen an Events, über die wir dich informieren, halten wir zusätzlich in einer Liste in der App fest und löschen sie nach 90 Tagen. Aufrufe von Event-Seiten zählen wir einmal pro Person und Tag und zeigen der Person, die das Event erstellt hat, nur die Gesamtzahl – nicht, wer es war.",
       "Wenn du anderen Nutzern folgst, sie zu einem Event einlädst oder sie blockierst, speichern wir diese Angabe, um die Funktion umzusetzen. Rechtsgrundlage ist jeweils die Vertragserfüllung (Art. 6 Abs. 1 lit. b DSGVO).",
+    ],
+  },
+  {
+    title: "Direktnachrichten mit Betrieben",
+    paragraphs: [
+      "Du kannst Betrieben in der App private Nachrichten schreiben; ein Betrieb kann dir zuerst schreiben, wenn du ihm folgst oder bei einem seiner Events dabei warst oder es gemerkt hast. Nachrichten und Fotos werden mit deinem Namen und Profilbild gespeichert und sind nur für die beiden Gesprächsseiten sichtbar. Meldest du eine Nachricht, können unsere Administratoren sie zur Prüfung einsehen. Eigene Nachrichten kannst du löschen.",
+    ],
+  },
+  {
+    title: "Angebote einlösen",
+    paragraphs: [
+      "Für ein rabattiertes Angebot eines Betriebs erzeugt die App auf Wunsch einen persönlichen Einlöse-Code (als Text und QR-Code). Wir speichern, für welches Angebot du einen Code geholt hast und ob und wann er eingelöst wurde. Der Betrieb sieht beim Einlösen nur den Code und die Zahl der Einlösungen, nicht dein Profil. Rechtsgrundlage ist Art. 6 Abs. 1 lit. b DSGVO.",
     ],
   },
   {
@@ -126,9 +140,10 @@ const sections: {
     ],
   },
   {
-    title: "Ortssuche und Karten",
+    title: "Standort, Ortssuche und Karten",
     paragraphs: [
-      "Die App fragt den Standort deines Geräts nicht ab. Orte von Events und deine Stadt gibst du selbst ein. Für die Ortsvorschläge während der Eingabe wird dein Suchtext zusammen mit deiner IP-Adresse an den Geocoding-Dienst Photon der komoot GmbH (Potsdam, Deutschland) übermittelt.",
+      "Standort: Wenn du in der App „In meiner Nähe“ wählst, fragt die App einmalig nach der Freigabe deines Standorts. Die Koordinaten deines Geräts werden dann für diese eine Suche an unseren Server (Supabase, Rechenzentrum in der EU) übertragen, dort nur zum Filtern der Events im gewählten Umkreis verwendet und nicht gespeichert. Ohne diese Funktion fragt die App den Standort deines Geräts nicht ab. Du kannst die Freigabe jederzeit in den Einstellungen deines Geräts widerrufen; Rechtsgrundlage ist deine Einwilligung (Art. 6 Abs. 1 lit. a DSGVO, § 25 Abs. 1 TDDDG).",
+      "Orte von Events und deine Stadt gibst du selbst ein. Für die Ortsvorschläge während der Eingabe wird dein Suchtext zusammen mit deiner IP-Adresse an den Geocoding-Dienst Photon der komoot GmbH (Potsdam, Deutschland) übermittelt.",
       "Zur Darstellung der Event-Karte nutzt die App auf iOS Apple Maps (Apple Distribution International Ltd., Irland) und auf Android das Google Maps SDK (Google Ireland Limited, Irland). Dabei werden technisch notwendige Daten wie deine IP-Adresse, Gerätekennungen und der angezeigte Kartenausschnitt an den jeweiligen Anbieter übertragen; eine Übermittlung an die Muttergesellschaften in den USA ist möglich. Öffnest du aus der App heraus eine Wegbeschreibung, wechselst du in die jeweilige Karten-App, deren Anbieter dafür selbst verantwortlich ist.",
       "Rechtsgrundlage ist Art. 6 Abs. 1 lit. b DSGVO, da Ortssuche und Karte zu den Kernfunktionen der App gehören.",
     ],
@@ -136,13 +151,13 @@ const sections: {
   {
     title: "Kamera, Fotos und Kalender",
     paragraphs: [
-      "Die App greift nur dann auf Kamera, Fotos oder Kalender zu, wenn du eine entsprechende Funktion auslöst – etwa ein Foto im Chat versendest, ein Profil- oder Eventbild auswählst oder ein Event in deinen Kalender einträgst. Soweit dein Betriebssystem dafür eine Berechtigung verlangt, fragt die App dich vorher um Erlaubnis. Wir erhalten nur die Bilder, die du auswählst; deinen Kalender lesen wir nicht aus. Erteilte Berechtigungen kannst du jederzeit in den Einstellungen deines Geräts widerrufen.",
+      "Die App greift nur dann auf Kamera, Fotos oder Kalender zu, wenn du eine entsprechende Funktion auslöst – etwa ein Foto im Chat oder in einer Direktnachricht versendest, ein Profil- oder Eventbild auswählst, eine Story-Karte eines Events speicherst oder ein Event in deinen Kalender einträgst. Betriebe können die Kamera außerdem nutzen, um den QR-Code eines Angebots-Codes zu lesen; dabei wird kein Bild gespeichert oder übertragen, nur der gelesene Code. Soweit dein Betriebssystem dafür eine Berechtigung verlangt, fragt die App dich vorher um Erlaubnis. Wir erhalten nur die Bilder, die du auswählst; deinen Kalender lesen wir nicht aus. Erteilte Berechtigungen kannst du jederzeit in den Einstellungen deines Geräts widerrufen.",
     ],
   },
   {
     title: "Push-Benachrichtigungen",
     paragraphs: [
-      "Wenn du Benachrichtigungen erlaubst, informieren wir dich z. B. über neue Chat-Nachrichten, Beitrittsanfragen, Einladungen, Änderungen an deinen Events und neue Follower. Dafür speichern wir eine Gerätekennung (Push-Token), dein Betriebssystem und deine App-Sprache. Die Zustellung erfolgt auf iOS über den Apple Push Notification Service (Apple Inc.) und auf Android über Firebase Cloud Messaging (Google Ireland Limited); dabei werden der Push-Token und der Inhalt der Benachrichtigung an den jeweiligen Dienst übermittelt.",
+      "Wenn du Benachrichtigungen erlaubst, informieren wir dich z. B. über neue Chat- und Direktnachrichten, Beitrittsanfragen, Einladungen, Änderungen und Absagen von Events, bei denen du dabei bist, neue Follower, Gruppen sowie – wenn du dabei bist – mit einer Erinnerung am Vortag und eine Stunde vor dem Event. Optional kannst du dir einmal täglich einen Überblick über Events in deiner Stadt und Hinweise auf neue Events zu deinen Interessen schicken lassen. In der App kannst du Ruhezeiten festlegen, in denen keine Benachrichtigung zugestellt wird. Dafür speichern wir eine Gerätekennung (Push-Token), dein Betriebssystem und deine App-Sprache. Die Zustellung erfolgt auf iOS über den Apple Push Notification Service (Apple Inc.) und auf Android über Firebase Cloud Messaging (Google Ireland Limited); dabei werden der Push-Token und der Inhalt der Benachrichtigung an den jeweiligen Dienst übermittelt.",
       "Rechtsgrundlage ist deine Einwilligung (Art. 6 Abs. 1 lit. a DSGVO, § 25 Abs. 1 TDDDG). Du kannst sie jederzeit widerrufen, indem du Benachrichtigungen in den Einstellungen deines Geräts deaktivierst; einzelne Arten von Benachrichtigungen kannst du außerdem in der App abschalten.",
     ],
   },
