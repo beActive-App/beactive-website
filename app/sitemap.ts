@@ -18,6 +18,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     seite("/newsletter", 0.4, "yearly"),
     seite("/impressum", 0.2, "yearly"),
     seite("/datenschutz", 0.2, "yearly"),
+    seite("/konto-loeschen", 0.2, "yearly"),
     seite("/agb", 0.2, "yearly"),
   ];
 }

@@ -49,6 +49,7 @@ export default function SiteFooter() {
               <li><a href={INSTAGRAM_URL} target="_blank" rel="noopener noreferrer">Instagram</a></li>
               <li><Link href="/impressum">Impressum</Link></li>
               <li><Link href="/datenschutz">Datenschutz</Link></li>
+              <li><Link href="/konto-loeschen">Konto löschen</Link></li>
               <li><Link href="/agb">AGB</Link></li>
             </ul>
           </div>
