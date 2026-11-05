@@ -196,7 +196,7 @@ export function passtZuTag(e: WebsiteEvent, f: TagFilter, jetzt: Date) {
  *  Termine der Redaktion sind „Kultur“. Deshalb nach Titel und Veranstalter. */
 export type Rubrik =
   | "kino" | "buehne" | "musik" | "party" | "kunst" | "lesung" | "sport" | "essen"
-  | "draussen" | "spiele" | "lernen" | "treffen" | "markt" | "familie" | "mehr";
+  | "draussen" | "spiele" | "lernen" | "treffen" | "markt" | "mehr";
 
 // Dieselben Themen wie in der App (Migration 20261105120000_event_themes.sql).
 export const RUBRIKEN: { key: Rubrik; label: string }[] = [
@@ -213,7 +213,6 @@ export const RUBRIKEN: { key: Rubrik; label: string }[] = [
   { key: "treffen", label: "Leute treffen" },
   { key: "draussen", label: "Draußen" },
   { key: "markt", label: "Markt" },
-  { key: "familie", label: "Familie" },
   { key: "mehr", label: "Mehr" },
 ];
 
