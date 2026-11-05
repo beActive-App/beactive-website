@@ -8,6 +8,8 @@ export type WebsiteEvent = {
   title: string;
   category: string;
   topic: string | null;
+  /** Themen aus der Datenbank (kino, buehne, musik, …); leer, solange der Server sie nicht liefert. */
+  themes: string[];
   startsAt: string;
   endsAt: string | null;
   locationTitle: string;
@@ -192,26 +194,39 @@ export function passtZuTag(e: WebsiteEvent, f: TagFilter, jetzt: Date) {
 
 /** Rubriken für die Website. Die App-Kategorien helfen hier kaum – fast alle
  *  Termine der Redaktion sind „Kultur“. Deshalb nach Titel und Veranstalter. */
-export type Rubrik = "musik" | "kino" | "buehne" | "party" | "treffen" | "sport" | "ausstellung" | "mehr";
+export type Rubrik =
+  | "kino" | "buehne" | "musik" | "party" | "kunst" | "lesung" | "sport" | "essen"
+  | "draussen" | "spiele" | "lernen" | "treffen" | "markt" | "familie" | "mehr";
 
+// Dieselben Themen wie in der App (Migration 20261105120000_event_themes.sql).
 export const RUBRIKEN: { key: Rubrik; label: string }[] = [
   { key: "musik", label: "Musik" },
   { key: "kino", label: "Kino" },
-  { key: "buehne", label: "Bühne" },
-  { key: "party", label: "Party & Kneipe" },
+  { key: "buehne", label: "Bühne & Comedy" },
+  { key: "party", label: "Party" },
+  { key: "sport", label: "Sport" },
+  { key: "spiele", label: "Spiele & Freizeit" },
+  { key: "essen", label: "Essen & Trinken" },
+  { key: "kunst", label: "Kunst" },
+  { key: "lesung", label: "Lesung & Vortrag" },
+  { key: "lernen", label: "Lernen & Workshop" },
   { key: "treffen", label: "Leute treffen" },
-  { key: "sport", label: "Sport & Bewegung" },
-  { key: "ausstellung", label: "Ausstellung & Vortrag" },
+  { key: "draussen", label: "Draußen" },
+  { key: "markt", label: "Markt" },
+  { key: "familie", label: "Familie" },
   { key: "mehr", label: "Mehr" },
 ];
 
+const RUBRIK_KEYS = new Set<string>(RUBRIKEN.map((r) => r.key));
+
+// Rückfall für Events ohne Themen vom Server: Stichwörter im Titel, dann im Ort.
 const REGELN: [Rubrik, RegExp][] = [
   ["kino", /\b(kino|kinos|film|filme|filmreihe|cine|cineconcert)\b|stummfilm|filmkonzert|filmabend|filmnachmittag|apero film/],
   ["buehne", /\b(theater|ltt|landestheater|zimmertheater|kabarett|comedy|impro|improtheater|poetry|slam|hoersaalslam|horsaalslam|buhne|oper|musical|tanztheater)\b|slam\b/],
   ["party", /\b(party|kneipe|kneipen|quiz|karaoke|beer pong|beerpong|nightlife|club|dj|disco|barhopping|bar|epplehaus|kuckuck)\b/],
   ["treffen", /\b(treff|treffen|spieletreff|brettspieltreff|stammtisch|meet|connecting|singles|kennenlernen|sprachcafe|tandem)\b|treff\b/],
   ["sport", /\b(sport|lauf|bewegt|boule|boulespiel|yoga|dance-out|wandern|wanderung|rad|klettern|bouldern|fitness|naturerlebnis)\b|sportlauf/],
-  ["ausstellung", /\b(kunsthalle|ausstellung|museum|sammlung|sammlungszentrums|vortrag|lesung|fuhrung|diskussion|talk|d\.?a\.?i|boxenstop|workshop)\b/],
+  ["kunst", /\b(kunsthalle|ausstellung|museum|sammlung|sammlungszentrums|vortrag|lesung|fuhrung|diskussion|talk|d\.?a\.?i|boxenstop|workshop)\b/],
   ["musik", /\b(konzert|jazz|klassik|orchester|symphonie|band|stage|acoustic|sessions|musik|chor|celli|duo|trio|quartett|sudhaus|bass|reloaded)\b/],
 ];
 
@@ -220,6 +235,10 @@ function ohneAkzente(t: string) {
 }
 
 export function rubrikVon(e: WebsiteEvent): Rubrik {
+  // Der Server kennt die Themen; das erste ist das stärkste.
+  const vomServer = e.themes?.find((t) => RUBRIK_KEYS.has(t));
+  if (vomServer) return vomServer as Rubrik;
+  if (e.themes?.length) return "mehr";
   if (e.topic === "sport" || e.topic === "nature") return "sport";
   const titel = ohneAkzente(e.title);
   for (const [r, re] of REGELN) if (re.test(titel)) return r;
@@ -312,7 +331,7 @@ export function beispielEvents(jetztIso: string): WebsiteEvent[] {
   const leer = {
     endsAt: null, city: "Tübingen", postalCode: "72070", participantCount: 0, maxParticipants: null,
     isDiscounted: false, originalPrice: null, discountedPrice: null, discountKind: null, discountPercent: null, discountLabel: "", isAutoPosted: false, sourceUrl: "", organizerName: "",
-    infoAsOf: null, hostWebsite: "", topic: null,
+    infoAsOf: null, hostWebsite: "", topic: null, themes: [],
     ticketUrl: "", language: null, hostVerified: false, hostReservationUrl: "",
   };
   return [

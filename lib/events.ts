@@ -38,6 +38,7 @@ type Zeile = {
   language?: "de" | "en" | null;
   host_verified?: boolean;
   host_reservation_url?: string | null;
+  themes?: string[] | null;
 };
 
 const zahl = (v: number | string | null) =>
@@ -73,6 +74,7 @@ function normalisiere(z: Zeile): WebsiteEvent {
     language: z.language ?? null,
     hostVerified: Boolean(z.host_verified),
     hostReservationUrl: z.host_reservation_url ?? "",
+    themes: Array.isArray(z.themes) ? z.themes : [],
   };
 }
 
