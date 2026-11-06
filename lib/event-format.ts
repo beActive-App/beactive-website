@@ -1,6 +1,8 @@
 // Reine Darstellungs-Helfer für Events – ohne Server-Abhängigkeiten, damit
 // Client-Komponenten sie importieren können.
 
+import { STADT } from "@/lib/site";
+
 export type EventHostKind = "business" | "curated";
 
 export type WebsiteEvent = {
@@ -268,11 +270,19 @@ export function gruppiereFuerAnzeige(events: WebsiteEvent[], jetzt: Date) {
 
 const ORT_WEG = /^(\d{5}( .*)?|tubingen|baden-wurttemberg|deutschland|germany)$/;
 
-/** „Kino Museum, Am Stadtgraben 2, 72070 Tübingen, Deutschland“ → „Kino Museum · Am Stadtgraben 2“ */
+/** Termin aus einem Nachbarort (z. B. Reutlingen) statt aus der eigenen Stadt. */
+export function ausDerUmgebung(e: WebsiteEvent) {
+  return Boolean(e.city) && ohneAkzente(e.city.trim()) !== ohneAkzente(STADT);
+}
+
+/** „Kino Museum, Am Stadtgraben 2, 72070 Tübingen, Deutschland“ → „Kino Museum · Am Stadtgraben 2“,
+ *  bei Nachbarorten mit Ortsnamen: „Arcadia · Metzgerstraße 57 · Reutlingen“ */
 export function kurzOrt(e: WebsiteEvent) {
   const teile = e.locationTitle.split(",").map((t) => t.trim()).filter(Boolean);
   const rest = teile.filter((t) => !ORT_WEG.test(ohneAkzente(t)));
-  return (rest.length ? rest.slice(0, 2) : teile.slice(0, 1)).join(" · ") || e.city;
+  const ort = (rest.length ? rest.slice(0, 2) : teile.slice(0, 1)).join(" · ") || e.city;
+  if (!ausDerUmgebung(e) || ohneAkzente(ort).includes(ohneAkzente(e.city))) return ort;
+  return `${ort} · ${e.city}`;
 }
 
 /** Vollständige Adresse für die Karte, ohne Land und Bundesland. */
@@ -280,7 +290,7 @@ export function ortFuerKarte(e: WebsiteEvent) {
   const teile = e.locationTitle.split(",").map((t) => t.trim()).filter(Boolean)
     .filter((t) => !/^(baden-wurttemberg|deutschland|germany)$/.test(ohneAkzente(t)));
   const text = teile.join(", ");
-  return /tubingen/.test(ohneAkzente(text)) ? text : `${text}, ${e.city}`;
+  return !e.city || ohneAkzente(text).includes(ohneAkzente(e.city)) ? text : `${text}, ${e.city}`;
 }
 
 export function datumLang(iso: string) {

@@ -182,6 +182,7 @@
 }
 .cat-deal { background: color-mix(in srgb, var(--rose) 18%, transparent); color: var(--rose); }
 .cat-live { background: var(--lime); color: var(--lime-ink); }
+.cat-ort { background: transparent; box-shadow: inset 0 0 0 1px var(--line); color: var(--ink-soft); }
 .cat-note { font-size: 11px; color: var(--ink-soft); font-family: var(--font-mono); letter-spacing: .03em; }
 .events-leer {
   display: flex; flex-direction: column; align-items: flex-start; gap: 14px;

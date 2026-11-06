@@ -6,7 +6,7 @@
 // Fakten zurück – Titel, Zeit, Ort, Veranstalter, Preis, Link – und keine
 // Beschreibungstexte, Bilder oder Daten privater Nutzer.
 
-import { STADT } from "@/lib/site";
+import { STADT, UMGEBUNG } from "@/lib/site";
 import type { EventsResult, WebsiteEvent } from "@/lib/event-format";
 
 type Zeile = {
@@ -78,6 +78,31 @@ function normalisiere(z: Zeile): WebsiteEvent {
   };
 }
 
+type Abruf = { status: "ok"; zeilen: Zeile[] } | { status: "fehlt" } | { status: "fehler" };
+
+async function ladeOrt(url: string, key: string, ort: string, limit: number): Promise<Abruf> {
+  const endpunkt = new URL(`${url}/rest/v1/rpc/get_website_events`);
+  endpunkt.searchParams.set("p_city", ort);
+  endpunkt.searchParams.set("p_limit", String(limit));
+  try {
+    const res = await fetch(endpunkt, {
+      headers: { apikey: key, Authorization: `Bearer ${key}` },
+      // Die Seite wird alle fünf Minuten neu gebaut – reicht für Termine,
+      // schont die Datenbank.
+      next: { revalidate: 300 },
+    });
+    if (res.status === 404) return { status: "fehlt" };
+    if (!res.ok) {
+      console.error(`[Website-Events] ${ort}: Antwort`, res.status, await res.text().catch(() => ""));
+      return { status: "fehler" };
+    }
+    return { status: "ok", zeilen: (await res.json()) as Zeile[] };
+  } catch (fehler) {
+    console.error(`[Website-Events] ${ort}: Abruf fehlgeschlagen`, fehler);
+    return { status: "fehler" };
+  }
+}
+
 export async function getWebsiteEvents(): Promise<EventsResult> {
   // Tolerant gegen die üblichen Tippfehler beim Eintragen bei Vercel:
   // Leerzeichen oder Zeilenumbruch am Ende, URL ohne Schema.
@@ -89,33 +114,26 @@ export async function getWebsiteEvents(): Promise<EventsResult> {
     return { status: "unavailable", events: [] };
   }
 
-  const endpunkt = new URL(`${url}/rest/v1/rpc/get_website_events`);
-  endpunkt.searchParams.set("p_city", STADT);
-  // Höchstwert der Funktion. Bei 80 schnitten Öffnungszeiten-Einträge die
-  // Liste ab, und die Seite zeigte 68 statt 155 Termine.
-  endpunkt.searchParams.set("p_limit", "200");
+  // Die eigene Stadt mit dem Höchstwert der Funktion (bei 80 schnitten
+  // Öffnungszeiten-Einträge die Liste ab), Nachbarorte mit weniger.
+  const [stadt, ...umgebung] = await Promise.all([
+    ladeOrt(url, key, STADT, 200),
+    ...UMGEBUNG.map((ort) => ladeOrt(url, key, ort, 60)),
+  ]);
 
-  try {
-    const res = await fetch(endpunkt, {
-      headers: { apikey: key, Authorization: `Bearer ${key}` },
-      // Die Seite wird alle fünf Minuten neu gebaut – reicht für Termine,
-      // schont die Datenbank.
-      next: { revalidate: 300 },
-    });
-    if (res.status === 404) {
-      // Erwarteter Zustand, solange die Migration mit get_website_events
-      // noch nicht eingespielt ist – die Seite zeigt dann Beispiele.
-      console.warn("[Website-Events] get_website_events fehlt noch in der Datenbank (supabase db push).");
-      return { status: "unavailable", events: [] };
-    }
-    if (!res.ok) {
-      console.error("[Website-Events] Antwort", res.status, await res.text().catch(() => ""));
-      return { status: "unavailable", events: [] };
-    }
-    const zeilen = (await res.json()) as Zeile[];
-    return { status: "ok", events: zeilen.map(normalisiere) };
-  } catch (fehler) {
-    console.error("[Website-Events] Abruf fehlgeschlagen", fehler);
+  if (stadt.status === "fehlt") {
+    // Erwarteter Zustand, solange die Migration mit get_website_events
+    // noch nicht eingespielt ist – die Seite zeigt dann Beispiele.
+    console.warn("[Website-Events] get_website_events fehlt noch in der Datenbank (supabase db push).");
     return { status: "unavailable", events: [] };
   }
+  if (stadt.status !== "ok") return { status: "unavailable", events: [] };
+
+  // Fällt ein Nachbarort aus, bleibt die Liste der eigenen Stadt stehen.
+  const gesehen = new Set<string>();
+  const zeilen = [stadt, ...umgebung]
+    .flatMap((a) => (a.status === "ok" ? a.zeilen : []))
+    .filter((z) => !gesehen.has(z.id) && Boolean(gesehen.add(z.id)))
+    .sort((a, b) => new Date(a.starts_at).getTime() - new Date(b.starts_at).getTime());
+  return { status: "ok", events: zeilen.map(normalisiere) };
 }

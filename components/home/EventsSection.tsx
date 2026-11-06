@@ -12,6 +12,7 @@ import {
   gruppiereFuerAnzeige,
   istHeute,
   istOeffnungszeit,
+  ausDerUmgebung,
   kurzOrt,
   laeuftGerade,
   ortFuerKarte,
@@ -77,6 +78,7 @@ function TerminDetail({
     <div className={styles['sheet-body']}>
       <div className={styles['sheet-tags']}>
         <span className={styles.cat}>{rubrikLabel(rubrikVon(e))}</span>
+        {ausDerUmgebung(e) && <span className={cx(styles.cat, styles['cat-ort'])}>{e.city}</span>}
         {laeuftGerade(e, jetzt) && <span className={cx(styles.cat, styles['cat-live'])}>Läuft gerade</span>}
         {e.isDiscounted && <span className={cx(styles.cat, styles['cat-deal'])}>Last Minute</span>}
       </div>
@@ -225,6 +227,7 @@ function TerminZeile({
           <span className={styles['ev-meta']}>{kurzOrt(e)}</span>
           <span className={styles['ev-tags']}>
             <span className={styles.cat}>{rubrikLabel(rubrikVon(e))}</span>
+            {ausDerUmgebung(e) && <span className={cx(styles.cat, styles['cat-ort'])}>{e.city}</span>}
             {rabatt && <span className={cx(styles.cat, styles['cat-deal'])}>{rabatt.haupt}</span>}
             {beispiel && <span className={styles['cat-note']}>Beispiel</span>}
           </span>
@@ -252,6 +255,7 @@ export default function EventsSection({
   )
   const live = termine.length > 0
   const basis = live ? termine : beispiele
+  const orteUmgebung = useMemo(() => [...new Set(termine.filter(ausDerUmgebung).map((e) => e.city))], [termine])
 
   // Startansicht: heute, wenn genug los ist – sonst die nächsten 7 Tage
   const startTag: TagFilter = live && basis.filter((e) => passtZuTag(e, 'heute', jetzt)).length >= 5 ? 'heute' : 'woche'
@@ -398,7 +402,8 @@ export default function EventsSection({
             </p>
             {live && (
               <p className={styles['deals-note']}>
-                {termine.length} Termine in den nächsten 14 Tagen · aktualisiert alle 5 Minuten
+                {termine.length} Termine in den nächsten 14 Tagen
+                {orteUmgebung.length > 0 && <> · auch aus {orteUmgebung.join(', ')}</>} · aktualisiert alle 5 Minuten
               </p>
             )}
           </div>

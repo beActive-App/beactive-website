@@ -4,6 +4,9 @@
 export const SITE_URL = "https://www.beactiveapp.de";
 export const SITE_NAME = "beActive";
 export const STADT = "Tübingen";
+/** Orte in der Nähe, deren Termine die Startseite mit anzeigt – jeweils mit
+ *  dem Ortsnamen markiert. Die App zeigt sie nur mit Umkreis-Filter. */
+export const UMGEBUNG = ["Reutlingen"];
 
 export const SUPPORT_EMAIL = "support@beactiveapp.de";
 export const PARTNER_EMAIL = "partner@beactiveapp.de";
