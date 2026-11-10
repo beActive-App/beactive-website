@@ -50,7 +50,7 @@ export function faqListe(istGestartet: boolean): FaqItem[] {
     },
     {
       q: "Wie löse ich ein Angebot ein?",
-      a: "Im Event tippst du auf „Angebot einlösen“ und bekommst einen persönlichen Code mit QR. Den zeigst du vor Ort; der Betrieb scannt ihn oder tippt ihn ein. Jeder Code gilt einmal.",
+      a: "Im Event tippst du auf „Angebot einlösen“. Die App weist dich darauf hin, dass du das Angebot nur einmal aufrufen kannst – öffne es also erst vor Ort. Danach zeigst du den Bildschirm an der Kasse; er bleibt 15 Minuten sichtbar, dann gilt das Angebot als eingelöst.",
     },
     {
       q: "Gibt es feste Gruppen, nicht nur einzelne Events?",

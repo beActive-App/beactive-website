@@ -123,7 +123,7 @@ const sections: {
   {
     title: "Angebote einlösen",
     paragraphs: [
-      "Für ein rabattiertes Angebot eines Betriebs erzeugt die App auf Wunsch einen persönlichen Einlöse-Code (als Text und QR-Code). Wir speichern, für welches Angebot du einen Code geholt hast und ob und wann er eingelöst wurde. Der Betrieb sieht beim Einlösen nur den Code und die Zahl der Einlösungen, nicht dein Profil. Rechtsgrundlage ist Art. 6 Abs. 1 lit. b DSGVO.",
+      "Ein rabattiertes Angebot eines Betriebs kannst du in der App einmalig aufrufen und vor Ort vorzeigen. Wir speichern, welches Angebot du aufgerufen hast und wann; damit gilt es als eingelöst. Der Betrieb sieht nur die Zahl der Einlösungen, nicht dein Profil. Rechtsgrundlage ist Art. 6 Abs. 1 lit. b DSGVO.",
     ],
   },
   {
@@ -220,7 +220,7 @@ const sections: {
   {
     title: "Änderungen dieser Datenschutzerklärung",
     paragraphs: [
-      "Wir passen diese Datenschutzerklärung an, wenn sich unsere Datenverarbeitung oder die Rechtslage ändert. Es gilt jeweils die aktuelle, auf dieser Seite veröffentlichte Fassung.\n\nStand: Oktober 2026",
+      "Wir passen diese Datenschutzerklärung an, wenn sich unsere Datenverarbeitung oder die Rechtslage ändert. Es gilt jeweils die aktuelle, auf dieser Seite veröffentlichte Fassung.\n\nStand: November 2026",
     ],
   },
 ];
