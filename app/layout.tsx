@@ -30,17 +30,17 @@ const beschreibung = IST_GESTARTET
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
   title: {
-    default: `beActive – Was heute in ${STADT} läuft`,
-    template: "%s – beActive",
+    default: `BeActive – Was heute in ${STADT} läuft`,
+    template: "%s – BeActive",
   },
   description: beschreibung,
   alternates: { canonical: "/" },
   openGraph: {
-    title: `beActive – Was heute in ${STADT} läuft`,
+    title: `BeActive – Was heute in ${STADT} läuft`,
     description: beschreibung,
     type: "website",
     locale: "de_DE",
-    siteName: "beActive",
+    siteName: "BeActive",
   },
 };
 

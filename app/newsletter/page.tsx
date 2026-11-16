@@ -5,7 +5,7 @@ import PageHeader from "@/components/site/PageHeader";
 export const metadata: Metadata = {
   title: "Bescheid bekommen",
   description:
-    "Trag dich ein und erfahre als Erste:r, wenn beActive im App Store ist – und was sich in der App tut.",
+    "Trag dich ein und erfahre als Erste:r, wenn BeActive im App Store ist – und was sich in der App tut.",
 };
 
 const benefits = [
@@ -29,7 +29,7 @@ export default function NewsletterPage() {
       <PageHeader
         eyebrow="Bleib dabei"
         title="Nichts verpassen"
-        lede="Sei unter den Ersten, die beActive kennenlernen. Wir halten dich über den Start, neue Funktionen und Termine auf dem Laufenden."
+        lede="Sei unter den Ersten, die BeActive kennenlernen. Wir halten dich über den Start, neue Funktionen und Termine auf dem Laufenden."
         center
         extra={
           <div className="mt-10">

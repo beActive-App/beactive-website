@@ -13,7 +13,7 @@ Dann http://localhost:3000 öffnen. Env-Variablen stehen in `.env.example` besch
 
 ## Store-Links
 
-Die App ist seit dem 27.10.2026 im App Store; der Link steht in `lib/site.ts` (`APP_STORE_ID`). Damit zeigt die Website die Launch-Version: Store-Badges in Hero, Navigation, Footer und Abschluss, QR-Code auf dem Desktop, feste Store-Leiste am Handy, „In der App öffnen“ in jedem Termin, FAQ-Texte für „ist verfügbar“.
+Die App ist bei Apple eingereicht, in der EU aber noch nicht abrufbar. Solange `IM_APP_STORE` in `lib/site.ts` auf `false` steht, zeigt die Website die Version vor dem Start (Warteliste). Auf `true` gestellt zeigt sie die Launch-Version: Store-Badges in Hero, Navigation, Footer und Abschluss, QR-Code auf dem Desktop, feste Store-Leiste am Handy, „In der App öffnen“ in jedem Termin, FAQ-Texte für „ist verfügbar“.
 
 | Variable | Wirkung |
 | --- | --- |

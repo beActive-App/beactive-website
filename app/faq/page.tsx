@@ -5,7 +5,7 @@ import PageHeader from "@/components/site/PageHeader";
 
 export const metadata: Metadata = {
   title: "FAQ",
-  description: "Häufig gestellte Fragen zur beActive App",
+  description: "Häufig gestellte Fragen zur BeActive App",
 };
 
 export default function FaqPage() {
@@ -14,7 +14,7 @@ export default function FaqPage() {
       <PageHeader
         eyebrow="Fragen & Antworten"
         title="Häufige Fragen"
-        lede="Was beActive kostet, wo es läuft, woher die Termine kommen – und was du tun kannst, wenn deine Frage nicht dabei ist."
+        lede="Was BeActive kostet, wo es läuft, woher die Termine kommen – und was du tun kannst, wenn deine Frage nicht dabei ist."
       />
       <section className="py-16 md:py-24">
         <div className="wrap max-w-[760px]">

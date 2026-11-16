@@ -79,7 +79,7 @@ export default function SiteHeader() {
   return (
     <header className={cx(styles.nav, scrolled && styles.scrolled)}>
       <div className={cx('wrap', styles.row)}>
-        <Link href="/" className={styles.brand} aria-label="beActive – Startseite">
+        <Link href="/" className={styles.brand} aria-label="BeActive – Startseite">
           be<em>Active</em>
         </Link>
         <ul className={styles.links}>

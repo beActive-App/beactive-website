@@ -33,7 +33,7 @@ const schritte = [
   {
     nr: '3',
     titel: 'Selbst starten',
-    text: 'Nichts dabei? Titel, Ort, Zeit, Kategorie – in unter einer Minute steht dein Event, und alle in der Stadt sehen es.',
+    text: 'Nichts dabei? Titel, Ort, Zeit, Kategorie – in unter einer Minute steht dein Event und ist für alle in der App sichtbar.',
     bild: { src: '/screenshots/3-erstellen.png', w: 1320, h: 2868, alt: 'Event erstellen: Formular mit Titel, Ort, Zeit und Kategorie' },
   },
 ]
@@ -169,7 +169,7 @@ function Warteliste() {
   if (status === 'success') {
     return (
       <p className={styles['form-success']}>
-        <strong>Danke!</strong> Wir melden uns, sobald beActive im App Store ist.
+        <strong>Danke!</strong> Wir melden uns, sobald BeActive im App Store ist.
       </p>
     )
   }
@@ -310,7 +310,7 @@ export default function HomePage({
             <Reveal className={styles['section-head']}>
               <span className="eyebrow">Was drin ist</span>
               <h2>Keine Sport-App. Eine Stadt-App.</h2>
-              <p>Der Name täuscht. Das meistbesuchte Event bei uns war bisher Kaffee und Kennenlernen.</p>
+              <p>Der Name täuscht. Das meistbesuchte Event in unserer Testphase war Kaffee und Kennenlernen.</p>
             </Reveal>
             <div className={styles.features}>
               {features.map((f, i) => (
@@ -334,7 +334,7 @@ export default function HomePage({
           <div className="wrap">
             <Reveal className={styles['betriebe-card']}>
               <div>
-                <span className="eyebrow">Für Betriebe in {STADT}</span>
+                <span className="eyebrow">Für Betriebe in {STADT} und Reutlingen</span>
                 <h2>Dienstag, 15 Uhr.</h2>
                 <p className={styles['betriebe-lede']}>
                   So sieht es in den meisten Läden aus. Nicht, weil das Angebot schlecht ist – sondern weil niemand weiß, dass gerade jetzt Platz ist. Genau dieses Zeitfenster füllen wir.
@@ -343,8 +343,8 @@ export default function HomePage({
               </div>
               <ul className={styles['betriebe-points']}>
                 <li><b>Ihr stellt ein Angebot für ein Zeitfenster ein.</b> Dreißig Sekunden. Rabatt, Zeitraum, Plätze legt ihr fest.</li>
-                <li><b>Wer die App offen hat, sieht es sofort.</b> Und kommt vorbei, statt zu Hause zu bleiben.</li>
-                <li><b>Für die ersten 20 Betriebe kostenlos.</b> Kein Vertrag, keine Provision, jederzeit beendbar.</li>
+                <li><b>Wer die App offen hat, sieht es sofort.</b> Ihr seht vorher, wie viele zugesagt haben.</li>
+                <li><b>Zum Start kostenlos.</b> Kein Vertrag, keine Provision, jederzeit beendbar.</li>
               </ul>
             </Reveal>
           </div>
@@ -395,7 +395,7 @@ export default function HomePage({
               {istGestartet ? (
                 <>
                   <span className="eyebrow">Bereit?</span>
-                  <h2>Hol dir beActive</h2>
+                  <h2>Hol dir BeActive</h2>
                   <p>Kostenlos im App Store, für iPhone. {playStoreUrl ? 'Und bei Google Play für Android.' : 'Android folgt.'}</p>
                   <div className={styles['cta-store']}>
                     <div className={styles['cta-badges']}>
@@ -423,7 +423,7 @@ export default function HomePage({
 
       {istGestartet && (
         <div className={cx(styles['store-bar'], storeBar && styles.visible)} aria-hidden={!storeBar}>
-          <p><b>beActive fürs iPhone</b>Kostenlos im App Store</p>
+          <p><b>BeActive fürs iPhone</b>Kostenlos im App Store</p>
           <AppStoreBadge href={appStoreUrl} />
         </div>
       )}

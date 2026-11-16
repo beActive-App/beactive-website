@@ -5,7 +5,7 @@ import { INSTAGRAM_URL, PARTNER_EMAIL, SUPPORT_EMAIL } from "@/lib/site";
 
 export const metadata: Metadata = {
   title: "Kontakt",
-  description: "Schreib dem beActive Team – wir freuen uns über dein Feedback.",
+  description: "Schreib dem BeActive Team – wir freuen uns über dein Feedback.",
 };
 
 const wege = [

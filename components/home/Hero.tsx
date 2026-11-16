@@ -34,7 +34,7 @@ export function HeroText({
   const { istGestartet, appStoreUrl, playStoreUrl, anzahlLive, anzahlDeals } = daten
   return (
     <div className={cx(styles['hero-copy'], center && styles['hero-copy-center'])}>
-      <span className="eyebrow">{istGestartet ? `Jetzt im App Store · ${STADT}` : `${STADT} · Start zum Wintersemester`}</span>
+      <span className="eyebrow">{istGestartet ? `Jetzt im App Store · ${STADT}` : `Bald im App Store · ${STADT} & Reutlingen`}</span>
       <h1>Was heute in {STADT} läuft.</h1>
       <p className={styles.lede}>
         {kurz
@@ -48,7 +48,7 @@ export function HeroText({
             <StoreBadges appStoreUrl={appStoreUrl} playStoreUrl={playStoreUrl} />
           </div>
           <p className={styles['hero-note']}>
-            Kostenlos, ohne Werbung. <Link href="/partner" style={{ color: 'var(--ink)' }}>Du hast einen Betrieb? →</Link>
+            Kostenlos, ohne Werbebanner. <Link href="/partner" style={{ color: 'var(--ink)' }}>Du hast einen Betrieb? →</Link>
           </p>
         </>
       ) : (
@@ -65,8 +65,8 @@ export function HeroText({
           <li>Events, Kurse & Deals</li>
         )}
         {anzahlDeals > 0 && <li>{anzahlDeals} Last-Minute-{anzahlDeals === 1 ? 'Deal' : 'Deals'}</li>}
-        <li>Kostenlos, ohne Werbung</li>
-        <li>{istGestartet && playStoreUrl ? 'iPhone & Android' : 'Für iPhone, Android folgt'}</li>
+        <li>Kostenlos, ohne Werbebanner</li>
+        <li>{istGestartet && playStoreUrl ? 'iPhone & Android' : 'iPhone zuerst, Android folgt'}</li>
       </ul>
     </div>
   )

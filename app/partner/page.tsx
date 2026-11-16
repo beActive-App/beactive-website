@@ -3,13 +3,13 @@ import PartnerForm from "@/components/PartnerForm";
 import PageHeader from "@/components/site/PageHeader";
 
 export const metadata: Metadata = {
-  title: "Für Betriebe in Tübingen",
+  title: "Für Betriebe in Tübingen und Reutlingen",
   description:
-    "Ihr habt Zeitfenster, in denen wenig los ist. Wir haben Leute, die genau dann spontan etwas suchen. Für die ersten 20 Betriebe in Tübingen kostenlos – kein Vertrag, keine Provision.",
+    "Ihr habt Zeitfenster, in denen wenig los ist. Wir haben Leute, die genau dann spontan etwas suchen. Zum Start kostenlos – kein Vertrag, keine Provision.",
   openGraph: {
-    title: "Für Betriebe in Tübingen",
+    title: "Für Betriebe in Tübingen und Reutlingen",
     description:
-      "Ein Angebot für euer schwächstes Zeitfenster. Kostenlos für die ersten 20 Betriebe in Tübingen.",
+      "Ein Angebot für euer schwächstes Zeitfenster. Zum Start kostenlos.",
     type: "website",
   },
 };
@@ -30,12 +30,12 @@ const schritte = [
   {
     nr: "02",
     titel: "Angebot einstellen",
-    text: "Dreißig Sekunden. Ihr legt fest: welches Zeitfenster, welcher Rabatt, wie viele Plätze. Sofort sichtbar für alle in der Stadt.",
+    text: "Dreißig Sekunden. Ihr legt fest: welches Zeitfenster, welcher Rabatt, wie viele Plätze. Sofort sichtbar in der App.",
   },
   {
     nr: "03",
-    titel: "Leute kommen",
-    text: "Wer die App gerade offen hat, sieht es und kommt vorbei. Ihr seht vorher, wie viele zugesagt haben.",
+    titel: "Sichtbar sein",
+    text: "Wer die App gerade offen hat, sieht euer Angebot. Ihr seht vorher, wie viele zugesagt haben.",
   },
 ];
 
@@ -60,7 +60,7 @@ const fuerWen = [
   {
     typ: "Freizeit & Kultur",
     beispiele: "Museen, Theater, Freibad, Vereine, Bibliothek",
-    nutzen: "Ein direkter Kanal zu einem jungen Publikum, das ihr sonst nicht erreicht.",
+    nutzen: "Ein direkter Kanal zu Leuten, die euch bisher nicht auf dem Schirm haben.",
   },
   {
     typ: "Gastro mit Programm",
@@ -80,17 +80,17 @@ const faq = [
   {
     frage: "Was kostet das?",
     antwort:
-      "Für die ersten 20 Betriebe in Tübingen nichts. Kein Vertrag, keine Mindestlaufzeit, keine Provision auf euren Umsatz. Danach reden wir noch einmal – und ihr entscheidet dann.",
+      "Zum Start nichts. Kein Vertrag, keine Mindestlaufzeit, keine Provision auf euren Umsatz. Bevor sich daran etwas ändert, reden wir mit euch, und ihr entscheidet dann.",
   },
   {
     frage: "Wie viele Nutzer habt ihr?",
     antwort:
-      "Weniger, als ihr hören wollt. Wir sind neu und bauen die App gerade in Tübingen auf. Deshalb verkaufen wir euch auch keine Reichweite, sondern schlagen einen Versuch vor, der euch nichts kostet: Wenn an einem toten Dienstag sechs Leute kommen, die sonst nicht gekommen wären, hat es sich gelohnt. Wenn nicht, hört ihr wieder auf.",
+      "Weniger, als ihr hören wollt. Wir sind neu und bauen die App gerade in Tübingen und Reutlingen auf. Deshalb verkaufen wir euch auch keine Reichweite, sondern schlagen einen Versuch vor, der euch nichts kostet: Wenn an einem toten Dienstag sechs Leute kommen, die sonst nicht gekommen wären, hat es sich gelohnt. Wenn nicht, hört ihr wieder auf.",
   },
   {
     frage: "Wir sind doch schon auf Instagram.",
     antwort:
-      "Eine Story ist nach 24 Stunden weg und erreicht die Leute, die euch schon folgen. In beActive sucht jemand aktiv danach, was heute in der Stadt läuft – und findet euch, ohne euch vorher zu kennen.",
+      "Eine Story ist nach 24 Stunden weg und erreicht die Leute, die euch schon folgen. In BeActive sucht jemand aktiv danach, was heute in der Stadt läuft – und findet euch, ohne euch vorher zu kennen.",
   },
   {
     frage: "Müssen wir Rabatt geben?",
@@ -101,10 +101,10 @@ const faq = [
     frage: "Wer steckt dahinter?",
     // Der Schluss hängt an TELEFON: ohne Nummer darf hier keine versprochen werden.
     antwort:
-      "Zwei Leute aus Tübingen, die die App selbst gebaut haben. Kein Konzern, keine Investoren. Wir laufen die Läden gerade zu Fuß ab – " +
+      "Drei Gründer aus Tübingen, die die App selbst gebaut haben. Kein Konzern, keine Investoren. Wir laufen die Läden gerade zu Fuß ab – " +
       (TELEFON
         ? "deshalb steht hier auch eine Handynummer und kein Kontaktformular-Roboter."
-        : "wer uns schreibt, bekommt Antwort von einem von uns beiden und nicht von einem Roboter."),
+        : "wer uns schreibt, bekommt Antwort von einem von uns und nicht von einem Roboter."),
   },
 ];
 
@@ -112,7 +112,7 @@ export default function PartnerPage() {
   return (
     <>
       <PageHeader
-        eyebrow="Für Betriebe in Tübingen"
+        eyebrow="Für Betriebe in Tübingen und Reutlingen"
         title={<>Dienstag,<br />15 Uhr.</>}
         lede={
           <>
@@ -123,7 +123,7 @@ export default function PartnerPage() {
         extra={
           <div className="mt-12 grid grid-cols-1 gap-3 sm:grid-cols-3">
             {[
-              "Kostenlos für die ersten 20 Betriebe",
+              "Zum Start kostenlos",
               "Kein Vertrag, keine Mindestlaufzeit",
               "Keine Provision auf euren Umsatz",
             ].map((t) => (
@@ -191,7 +191,7 @@ export default function PartnerPage() {
                   <td className="whitespace-nowrap py-2 text-right">0 €</td>
                 </tr>
                 <tr className="text-ink-soft">
-                  <td className="py-2 pr-6">Ein Angebot in beActive</td>
+                  <td className="py-2 pr-6">Ein Angebot in BeActive</td>
                   <td className="whitespace-nowrap py-2 text-right">0 € Kosten</td>
                 </tr>
                 <tr>

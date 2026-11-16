@@ -20,7 +20,7 @@ export default async function Page() {
     ? {
         "@context": "https://schema.org",
         "@type": "MobileApplication",
-        name: "beActive",
+        name: "BeActive",
         operatingSystem: PLAY_STORE_URL ? "iOS, Android" : "iOS",
         applicationCategory: "LifestyleApplication",
         url: SITE_URL,
