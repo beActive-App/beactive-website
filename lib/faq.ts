@@ -10,22 +10,22 @@ export type FaqItem = {
 export function faqListe(istGestartet: boolean): FaqItem[] {
   return [
     {
-      q: "Ist beActive schon verfügbar?",
+      q: "Ist BeActive schon verfügbar?",
       a: istGestartet
         ? "Ja, kostenlos im App Store für iPhone. Eine Android-Version ist in Arbeit."
-        : "Die iPhone-App startet zum Wintersemester in Tübingen. Trag dich unten ein, dann sagen wir dir Bescheid, sobald sie im App Store ist. Eine Android-Version ist in Arbeit.",
+        : "Noch nicht ganz. Apple hat die App angenommen, die Freigabe für die EU steht noch aus. Android testen wir gerade. Trag dich unten ein, dann sagen wir dir Bescheid, sobald sie im App Store ist.",
     },
     {
-      q: "Was kostet beActive?",
-      a: "Nichts. Die App ist kostenlos, ohne Abo und ohne Werbung. Bei Angeboten von Betrieben zahlst du den vergünstigten Preis direkt vor Ort, nicht in der App.",
+      q: "Was kostet BeActive?",
+      a: "Nichts. Die App ist kostenlos, ohne Abo und ohne Werbebanner. Bei Angeboten von Betrieben zahlst du den vergünstigten Preis direkt vor Ort, nicht in der App.",
     },
     {
       q: "Muss ich sportlich sein?",
-      a: "Nein. Der Name täuscht. Sport ist eine Kategorie von vielen – genauso gibt es Kultur, Natur, Kaffee trinken, Spieleabende, Lerngruppen. Das meistbesuchte Event bei uns war bisher Kaffee und Kennenlernen.",
+      a: "Nein. Der Name täuscht. Sport ist eine Kategorie von vielen – genauso gibt es Kultur, Natur, Kaffee trinken, Spieleabende, Lerngruppen. Das meistbesuchte Event in unserer Testphase war Kaffee und Kennenlernen.",
     },
     {
       q: "Was sind Last-Minute-Deals?",
-      a: "Betriebe aus Tübingen stellen für Stunden, in denen bei ihnen wenig los ist, ein vergünstigtes Angebot ein: das Kinoticket am Nachmittag, der Schnupperkurs, Kaffee und Kuchen ab 15 Uhr. Du siehst Preis, Rabatt und wie lange es gilt.",
+      a: "Betriebe aus Tübingen und Reutlingen stellen für Stunden, in denen bei ihnen wenig los ist, ein vergünstigtes Angebot ein: das Kinoticket am Nachmittag, der Schnupperkurs, Kaffee und Kuchen ab 15 Uhr. Du siehst Preis, Rabatt und wie lange es gilt.",
       link: { href: "#events", text: "Aktuelle Angebote stehen oben in der Liste." },
     },
     {
@@ -62,12 +62,12 @@ export function faqListe(istGestartet: boolean): FaqItem[] {
       link: { href: "/datenschutz", text: "Details in der Datenschutzerklärung." },
     },
     {
-      q: "In welchen Städten gibt es beActive?",
-      a: "Wir starten in Tübingen und machen es hier richtig, bevor wir weiterziehen. Eine Stadt-App lebt davon, dass genug los ist – das bauen wir zuerst.",
+      q: "In welchen Städten gibt es BeActive?",
+      a: "In Tübingen und Reutlingen. Die Termine zeigen wir zuerst für Tübingen, Betriebe aus Reutlingen sind von Anfang an dabei. Wir machen es hier richtig, bevor wir weiterziehen.",
     },
     {
       q: "Ich habe einen Betrieb. Wie mache ich mit?",
-      a: "Profil anlegen, Angebot für euer schwächstes Zeitfenster einstellen, fertig. Für die ersten 20 Betriebe in Tübingen kostenlos, ohne Vertrag und ohne Provision.",
+      a: "Profil anlegen, Angebot für euer schwächstes Zeitfenster einstellen, fertig. Zum Start kostenlos, ohne Vertrag und ohne Provision.",
       link: { href: "/partner", text: "Alles dazu auf der Seite für Betriebe." },
     },
   ];

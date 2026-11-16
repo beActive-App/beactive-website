@@ -7,18 +7,18 @@ import { SUPPORT_EMAIL } from "@/lib/site";
 export const metadata: Metadata = {
   title: "Konto löschen",
   description:
-    "So löschst du dein beActive-Konto und deine Daten – in der App oder ohne App per E-Mail.",
+    "So löschst du dein BeActive-Konto und deine Daten – in der App oder ohne App per E-Mail.",
 };
 
 // Google Play verlangt für Apps mit Konten eine Web-Adresse, unter der man die
 // Löschung auch ohne installierte App anstoßen kann. Die Angaben hier müssen zu
 // Abschnitt „Löschung" in /datenschutz passen – wer das eine ändert, ändert das
 // andere mit.
-const betreff = "Kontolöschung beActive";
+const betreff = "Kontolöschung BeActive";
 const text = [
-  "Hallo beActive-Team,",
+  "Hallo BeActive-Team,",
   "",
-  "bitte löscht mein beActive-Konto und alle zugehörigen Daten endgültig.",
+  "bitte löscht mein BeActive-Konto und alle zugehörigen Daten endgültig.",
   "",
   "E-Mail-Adresse meines Kontos: ",
   "Name im Profil (optional): ",
@@ -30,7 +30,7 @@ const mailto = `mailto:${SUPPORT_EMAIL}?subject=${encodeURIComponent(betreff)}&b
 const sections = [
   {
     title: "In der App",
-    paragraphs: ["Am schnellsten geht es direkt in beActive:"],
+    paragraphs: ["Am schnellsten geht es direkt in BeActive:"],
     list: [
       "iPhone: Tab „Profil“ öffnen, ganz nach unten scrollen, „Konto löschen“ antippen und bestätigen.",
       "Android: Tab „Profil“ öffnen, unten „Einstellungen“ → „Konto verwalten“ → „Konto löschen“ antippen und bestätigen.",
@@ -42,7 +42,7 @@ const sections = [
   {
     title: "Ohne App, per E-Mail",
     paragraphs: [
-      `Du hast die App nicht mehr installiert? Schreib uns von der E-Mail-Adresse, mit der du bei beActive angemeldet bist, an ${SUPPORT_EMAIL}. Wir löschen dein Konto und alle Daten dann endgültig – unverzüglich, spätestens innerhalb eines Monats – und bestätigen dir das per E-Mail.`,
+      `Du hast die App nicht mehr installiert? Schreib uns von der E-Mail-Adresse, mit der du bei BeActive angemeldet bist, an ${SUPPORT_EMAIL}. Wir löschen dein Konto und alle Daten dann endgültig – unverzüglich, spätestens innerhalb eines Monats – und bestätigen dir das per E-Mail.`,
       "Schreibst du von einer anderen Adresse, fragen wir kurz nach, ob das Konto wirklich dir gehört, damit niemand fremde Konten löschen lassen kann.",
     ],
   },
@@ -65,7 +65,7 @@ const sections = [
   {
     title: "In English",
     paragraphs: [
-      `To delete your beActive account and data in the app: on iPhone, Profile tab → scroll down → Delete account; on Android, Profile tab → Settings → Manage account → Delete account. Without the app, email ${SUPPORT_EMAIL} from the address you signed up with; we delete your account and all associated data permanently within one month at the latest and confirm by email. Data we are legally required to keep is deleted once that obligation ends.`,
+      `To delete your BeActive account and data in the app: on iPhone, Profile tab → scroll down → Delete account; on Android, Profile tab → Settings → Manage account → Delete account. Without the app, email ${SUPPORT_EMAIL} from the address you signed up with; we delete your account and all associated data permanently within one month at the latest and confirm by email. Data we are legally required to keep is deleted once that obligation ends.`,
     ],
   },
 ];
@@ -76,7 +76,7 @@ export default function KontoLoeschenPage() {
       <PageHeader
         eyebrow="Deine Daten"
         title="Konto löschen"
-        lede="beActive von der BeActive App UG (haftungsbeschränkt) i.G.: So löschst du dein Konto und deine Daten – mit oder ohne App."
+        lede="BeActive von der BeActive App UG (haftungsbeschränkt) i.G.: So löschst du dein Konto und deine Daten – mit oder ohne App."
       >
         <a href={mailto} className="btn">
           Löschung per E-Mail anfordern

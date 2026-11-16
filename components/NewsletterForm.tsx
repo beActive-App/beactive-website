@@ -45,7 +45,7 @@ export default function NewsletterForm({ quelle = "warteliste" }: { quelle?: str
     return (
       <div className="mx-auto flex w-full max-w-lg flex-col items-center gap-4">
         <p className="text-ink">
-          <strong className="font-display">beActive ist da.</strong> Kostenlos im App Store.
+          <strong className="font-display">BeActive ist da.</strong> Kostenlos im App Store.
         </p>
         <StoreBadges appStoreUrl={appStoreUrl} playStoreUrl={playStoreUrl} />
       </div>

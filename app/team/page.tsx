@@ -5,7 +5,7 @@ import { STADT } from "@/lib/site";
 
 export const metadata: Metadata = {
   title: "Team",
-  description: "Das Team hinter beActive",
+  description: "Das Team hinter BeActive",
 };
 
 const team = [
