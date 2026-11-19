@@ -1,6 +1,7 @@
 'use client'
 
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
+import Link from 'next/link'
 import styles from '@/app/page.module.css'
 import { STADT } from '@/lib/site'
 import { useLaunch } from '@/components/site/LaunchContext'
@@ -39,18 +40,22 @@ const HASH = '#termin-'
 
 /* ---------- Detail-Ansicht ---------- */
 
-function TerminDetail({
+export function TerminDetail({
   e,
   jetzt,
   istGestartet,
   live,
   onWarteliste,
+  alsSeite = false,
 }: {
   e: WebsiteEvent
   jetzt: Date
   istGestartet: boolean
   live: boolean
-  onWarteliste: () => void
+  /** Nur im Fenster auf der Startseite: schließt es und springt zur Warteliste. */
+  onWarteliste?: () => void
+  /** Eigene Seite /termin/<id>: Titel als h1, Warteliste als normaler Link. */
+  alsSeite?: boolean
 }) {
   const rabatt = rabattText(e)
   const plaetze = plaetzeText(e)
@@ -60,7 +65,8 @@ function TerminDetail({
   const [geteilt, setGeteilt] = useState(false)
 
   const teilen = async () => {
-    const url = `${window.location.origin}/${HASH}${e.id}`
+    // Geteilt wird die eigene Seite des Termins – mit Vorschau und für Suchmaschinen lesbar.
+    const url = `${window.location.origin}/termin/${e.id}`
     try {
       if (navigator.share) {
         await navigator.share({ title: e.title, text: `${e.title} · ${datumLang(e.startsAt)}`, url })
@@ -83,7 +89,11 @@ function TerminDetail({
         {e.isDiscounted && <span className={cx(styles.cat, styles['cat-deal'])}>Last Minute</span>}
       </div>
 
-      <h2 className={styles['sheet-title']} id="termin-titel">{e.title}</h2>
+      {alsSeite ? (
+        <h1 className={styles['sheet-title']}>{e.title}</h1>
+      ) : (
+        <h2 className={styles['sheet-title']} id="termin-titel">{e.title}</h2>
+      )}
 
       <dl className={styles['sheet-facts']}>
         <div>
@@ -155,16 +165,17 @@ function TerminDetail({
           {geteilt ? 'Link kopiert' : 'Teilen'}
         </button>
         {!istGestartet && (
-          <a
-            href="#kontakt"
+          <Link
+            href="/#kontakt"
             className={styles['sheet-share']}
             onClick={(ev) => {
+              if (!onWarteliste) return
               ev.preventDefault()
               onWarteliste()
             }}
           >
             Bescheid bekommen, wenn die App da ist
-          </a>
+          </Link>
         )}
       </div>
 
@@ -263,6 +274,9 @@ export default function EventsSection({
   const [rubrik, setRubrik] = useState<Rubrik | 'alle'>('alle')
   const [anzahl, setAnzahl] = useState(SEITE)
   const [offen, setOffen] = useState<WebsiteEvent | null>(null)
+  // Der zuletzt gezeigte Termin bleibt im Fenster stehen, während es sich
+  // schließt – sonst würde ein leeres Fenster ausgeblendet.
+  const [gezeigt, setGezeigt] = useState<WebsiteEvent | null>(null)
 
   const dialogRef = useRef<HTMLDialogElement>(null)
   const ausloeser = useRef<HTMLElement | null>(null)
@@ -296,6 +310,7 @@ export default function EventsSection({
   const oeffnen = useCallback((e: WebsiteEvent, ziel?: HTMLElement, verlauf = true) => {
     ausloeser.current = ziel ?? null
     setOffen(e)
+    setGezeigt(e)
     if (verlauf) {
       window.history.pushState(null, '', `${HASH}${e.id}`)
       gepusht.current = true
@@ -513,6 +528,9 @@ export default function EventsSection({
             zusammen. Das sind keine Accounts der Veranstalter und kein Ticketverkauf – in jedem Termin findest du den
             Link zur Originalseite. Will ein Veranstalter nicht gelistet werden, nehmen wir ihn sofort raus.
           </p>
+          <p className={styles.melden}>
+            Ein Termin fehlt oder stimmt nicht? <Link href="/kontakt">Sag uns Bescheid.</Link>
+          </p>
           {!istGestartet && (
             <a href="#kontakt" className="btn-ghost">
               Bescheid bekommen, wenn die App da ist
@@ -533,13 +551,13 @@ export default function EventsSection({
           if (ev.target === ev.currentTarget) schliessen()
         }}
       >
-        {offen && (
+        {(offen ?? gezeigt) && (
           <>
             <button type="button" className={styles['sheet-close']} onClick={() => schliessen()} aria-label="Schließen">
               ×
             </button>
             <TerminDetail
-              e={offen}
+              e={(offen ?? gezeigt)!}
               jetzt={jetzt}
               istGestartet={istGestartet}
               live={live}

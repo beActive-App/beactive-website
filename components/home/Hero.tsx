@@ -1,16 +1,17 @@
 'use client'
 
+import Image from 'next/image'
 import Link from 'next/link'
 import styles from '@/app/page.module.css'
 import { STADT } from '@/lib/site'
-import { kurzOrt, laeuftGerade, tagLabel, uhrzeit, type WebsiteEvent } from '@/lib/event-format'
+import {
+  datumLang,
+  innerhalb,
+  rubrikLabel,
+  rubrikVon,
+  type WebsiteEvent,
+} from '@/lib/event-format'
 import { StoreBadges } from '@/components/site/StoreBadges'
-
-function cx(...classes: Array<string | false | undefined>) {
-  return classes.filter(Boolean).join(' ')
-}
-
-/* ---------- Gemeinsamer Text-Block ---------- */
 
 export type HeroDaten = {
   istGestartet: boolean
@@ -20,99 +21,123 @@ export type HeroDaten = {
   anzahlDeals: number
 }
 
-export function HeroText({
-  daten,
-  center = false,
-  kurz = false,
-}: {
-  daten: HeroDaten
-  /** Zentriert statt linksbündig. */
-  center?: boolean
-  /** Kürzerer Text unter der Überschrift. */
-  kurz?: boolean
-}) {
-  const { istGestartet, appStoreUrl, playStoreUrl, anzahlLive, anzahlDeals } = daten
-  return (
-    <div className={cx(styles['hero-copy'], center && styles['hero-copy-center'])}>
-      <span className="eyebrow">{istGestartet ? `Jetzt im App Store · ${STADT}` : `Bald im App Store · ${STADT} & Reutlingen`}</span>
-      <h1>Was heute in {STADT} läuft.</h1>
-      <p className={styles.lede}>
-        {kurz
-          ? 'Konzerte, Kino, Sport, Spontanes und Last-Minute-Angebote von Läden aus der Stadt – alles in einer App.'
-          : 'Konzerte, Kino, Sport, Spontanes und Last-Minute-Angebote von Läden aus der Stadt – alles in einer App. Und wenn nichts dabei ist, startest du in einer Minute selbst was.'}
-      </p>
-
-      {istGestartet ? (
-        <>
-          <div className={styles['hero-actions']}>
-            <StoreBadges appStoreUrl={appStoreUrl} playStoreUrl={playStoreUrl} />
-          </div>
-          <p className={styles['hero-note']}>
-            Kostenlos, ohne Werbebanner. <Link href="/partner" style={{ color: 'var(--ink)' }}>Du hast einen Betrieb? →</Link>
-          </p>
-        </>
-      ) : (
-        <div className={styles['hero-actions']}>
-          <a href="#kontakt" className="btn">Beim Start Bescheid bekommen</a>
-          <Link href="/partner" className="btn-ghost">Ich habe einen Betrieb →</Link>
-        </div>
-      )}
-
-      <ul className={styles['hero-chips']} aria-label="Auf einen Blick">
-        {anzahlLive > 0 ? (
-          <li><span className={styles['live-dot']} />{anzahlLive} Termine diese Woche</li>
-        ) : (
-          <li>Events, Kurse & Deals</li>
-        )}
-        {anzahlDeals > 0 && <li>{anzahlDeals} Last-Minute-{anzahlDeals === 1 ? 'Deal' : 'Deals'}</li>}
-        <li>Kostenlos, ohne Werbebanner</li>
-        <li>{istGestartet && playStoreUrl ? 'iPhone & Android' : 'iPhone zuerst, Android folgt'}</li>
-      </ul>
-    </div>
-  )
+/** Die häufigsten Rubriken der nächsten sieben Tage, mit Anzahl. */
+function rubrikenDerWoche(termine: WebsiteEvent[], jetzt: Date, n: number) {
+  const zahl = new Map<string, number>()
+  for (const e of innerhalb(termine, 7, jetzt)) {
+    const label = rubrikLabel(rubrikVon(e))
+    zahl.set(label, (zahl.get(label) ?? 0) + 1)
+  }
+  return [...zahl.entries()].sort((a, b) => b[1] - a[1]).slice(0, n)
 }
 
-/** Die nächsten Termine ab jetzt (laufende zuerst), höchstens n Stück. */
-function naechsteTermine(termine: WebsiteEvent[], jetzt: Date, n: number) {
-  const t = jetzt.getTime()
-  return termine
-    .filter((e) => new Date(e.endsAt ?? e.startsAt).getTime() >= t)
-    .slice(0, n)
-}
+/* ---------- Hero: Aussage in der Mitte, darunter das Handy zwischen
+   den Rubriken und der Zahl der Woche ---------- */
 
-/* ---------- Hero: echte Termine als Karten neben dem Text ---------- */
-
-export function HeroMosaik({
+export function Hero({
   daten,
   termine,
   jetzt,
-  anzahlWoche,
+  live,
 }: {
   daten: HeroDaten
   termine: WebsiteEvent[]
   jetzt: Date
-  anzahlWoche: number
+  /** Echte Termine aus der App (sonst Beispiele – dann ohne Zahlen). */
+  live: boolean
 }) {
-  const karten = naechsteTermine(termine, jetzt, 5)
-  const rest = Math.max(0, anzahlWoche - karten.length)
+  const { istGestartet, appStoreUrl, playStoreUrl, anzahlLive, anzahlDeals } = daten
+  const rubriken = live ? rubrikenDerWoche(termine, jetzt, 4) : []
+
   return (
-    <div className={cx('wrap', styles['hero-grid'])}>
-      <HeroText daten={daten} />
-      <div className={styles.mosaik} aria-label="Die nächsten Termine">
-        {karten.map((e) => (
-          <a key={e.id} href={`#termin-${e.id}`} className={styles['mo-card']}>
-            <span className={styles['mo-time']}>
-              {laeuftGerade(e, jetzt) ? 'jetzt' : uhrzeit(e.startsAt)}
-              <span>{tagLabel(e.startsAt, jetzt)}</span>
-            </span>
-            <span className={styles['mo-title']}>{e.title}</span>
-            <span className={styles['mo-place']}>{kurzOrt(e)}</span>
-          </a>
-        ))}
-        <a href="#events" className={cx(styles['mo-card'], styles['mo-more'])}>
-          {rest > 0 ? `+${rest} weitere` : 'Alle Termine'}
-          <small>diese Woche in {STADT} ↓</small>
-        </a>
+    <div className="wrap">
+      <div className={styles['hero-copy']}>
+        <span className={styles['hero-date']}>
+          {STADT} · {datumLang(jetzt.toISOString())}
+        </span>
+        <h1>Was heute noch geht.</h1>
+        <p className={styles.lede}>
+          Konzerte, Kino, Sport, Spontanes und Last-Minute-Angebote von Läden aus der Stadt – in einer Liste.
+          Kostenlos, ohne Abo, ohne Werbebanner.
+        </p>
+
+        {istGestartet ? (
+          <>
+            <div className={styles['hero-actions']}>
+              <StoreBadges appStoreUrl={appStoreUrl} playStoreUrl={playStoreUrl} />
+              <a href="#events" className="btn-ghost">Termine ansehen</a>
+            </div>
+            <p className={styles['hero-note']}>
+              {playStoreUrl ? 'Für iPhone und Android.' : <>Für iPhone. <a href="#android">Android folgt – Bescheid bekommen</a>.</>}
+              {' '}
+              <Link href="/partner">Du hast einen Betrieb?</Link>
+            </p>
+          </>
+        ) : (
+          <div className={styles['hero-actions']}>
+            <a href="#kontakt" className="btn">Beim Start Bescheid bekommen</a>
+            <Link href="/partner" className="btn-ghost">Ich habe einen Betrieb</Link>
+          </div>
+        )}
+      </div>
+
+      <div className={styles['hero-stage']}>
+        <section className={styles['hero-fact']} aria-labelledby="hero-naechste">
+          <h2 id="hero-naechste">Was läuft</h2>
+          {rubriken.length > 0 ? (
+            <ul className={styles['hero-rubriken']}>
+              {rubriken.map(([label, anzahl]) => (
+                <li key={label}>
+                  <span>{label}</span>
+                  <b>{anzahl}</b>
+                </li>
+              ))}
+            </ul>
+          ) : (
+            <p className={styles['hero-zahl-text']}>
+              <b>Musik, Kino, Bühne, Sport</b> – und was Leute aus der Stadt selbst starten.
+            </p>
+          )}
+          <a href="#events" className={styles['hero-fact-link']}>Nach Rubrik filtern ↓</a>
+        </section>
+
+        <div className={styles['hero-phone']}>
+          <Image
+            src="/screenshots/app-entdecken-eigene.png"
+            alt={`Entdecken-Ansicht der App: Joggen, Kaffee trinken, Malkurs und Bouldern in ${STADT}`}
+            width={880}
+            height={1912}
+            sizes="300px"
+            loading="eager"
+            fetchPriority="high"
+          />
+        </div>
+
+        <section className={styles['hero-fact']} aria-labelledby="hero-woche">
+          <h2 id="hero-woche">
+            <span className={styles['live-dot']} aria-hidden="true" />
+            Diese Woche
+          </h2>
+          {live && anzahlLive > 0 ? (
+            <>
+              <span className={styles['hero-zahl']}>{anzahlLive}</span>
+              <p className={styles['hero-zahl-text']}>
+                <b>Termine in {STADT}</b>
+                {anzahlDeals > 0 && (
+                  <>
+                    , darunter {anzahlDeals} Last-Minute-{anzahlDeals === 1 ? 'Angebot' : 'Angebote'}
+                  </>
+                )}
+                .
+              </p>
+            </>
+          ) : (
+            <p className={styles['hero-zahl-text']}>
+              <b>Events, Kurse und Angebote</b> von Leuten und Läden aus {STADT}.
+            </p>
+          )}
+          <a href="#events" className={styles['hero-fact-link']}>Alle ansehen ↓</a>
+        </section>
       </div>
     </div>
   )

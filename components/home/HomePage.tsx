@@ -9,7 +9,7 @@ import { faqListe } from '@/lib/faq'
 import { STADT, SUPPORT_EMAIL } from '@/lib/site'
 import { innerhalb, istOeffnungszeit, type EventsResult, type WebsiteEvent } from '@/lib/event-format'
 import EventsSection from '@/components/home/EventsSection'
-import { HeroMosaik } from '@/components/home/Hero'
+import { Hero } from '@/components/home/Hero'
 import { useLaunch } from '@/components/site/LaunchContext'
 import { AppStoreBadge, StoreBadges } from '@/components/site/StoreBadges'
 
@@ -21,20 +21,21 @@ const schritte = [
   {
     nr: '1',
     titel: 'Entdecken',
+    bild: { src: '/screenshots/app-entdecken-eigene.png', alt: 'Entdecken-Ansicht: Joggen, Kaffee trinken, Malkurs und Bouldern in Tübingen' },
     text: 'Öffnen und sehen, was heute in Tübingen läuft – nach Tag sortiert, mit Filter nach Kategorie. Auch Läden, die gerade einfach nur offen haben.',
-    bild: { src: '/screenshots/0-entdecken.png', w: 1125, h: 2436, alt: 'Entdecken-Screen der App: Events in Tübingen, nach Tag gruppiert' },
   },
   {
     nr: '2',
     titel: 'Beitreten',
+    // Das Bild muss den Beitreten-Knopf zeigen – darum geht es in dem Schritt.
+    bild: { src: '/screenshots/app-beitreten.png', alt: 'Event „Eine Runde Joggen“: Ort, Zeit, wer es erstellt hat, wer schon dabei ist – und der Knopf „Event beitreten“' },
     text: 'Ein Tap. Vorher siehst du, wie viele dabei sind und wer. Jedes Event hat einen Chat, Kalender und Navigation sind einen Tipp entfernt.',
-    bild: { src: '/screenshots/2-event-details.png', w: 1320, h: 2868, alt: 'Event-Details mit Teilnehmenden, Chat und Beitreten-Button' },
   },
   {
     nr: '3',
     titel: 'Selbst starten',
+    bild: { src: '/screenshots/app-erstellen.png', alt: 'Event erstellen: Titel, Beschreibung und Themen' },
     text: 'Nichts dabei? Titel, Ort, Zeit, Kategorie – in unter einer Minute steht dein Event und ist für alle in der App sichtbar.',
-    bild: { src: '/screenshots/3-erstellen.png', w: 1320, h: 2868, alt: 'Event erstellen: Formular mit Titel, Ort, Zeit und Kategorie' },
   },
 ]
 
@@ -87,7 +88,6 @@ const team = [
   { initial: 'A', name: 'Albin Schroeder', role: 'Gründer' },
   { initial: 'T', name: 'Tomas Fananas-Hernandez', role: 'Gründer' },
   { initial: 'P', name: 'Philipp Gerberding', role: 'Gründer' },
-  { initial: 'H', name: 'Helena Mohr', role: 'Marketingleiterin' },
 ]
 
 function useInView(threshold = 0.15) {
@@ -144,7 +144,7 @@ function Reveal({
 
 /* ---------- Warteliste (vor dem Start) ---------- */
 
-function Warteliste() {
+function Warteliste({ android = false }: { android?: boolean }) {
   const [email, setEmail] = useState('')
   const [website, setWebsite] = useState('') // Honeypot
   const [status, setStatus] = useState<'idle' | 'sending' | 'success' | 'error'>('idle')
@@ -157,7 +157,7 @@ function Warteliste() {
       const res = await fetch('/api/warteliste', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email, quelle: 'startseite', website }),
+        body: JSON.stringify({ email, quelle: android ? 'android' : 'startseite', website }),
       })
       if (!res.ok) throw new Error(String(res.status))
       setStatus('success')
@@ -169,14 +169,18 @@ function Warteliste() {
   if (status === 'success') {
     return (
       <p className={styles['form-success']}>
-        <strong>Danke!</strong> Wir melden uns, sobald BeActive im App Store ist.
+        <strong>Danke!</strong> Wir melden uns, sobald BeActive {android ? 'bei Google Play' : 'im App Store'} ist.
       </p>
     )
   }
 
   return (
     <>
-      <p>Trag deine E-Mail ein – wir sagen dir Bescheid, sobald es losgeht. Nur das, kein Newsletter.</p>
+      <p>
+        {android
+          ? 'Trag deine E-Mail ein – wir sagen dir Bescheid, sobald die Android-App da ist. Nur das, kein Newsletter.'
+          : 'Trag deine E-Mail ein – wir sagen dir Bescheid, sobald es losgeht. Nur das, kein Newsletter.'}
+      </p>
       <form className={styles['email-form']} onSubmit={submit} noValidate>
         <div aria-hidden="true" style={{ position: 'absolute', left: -9999, width: 1, height: 1, overflow: 'hidden' }}>
           <label htmlFor="hp-website">Website (bitte frei lassen)</label>
@@ -214,18 +218,21 @@ function FaqItem({ q, a, link }: { q: string; a: string; link?: { href: string; 
         <span>{q}</span>
         <span className={styles['faq-icon']} aria-hidden="true" />
       </button>
-      <div className={styles['faq-answer']}>
-        <p>
-          {a}
-          {link && (
-            <>
-              {' '}
-              <a href={link.href} className={styles['faq-inline-link']}>
-                {link.text}
-              </a>
-            </>
-          )}
-        </p>
+      {/* inert: Solange die Antwort zu ist, ist ihr Link nicht per Tastatur erreichbar */}
+      <div className={styles['faq-answer']} inert={!open}>
+        <div>
+          <p>
+            {a}
+            {link && (
+              <>
+                {' '}
+                <a href={link.href} className={styles['faq-inline-link']}>
+                  {link.text}
+                </a>
+              </>
+            )}
+          </p>
+        </div>
       </div>
     </div>
   )
@@ -275,7 +282,7 @@ export default function HomePage({
       <main>
         {/* ---------- Hero ---------- */}
         <section className={styles.hero} id="top" ref={heroRef}>
-          <HeroMosaik daten={heroDaten} termine={heroTermine} jetzt={jetzt} anzahlWoche={anzahlLive} />
+          <Hero daten={heroDaten} termine={heroTermine} jetzt={jetzt} live={termineLive.length > 0} />
         </section>
 
         {/* ---------- Termine ---------- */}
@@ -292,8 +299,8 @@ export default function HomePage({
             <div className={styles.steps}>
               {schritte.map((s, i) => (
                 <Reveal key={s.nr} delayMs={i * 100} className={styles.step}>
-                  <div className={styles['step-phone']}>
-                    <Image src={s.bild.src} alt={s.bild.alt} width={s.bild.w} height={s.bild.h} sizes="(max-width: 900px) 66vw, 270px" />
+                  <div className={styles['step-shot']}>
+                    <Image src={s.bild.src} alt={s.bild.alt} width={880} height={1912} sizes="230px" />
                   </div>
                   <span className={styles['step-num']}>{s.nr}</span>
                   <h3>{s.titel}</h3>
@@ -341,11 +348,27 @@ export default function HomePage({
                 </p>
                 <Link href="/partner" className="btn">Wie es funktioniert</Link>
               </div>
-              <ul className={styles['betriebe-points']}>
-                <li><b>Ihr stellt ein Angebot für ein Zeitfenster ein.</b> Dreißig Sekunden. Rabatt, Zeitraum, Plätze legt ihr fest.</li>
-                <li><b>Wer die App offen hat, sieht es sofort.</b> Ihr seht vorher, wie viele zugesagt haben.</li>
-                <li><b>Zum Start kostenlos.</b> Kein Vertrag, keine Provision, jederzeit beendbar.</li>
-              </ul>
+              <div className={styles['betriebe-rechts']}>
+                <figure className={styles.angebot}>
+                  <figcaption>Beispiel: so steht euer Angebot in der App</figcaption>
+                  <div className={styles['angebot-karte']}>
+                    <span className={styles['angebot-zeit']}>
+                      <b>15:00</b>
+                      <span>bis 17:00</span>
+                    </span>
+                    <span className={styles['angebot-titel']}>
+                      Kaffee und Kuchen
+                      <span className={styles['angebot-ort']}>Euer Laden · noch 6 Plätze</span>
+                    </span>
+                    <span className={styles['angebot-rabatt']}>−20 %</span>
+                  </div>
+                </figure>
+                <ul className={styles['betriebe-points']}>
+                  <li><b>Ihr stellt ein Angebot für ein Zeitfenster ein.</b> Dreißig Sekunden. Rabatt, Zeitraum, Plätze legt ihr fest.</li>
+                  <li><b>Wer die App offen hat, sieht es sofort.</b> Ihr seht vorher, wie viele zugesagt haben.</li>
+                  <li><b>Zum Start kostenlos.</b> Kein Vertrag, keine Provision, jederzeit beendbar.</li>
+                </ul>
+              </div>
             </Reveal>
           </div>
         </section>
@@ -374,7 +397,8 @@ export default function HomePage({
             <Reveal className={styles['section-head']}>
               <span className="eyebrow">Wer dahintersteckt</span>
               <h2>Von Leuten aus {STADT}, für {STADT}</h2>
-              <p>Uns ist in {STADT} immer wieder aufgefallen: Es gibt ständig was. Man erfährt es nur nicht. Also haben wir es an einen Ort gepackt.</p>
+              <p>Wir sind zu dritt und haben beActive gegründet. Uns ist in {STADT} immer wieder aufgefallen: Es gibt ständig was. Man erfährt es nur nicht. Also haben wir es an einen Ort gepackt.</p>
+              <p>Wenn du uns schreibst, bekommst du immer eine Antwort von einem von uns.</p>
             </Reveal>
             <div className={styles['team-grid']}>
               {team.map((member, i) => (
@@ -408,6 +432,12 @@ export default function HomePage({
                       </div>
                     )}
                   </div>
+                  {!playStoreUrl && (
+                    <div className={styles.android} id="android">
+                      <h3>Du hast Android?</h3>
+                      <Warteliste android />
+                    </div>
+                  )}
                 </>
               ) : (
                 <>

@@ -1,26 +1,14 @@
 import type { Metadata, Viewport } from "next";
-import { Inter, Karla, JetBrains_Mono } from "next/font/google";
+import { Manrope } from "next/font/google";
 import "./globals.css";
 import { IST_GESTARTET, SITE_URL, STADT } from "@/lib/site";
 import { LaunchProvider } from "@/components/site/LaunchContext";
 import SiteHeader from "@/components/site/SiteHeader";
 import SiteFooter from "@/components/site/SiteFooter";
 
-const inter = Inter({
-  variable: "--font-inter",
+const manrope = Manrope({
+  variable: "--font-manrope",
   subsets: ["latin"],
-});
-
-const karla = Karla({
-  variable: "--font-karla",
-  subsets: ["latin"],
-  weight: ["400", "500", "700"],
-});
-
-const jetbrainsMono = JetBrains_Mono({
-  variable: "--font-jetbrains",
-  subsets: ["latin"],
-  weight: ["500", "700"],
 });
 
 const beschreibung = IST_GESTARTET
@@ -54,7 +42,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="de" className={`${inter.variable} ${karla.variable} ${jetbrainsMono.variable}`}>
+    <html lang="de" className={manrope.variable}>
       <body>
         <LaunchProvider>
           <SiteHeader />

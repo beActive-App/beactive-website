@@ -2,11 +2,16 @@
 .nav {
   position: sticky; top: 0; z-index: 40;
   background: color-mix(in srgb, var(--paper) 80%, transparent);
-  backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px);
-  border-bottom: 1px solid var(--line);
+  backdrop-filter: blur(18px) saturate(160%);
+  /* Ganz oben keine Trennlinie: Die Leiste gehört zur Seite. Erst wenn Inhalt
+     darunter durchläuft, hebt sie sich weich ab (Linie + Schatten). */
+  border-bottom: 1px solid transparent;
   transition: box-shadow .3s ease, border-color .3s ease;
 }
-.nav.scrolled { box-shadow: 0 12px 30px -22px color-mix(in srgb, var(--shadow) 80%, transparent); }
+.nav.scrolled {
+  border-bottom-color: color-mix(in srgb, var(--line) 80%, transparent);
+  box-shadow: 0 14px 32px -22px color-mix(in srgb, var(--shadow) 85%, transparent);
+}
 .row { display: flex; align-items: center; justify-content: space-between; gap: 20px; height: 68px; }
 .brand {
   font-family: var(--font-display); font-weight: 800; font-size: 22px; letter-spacing: -0.02em;
@@ -15,7 +20,7 @@
 .brand em { font-style: normal; color: var(--accent-ink); }
 .links { display: flex; gap: 28px; list-style: none; margin: 0; padding: 0; }
 .links a {
-  text-decoration: none; font-size: 14.5px; font-weight: 500; color: var(--ink-soft);
+  text-decoration: none; font-size: 15px; font-weight: 500; color: var(--ink-soft);
   padding: 6px 0; border-bottom: 1px solid transparent; transition: color .2s, border-color .2s;
 }
 .links a:hover, .links a:focus-visible, .links a.active { color: var(--ink); border-color: var(--accent-ink); }
@@ -29,7 +34,9 @@
   display: none; flex-direction: column; justify-content: center; gap: 5px;
   width: 40px; height: 40px; border-radius: 10px;
   background: transparent; border: 1px solid var(--line); cursor: pointer; padding: 0 9px;
+  transition: transform .1s ease-out, background .15s ease;
 }
+.toggle:active { transform: scale(0.94); background: var(--paper-raised); }
 .toggle span { display: block; width: 20px; height: 2px; background: var(--ink); border-radius: 2px; transition: transform .3s ease, opacity .3s ease; }
 .toggle[aria-expanded="true"] span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
 .toggle[aria-expanded="true"] span:nth-child(2) { opacity: 0; }
@@ -44,21 +51,18 @@
   display: block; padding: 13px 24px; text-decoration: none; font-size: 16px; font-weight: 500; color: var(--ink-soft);
   transition: color .2s, background .2s;
 }
-.mobile a:hover, .mobile a.active { color: var(--ink); background: var(--paper-raised); }
+.mobile a:hover, .mobile a:active, .mobile a.active { color: var(--ink); background: var(--paper-raised); }
 .mobile li.primary { padding: 10px 24px 4px; }
 .mobile li.primary a { display: inline-flex; padding: 12px 22px; }
 @media (min-width: 861px) { .mobile { display: none; } }
 
-.progress { position: absolute; left: 0; right: 0; bottom: -1px; height: 2px; }
+.progress { display: none; }
 .progressFill { display: block; height: 100%; width: 0%; background: linear-gradient(90deg, var(--lime), var(--accent2)); }
 
 /* ---------- Seitenkopf der Unterseiten ---------- */
 .pageHead {
   position: relative; overflow: hidden;
-  background: var(--dusk);
-  background-image:
-    radial-gradient(60% 70% at 15% 100%, color-mix(in srgb, var(--lime) 16%, transparent), transparent 70%),
-    repeating-linear-gradient(112deg, color-mix(in srgb, var(--lime) 4%, transparent) 0px, color-mix(in srgb, var(--lime) 4%, transparent) 1px, transparent 1px, transparent 58px);
+  background: var(--green-deep);
   border-bottom: 1px solid var(--line);
   padding: 84px 0 64px;
 }
@@ -78,7 +82,7 @@
   background: #000; color: #fff;
   border: 1px solid rgba(255, 255, 255, 0.22); border-radius: var(--r-badge);
   text-decoration: none; white-space: nowrap;
-  transition: border-color .2s ease, transform .15s ease, box-shadow .2s ease;
+  transition: border-color .2s ease, transform .1s ease-out, box-shadow .2s ease;
 }
 .badge:hover { border-color: rgba(255, 255, 255, 0.6); box-shadow: 0 14px 30px -18px color-mix(in srgb, var(--shadow) 90%, transparent); }
 .badge:active { transform: scale(0.97); }
@@ -91,17 +95,17 @@
 .badge.soon:hover { border-color: rgba(255, 255, 255, 0.22); box-shadow: none; }
 
 /* ---------- Footer ---------- */
-.footer { background: var(--dusk); border-top: 1px solid var(--line); padding: 72px 0 32px; }
+.footer { background: var(--paper); border-top: 1px solid var(--line); padding: 72px 0 32px; }
 .grid { display: grid; grid-template-columns: 1.6fr 1fr 1fr 1fr; gap: 40px; padding-bottom: 44px; border-bottom: 1px solid var(--line); }
 .desc { color: var(--ink-dim); font-size: 14.5px; max-width: 32ch; margin: 14px 0 0; }
 .footBadges { margin-top: 22px; }
-.col p.head { font-family: var(--font-mono); font-size: 11px; letter-spacing: .14em; text-transform: uppercase; color: var(--accent-ink); font-weight: 700; margin: 0 0 16px; }
+.col p.head { font-size: 13px; color: var(--ink); font-weight: 600; margin: 0 0 16px; }
 .col ul { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 10px; }
 .col a { text-decoration: none; color: var(--ink-dim); font-size: 14.5px; transition: color .2s; }
 .col a:hover { color: var(--ink); }
 .bottom {
   display: flex; justify-content: space-between; flex-wrap: wrap; gap: 10px;
-  padding-top: 24px; font-size: 12.5px; color: var(--ink-soft); font-family: var(--font-mono);
+  padding-top: 24px; font-size: 13px; color: var(--ink-soft);
 }
 @media (max-width: 900px) { .grid { grid-template-columns: 1fr 1fr; } .grid > div:first-child { grid-column: 1 / -1; } }
 @media (max-width: 520px) { .grid { grid-template-columns: 1fr; } }
@@ -111,7 +115,21 @@
   display: flex; align-items: center; justify-content: center; gap: 10px; flex-wrap: wrap;
   padding: 8px 16px;
   background: var(--lime); color: var(--lime-ink);
-  font-family: var(--font-mono); font-size: 12px; letter-spacing: .02em; text-align: center;
+  font-size: 13px; font-weight: 600; text-align: center;
 }
 .vorschau a { color: var(--lime-ink); font-weight: 700; text-decoration: underline; text-underline-offset: 3px; }
 .vorschau-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--lime-ink); }
+
+/* ---------- Bedienungshilfen ---------- */
+@media (prefers-reduced-motion: reduce) {
+  .mobile { transition: none; }
+  .toggle span { transition: opacity .2s ease; }
+  .toggle:active, .badge:active { transform: none; }
+}
+/* „Transparenz reduzieren“: feste Fläche statt Milchglas */
+@media (prefers-reduced-transparency: reduce) {
+  .nav { background: var(--paper); backdrop-filter: none; border-bottom-color: var(--line); }
+}
+@media (prefers-contrast: more) {
+  .nav { background: var(--paper); backdrop-filter: none; border-bottom-color: var(--line-strong); }
+}

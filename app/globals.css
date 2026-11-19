@@ -1,21 +1,24 @@
 @import "tailwindcss";
 
 /* ------------------------------------------------------------------
-   beActive – ein Design für alle Seiten („Nacht“: Dunkelgrün und Lime,
-   wie in der App). Alles hängt an den Tokens unten: Farben, Schrift,
+   beActive – ein Design für alle Seiten (dunkles Grün und Lime, wie in
+   der App; runde Knöpfe, Karten, Manrope). Alles hängt an den Tokens unten: Farben, Schrift,
    Rundungen. Wer das Aussehen ändern will, ändert hier.
    ------------------------------------------------------------------ */
 
 :root {
   --dusk: #060c08;
   --paper: #0b140f;
-  --paper-raised: #131f18;
-  --paper-high: #1a2a20;
-  --ink: #eaf2e4;
-  --ink-soft: #93a79a;
+  --paper-raised: #13211a;
+  --paper-high: #172a20;
+  --green-deep: #0f2118;    /* Fläche für ganze Abschnitte (Termine) */
+  --green: #163a27;         /* kräftiges Grün (Abschluss) */
+  --green-line: #2b5a40;
+  --ink: #f1f5ef;
+  --ink-soft: #a9b8ac;
   --ink-dim: rgba(234, 242, 222, 0.62);
-  --line: rgba(193, 255, 114, 0.14);
-  --line-strong: rgba(193, 255, 114, 0.32);
+  --line: #223529;
+  --line-strong: #35503f;
   --lime: #c1ff72;          /* Akzent als Fläche (Knöpfe, Punkte) */
   --lime-ink: #0b140f;      /* Text auf dem Akzent */
   --accent-ink: #c1ff72;    /* Akzent als Text (Beschriftungen, Links) */
@@ -24,7 +27,7 @@
   --phone: #050705;
   --shadow: #000;
 
-  --display: var(--font-inter), -apple-system, "Segoe UI", sans-serif;
+  --display: var(--font-manrope), -apple-system, "Segoe UI", sans-serif;
   --display-weight: 800;
   --display-tracking: -0.03em;
   --display-leading: 1.05;
@@ -32,21 +35,22 @@
 
   --r-btn: 999px;
   --r-field: 14px;
-  --r-badge: 13px;
-  --r-float: 16px;
-  --r-sm: 4px 16px 4px 16px;
-  --r-row: 4px 18px 4px 18px;
-  --r-card: 4px 22px 4px 22px;
-  --r-card-lg: 4px 30px 4px 30px;
-  --r-sheet: 6px 26px 6px 26px;
+  --r-badge: 14px;
+  --r-float: 14px;
+  --r-sm: 12px;
+  --r-row: 16px;
+  --r-card: 20px;
+  --r-card-lg: 28px;
+  --r-sheet: 24px;
 
   color-scheme: dark;
 }
 
 @theme inline {
-  --font-sans: var(--font-karla), ui-sans-serif, system-ui, sans-serif;
+  --font-sans: var(--font-manrope), ui-sans-serif, system-ui, sans-serif;
   --font-display: var(--display);
-  --font-mono: var(--font-jetbrains), ui-monospace, monospace;
+  /* Beschriftungen laufen in derselben Schrift – keine zweite Familie. */
+  --font-mono: var(--font-manrope), ui-sans-serif, system-ui, sans-serif;
 
   --color-dusk: var(--dusk);
   --color-paper: var(--paper);
@@ -68,8 +72,8 @@ body {
   background-color: var(--paper);
   color: var(--ink);
   font-family: var(--font-sans);
-  font-size: 16.5px;
-  line-height: 1.6;
+  font-size: 17px;
+  line-height: 1.55;
   -webkit-font-smoothing: antialiased;
   overflow-x: hidden;
 }
@@ -80,7 +84,21 @@ h1, h2, h3, h4 {
   line-height: var(--display-leading);
   letter-spacing: var(--display-tracking);
   text-wrap: balance;
+  font-optical-sizing: auto;
   margin: 0;
+}
+/* Laufweite und Zeilenabstand hängen an der Größe: Je größer die Schrift,
+   desto enger darf sie stehen. Ein Wert für alle Größen passt nirgends. */
+h2 { letter-spacing: -0.025em; line-height: 1.1; }
+h3 { letter-spacing: -0.015em; line-height: 1.2; }
+h4 { letter-spacing: -0.01em; line-height: 1.25; }
+
+/* Tippen soll sofort ankommen: keine Wartezeit auf einen möglichen Doppeltipp,
+   und statt des grauen Kastens vom Browser zeigen die Elemente selbst, dass
+   sie gedrückt sind (siehe :active weiter unten). */
+a, button, summary, label, [role="button"] {
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
 }
 
 ::selection {
@@ -102,20 +120,19 @@ h1, h2, h3, h4 {
     display: inline-flex;
     align-items: center;
     gap: 8px;
-    font-family: var(--font-mono);
+    font-family: var(--font-sans);
     font-weight: 700;
-    font-size: 12px;
-    letter-spacing: 0.14em;
+    font-size: 13px;
+    letter-spacing: 0.05em;
     text-transform: uppercase;
-    color: var(--accent-ink);
+    color: var(--ink-soft);
   }
   .eyebrow::before {
     content: '';
     width: 6px;
     height: 6px;
     border-radius: 50%;
-    background: var(--accent-ink);
-    box-shadow: 0 0 8px color-mix(in srgb, var(--accent-ink) 70%, transparent);
+    background: var(--lime);
   }
 
   .btn {
@@ -127,17 +144,17 @@ h1, h2, h3, h4 {
     color: var(--lime-ink);
     border: 1px solid var(--lime);
     border-radius: var(--r-btn);
-    padding: 13px 24px;
+    padding: 14px 26px;
     font-family: var(--font-sans);
     font-weight: 700;
-    font-size: 14.5px;
+    font-size: 15px;
     line-height: 1.2;
     cursor: pointer;
     text-decoration: none;
-    transition: filter .2s ease, transform .15s ease, box-shadow .2s ease;
+    transition: filter .2s ease, transform .1s ease-out, box-shadow .2s ease;
   }
-  .btn:hover { filter: brightness(1.07); box-shadow: 0 10px 30px -14px color-mix(in srgb, var(--lime) 60%, transparent); }
-  .btn:active { transform: scale(0.97); }
+  @media (hover: hover) { .btn:hover { filter: brightness(1.06); } }
+  .btn:active { transform: scale(0.97); filter: brightness(0.96); }
   .btn:focus-visible { outline: 2px solid var(--ink); outline-offset: 3px; }
   .btn:disabled { opacity: 0.6; cursor: default; }
 
@@ -146,20 +163,21 @@ h1, h2, h3, h4 {
     align-items: center;
     justify-content: center;
     gap: 8px;
-    padding: 12px 20px;
+    padding: 13px 24px;
     border-radius: var(--r-btn);
-    border: 1px solid color-mix(in srgb, var(--ink) 26%, transparent);
+    border: 1px solid var(--line-strong);
     color: var(--ink);
     font-family: var(--font-sans);
-    font-weight: 700;
-    font-size: 14.5px;
+    font-weight: 600;
+    font-size: 15px;
     line-height: 1.2;
     text-decoration: none;
     background: transparent;
     cursor: pointer;
-    transition: border-color .2s ease, background .2s ease;
+    transition: border-color .2s ease, background .2s ease, transform .1s ease-out;
   }
-  .btn-ghost:hover { border-color: var(--lime); background: color-mix(in srgb, var(--lime) 8%, transparent); }
+  @media (hover: hover) { .btn-ghost:hover { border-color: var(--lime); background: color-mix(in srgb, var(--lime) 8%, transparent); } }
+  .btn-ghost:active { transform: scale(0.97); border-color: var(--lime); background: color-mix(in srgb, var(--lime) 12%, transparent); }
   .btn-ghost:focus-visible { outline: 2px solid var(--lime); outline-offset: 3px; }
 
   /* Formulare auf den Unterseiten */
@@ -205,20 +223,40 @@ h1, h2, h3, h4 {
     font-size: 20px;
     margin: 0 0 12px;
     letter-spacing: -0.02em;
+    /* „Verbraucherstreitbeilegung/Universalschlichtungsstelle“ passt sonst nicht aufs Handy */
+    overflow-wrap: anywhere;
+    hyphens: auto;
   }
   .prose-legal p, .prose-legal li {
     color: var(--ink-dim);
     font-size: 15.5px;
     line-height: 1.7;
+    overflow-wrap: anywhere; /* lange Links sprengen sonst die Handy-Breite */
   }
   .prose-legal a { color: var(--accent-ink); text-decoration: underline; text-underline-offset: 3px; }
 }
 
+/* ------------------------------------------------------------------
+   Bedienungshilfen. „Bewegung reduzieren“ heißt nicht „keine Rückmeldung“:
+   Verschieben und Skalieren fallen weg, das weiche Überblenden von Farbe und
+   Deckkraft bleibt. Die einzelnen Bausteine regeln das bei sich selbst
+   (Site.module.css, page.module.css); hier steht nur, was für alle gilt.
+   ------------------------------------------------------------------ */
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
   *, *::before, *::after {
     animation-duration: 0.001ms !important;
     animation-iteration-count: 1 !important;
-    transition-duration: 0.001ms !important;
+  }
+  .btn:active, .btn-ghost:active { transform: none; }
+}
+
+/* „Kontrast erhöhen“: Linien und Nebentexte deutlicher */
+@media (prefers-contrast: more) {
+  :root {
+    --line: #4a6a56;
+    --line-strong: #7d9c88;
+    --ink-soft: #d9e3da;
+    --ink-dim: #f1f5ef;
   }
 }

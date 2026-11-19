@@ -80,7 +80,7 @@ export default function ContactForm() {
     return (
       <div className="py-16 text-center">
         <p className="mb-3 font-display text-4xl font-extrabold text-ink">Vielen Dank!</p>
-        <p className="text-lg text-ink-soft">Wir melden uns schnellstmöglich bei dir.</p>
+        <p className="text-lg text-ink-soft">Einer von uns dreien antwortet dir.</p>
       </div>
     );
   }

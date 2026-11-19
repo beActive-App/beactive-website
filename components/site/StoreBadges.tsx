@@ -72,7 +72,7 @@ export function PlayBadge({ href, soon = false }: { href?: string; soon?: boolea
 export function StoreBadges({
   appStoreUrl,
   playStoreUrl,
-  androidHinweis = true,
+  androidHinweis = false,
   className,
 }: {
   appStoreUrl: string

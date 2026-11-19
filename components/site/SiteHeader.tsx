@@ -11,10 +11,13 @@ function cx(...classes: Array<string | false | undefined>) {
 }
 
 // Abschnitte der Startseite – auf Unterseiten führen die Links zurück dorthin.
-const abschnitte = [
+// `direkt: true` heißt: Der Link scrollt auch auf der Startseite nicht zum
+// Abschnitt, sondern öffnet gleich die eigene Seite. Der Abschnitt selbst
+// bleibt auf der Startseite stehen.
+const abschnitte: Array<{ key: string; label: string; seite?: string; direkt?: boolean }> = [
   { key: 'events', label: 'Diese Woche' },
   { key: 'sogehts', label: "So geht's" },
-  { key: 'betriebe', label: 'Für Betriebe', seite: '/partner' },
+  { key: 'betriebe', label: 'Für Betriebe', seite: '/partner', direkt: true },
   { key: 'faq', label: 'FAQ', seite: '/faq' },
 ]
 
@@ -31,7 +34,9 @@ export default function SiteHeader() {
   const links = abschnitte.map((a) => ({
     key: a.key,
     label: a.label,
-    href: startseite ? `#${a.key}` : a.seite ?? `/#${a.key}`,
+    href: a.direkt && a.seite ? a.seite : startseite ? `#${a.key}` : a.seite ?? `/#${a.key}`,
+    // Hervorgehoben: beim Scrollen durch den Abschnitt oder auf der eigenen Seite
+    aktiv: startseite ? aktiv === a.key : a.seite === pathname,
   }))
   const ctaHref = istGestartet ? appStoreUrl : startseite ? '#kontakt' : '/#kontakt'
   const ctaLabel = istGestartet ? 'App laden' : 'Auf die Liste'
@@ -85,7 +90,7 @@ export default function SiteHeader() {
         <ul className={styles.links}>
           {links.map((l) => (
             <li key={l.key}>
-              <Link href={l.href} className={startseite && aktiv === l.key ? styles.active : undefined}>
+              <Link href={l.href} className={l.aktiv ? styles.active : undefined}>
                 {l.label}
               </Link>
             </li>
@@ -113,12 +118,11 @@ export default function SiteHeader() {
           )}
           {links.map((l) => (
             <li key={l.key}>
-              <Link href={l.href} className={startseite && aktiv === l.key ? styles.active : undefined} onClick={() => setMobileOpen(false)}>
+              <Link href={l.href} className={l.aktiv ? styles.active : undefined} onClick={() => setMobileOpen(false)}>
                 {l.label}
               </Link>
             </li>
           ))}
-          <li><Link href="/partner" onClick={() => setMobileOpen(false)}>Partner werden</Link></li>
           <li className={styles.primary}>
             <Link href={ctaHref} className="btn" onClick={() => setMobileOpen(false)}>{istGestartet ? 'Kostenlos im App Store' : 'Beim Start Bescheid bekommen'}</Link>
           </li>

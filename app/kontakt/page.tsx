@@ -20,7 +20,7 @@ export default function KontaktPage() {
       <PageHeader
         eyebrow="Schreib uns"
         title="Kontakt"
-        lede="Ideen, Feedback, Fragen? Antwort kommt von einem von uns – nicht von einem Roboter."
+        lede="Ideen, Feedback, Fragen? Du bekommst immer eine Antwort von einem von uns dreien – nicht von einem Roboter."
       />
 
       <section className="py-16 md:py-24">
