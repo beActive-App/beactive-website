@@ -13,17 +13,18 @@ export const PARTNER_EMAIL = "partner@beactiveapp.de";
 export const INSTAGRAM_URL = "https://www.instagram.com/beactive_app/";
 
 /**
- * Store-Links. Die App ist bei Apple eingereicht (ID 6766277302), in der EU
- * aber noch nicht abrufbar. Solange IM_APP_STORE auf false steht, zeigt die
- * Website die Version vor dem Start (Warteliste statt Store-Links).
- * Sobald der Store-Eintrag öffentlich erreichbar ist: auf true stellen.
+ * Store-Links. Die App ist seit dem 19.11.2026 auch in der EU im App Store
+ * (ID 6766277302; geprüft: die deutsche und die österreichische Seite gehen
+ * auf). IM_APP_STORE ist der Schalter für die ganze Website: true zeigt
+ * Store-Knöpfe, QR-Code und „In der App öffnen“, false die Version vor dem
+ * Start mit Warteliste.
  * Mit NEXT_PUBLIC_APP_STORE_URL bei Vercel lässt sich der Link überschreiben.
  *
  * Für Android: NEXT_PUBLIC_PLAY_STORE_URL setzen (oder hier eintragen),
  * dann erscheint zusätzlich das Google-Play-Badge.
  */
 export const APP_STORE_ID = "6766277302";
-export const IM_APP_STORE = false;
+export const IM_APP_STORE = true;
 export const APP_STORE_URL = IM_APP_STORE
   ? process.env.NEXT_PUBLIC_APP_STORE_URL?.trim() || `https://apps.apple.com/de/app/beactive-app/id${APP_STORE_ID}`
   : "";
